@@ -8,7 +8,7 @@
       </encoder>
    </appender>
 
-   <logger name="com.github.dandelion.datatables" level="DEBUG" />
+   <logger name="com.polymec" level="DEBUG" />
    <logger name="com.github.dandelion" level="DEBUG" />
 
    <root level="DEBUG">

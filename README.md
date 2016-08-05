@@ -28,7 +28,7 @@ Using __Docker__ (Tomcat 7):
 
     docker run -p 9090:8080 dandelion/dt-tml-javaconfig
 
-You can then access the sample here: [http://localhost:9090/datatables-thymeleaf-javaconfig](http://localhost:9090/datatables-thymeleaf-javaconfig)
+You can then access the sample here: http://localhost:9090/polymec
 
 ## Bug/improvement
 

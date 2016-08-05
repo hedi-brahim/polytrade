@@ -2,12 +2,12 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
-   <groupId>com.github.dandelion</groupId>
-   <artifactId>datatables-thymeleaf-javaconfig</artifactId>
+   <groupId>com.polymec.webapp</groupId>
+   <artifactId>polymec</artifactId>
    <version>1.1.0</version>
    <packaging>war</packaging>
 
-   <name>Dandelion :: Samples :: Datatables :: datatables-thymeleaf-javaconfig</name>
+   <name>Stock :: Facturation</name>
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
