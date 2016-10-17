@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -77,6 +77,15 @@ public class SampleController {
 		return new ModelAndView("articlesReport", parameterMap);
 	}
 
+	@RequestMapping(value = "familleReport", method = RequestMethod.POST)
+	public ModelAndView getArticlesReport(@RequestParam("id") long id, ModelMap modelMap, ModelAndView modelAndView) {
+		Map<String,Object> parameterMap = new HashMap<String,Object>(); 
+		List<ArticleFrns> arts= this.articleFrnsService.findByFamille(id);
+        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
+        parameterMap.put("datasource", JRdataSource);		
+		return new ModelAndView("familleReport", parameterMap);
+	}
+	
 	@RequestMapping(value = "/")
 	public String goToIndex(Model model) {
 		model.addAttribute("famille", this.familleService.findById(1L));

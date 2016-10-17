@@ -64,6 +64,12 @@ public class ArticleFrnsServiceImpl implements ArticleFrnsService {
     public List<ArticleFrns> findAllValid() {
         return Lists.newArrayList(articleFrnsRepository.findAllValid());
     }
+	
+    @Override
+    public List<ArticleFrns> findByFamille(Long id) {
+        return Lists.newArrayList(articleFrnsRepository.findByFamille(id));
+    }	
+
 /*
     @Override
     public List<Article> findAllWithDetail() {

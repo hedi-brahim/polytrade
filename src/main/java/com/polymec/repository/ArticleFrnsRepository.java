@@ -19,6 +19,10 @@ public interface ArticleFrnsRepository extends JpaRepository<ArticleFrns, Long> 
     //Page<Article> findByReference(String reference,Pageable pageable);	
     //List<Article> findByFirstNameAndLastName(String firstName, String lastName);
 	//@Query("select c from ArticleFrns c where c.sr = 0 and c.quantite > 0 order by c.article.reference, c.article.designation")
+	
 	@Query("select c from ArticleFrns c where c.sr = 0 and c.quantite > 0 order by c.article.reference, c.article.designation")
 	List<ArticleFrns> findAllValid();
+	
+	@Query("select c from ArticleFrns c where c.sr = 0 and c.quantite > 0 and c.article.famille.id = ?1 order by c.article.reference, c.article.designation")
+	List<ArticleFrns> findByFamille(Long id);	
 }

@@ -5,7 +5,8 @@ import java.util.List;
 import com.polymec.model.ArticleFrns;
 
 public interface ArticleFrnsService {
-    List<ArticleFrns> findAllValid();	
+    List<ArticleFrns> findAllValid();
+	List<ArticleFrns> findByFamille(Long id);
 	//List<Article> findByReference(String reference);
 	//List<Article> findAllWithDetail();	
 	//Page<Article> getArticles(Integer pageNumber);
