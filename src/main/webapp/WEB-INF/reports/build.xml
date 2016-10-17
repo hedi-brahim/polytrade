@@ -1,0 +1,16 @@
+<project name="antcompile" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<description>Shows how multiple JRXML files can be compiled in batch mode using ANT.</description>
+
+	
+	<target name="compile" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag." depends="prepare-compile-classpath"> 
+		<mkdir dir="./build/reports"/> 
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+		</taskdef>
+		<jrc 
+				keepjava="true"
+				xmlvalidation="true">
+			<include name="**/*.jrxml"/>
+		</jrc>
+	</target> 
+</project>
