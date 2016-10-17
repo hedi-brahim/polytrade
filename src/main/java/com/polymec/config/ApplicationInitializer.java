@@ -20,7 +20,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
 		// Register the Root application context
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(RootConfig.class);
+		rootContext.register(RootConfig.class, JpaConfig.class);
 
 		// Register the Web application context
 		AnnotationConfigWebApplicationContext mvcContext = new AnnotationConfigWebApplicationContext();
