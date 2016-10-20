@@ -3,6 +3,7 @@ package com.polymec.web;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import com.google.common.collect.Lists;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,7 +60,13 @@ public class SampleController {
 
 	@ModelAttribute("allFamille")
     public List<Famille> populateallFamille() {
-        return this.familleService.findAllValid();
+		
+		Famille fml = new Famille("STOCK TOTAL");
+		List<Famille> fmls = Lists.newArrayList();		
+		fmls.add(fml);
+		fmls.addAll(this.familleService.findAllValid());
+
+        return fmls;
     }	
 
 	@ModelAttribute("allArticleFrns")
@@ -78,12 +85,22 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "familleReport", method = RequestMethod.POST)
-	public ModelAndView getArticlesReport(@RequestParam("id") long id, ModelMap modelMap, ModelAndView modelAndView) {
-		Map<String,Object> parameterMap = new HashMap<String,Object>(); 
-		List<ArticleFrns> arts= this.articleFrnsService.findByFamille(id);
-        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
-        parameterMap.put("datasource", JRdataSource);		
-		return new ModelAndView("familleReport", parameterMap);
+	public ModelAndView getArticlesReport(@RequestParam("id") Long id, ModelMap modelMap, ModelAndView modelAndView) {
+		
+		Map<String,Object> parameterMap = new HashMap<String,Object>(); 		
+		
+		if(id == null)
+		{
+			return new ModelAndView("articlesReport", parameterMap);
+		}
+		else
+		{		
+			List<ArticleFrns> arts= this.articleFrnsService.findByFamille(id);
+			JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
+			parameterMap.put("datasource", JRdataSource);
+			
+			return new ModelAndView("familleReport", parameterMap);
+		}
 	}
 	
 	@RequestMapping(value = "/")

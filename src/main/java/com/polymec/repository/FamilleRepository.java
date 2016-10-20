@@ -15,7 +15,10 @@ public interface FamilleRepository extends JpaRepository<Famille, Long> {
 	// findByFirstNameAndLastName, you don’t need to provide Spring Data JPA with the named query. Instead, Spring Data
 	// JPA will “infer” and construct the query for you based on the method name.
     //List<Article> findByReference(String reference);
-	@Query("select c from Famille c")
+	@Query("select distinct c from Famille c "
+			+ " join c.articles art join art.articleFrns artFrs "
+			+ " where c.articles is not empty and artFrs.quantite != 0 and artFrs.sr = 0 "
+			+ " order by c.designation asc")
 	List<Famille> findAllValid();
     //Page<Article> findByReference(String reference,Pageable pageable);	
     //List<Article> findByFirstNameAndLastName(String firstName, String lastName);

@@ -57,7 +57,7 @@ public class Article implements Serializable {
 	private double puaht;
 	private double puvht;
 	private Famille famille = new Famille();	
-	//private ArticleFrns articleFrns;	
+	private ArticleFrns articleFrns;	
     //private DateTime birthDate;
 
 	
@@ -97,7 +97,7 @@ public class Article implements Serializable {
         this.version = version;
     }
 */
-/*
+
 	@OneToOne(mappedBy = "article")
 	public ArticleFrns getArticleFrns() {
 		return this.articleFrns;
@@ -105,7 +105,7 @@ public class Article implements Serializable {
 	public void setArticleFrns(ArticleFrns articleFrns) {
 		this.articleFrns = articleFrns;
 	}
-	*/
+	
 /*
 	@Column(name = "sr")
     public int getQuantite() {

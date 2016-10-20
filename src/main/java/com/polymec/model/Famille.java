@@ -32,6 +32,9 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import java.util.List;
+import com.google.common.collect.Lists;
+
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -39,7 +42,18 @@ import org.hibernate.annotations.Type;
 public class Famille implements Serializable {
     private Long id;
     private String designation;	
+	private List<Article> articles = Lists.newArrayList();
 
+	public Famille()
+	{
+
+	}
+	
+	public Famille(String des)
+	{
+		this.designation = des;
+	}
+	
     @Id	
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "Fml_Num")
@@ -60,6 +74,17 @@ public class Famille implements Serializable {
 		this.designation = designation;
     }
 
+	@OneToMany(mappedBy="famille")
+	private List<Article> getArticles()
+	{
+		return this.articles;
+	}
+	
+	public void setArticles(List<Article> articles) {
+		this.articles = articles;
+	}
+
+	
     @Override
     public String toString() {
         return "Famille - Id: " + id + ", Designation: " + designation;
