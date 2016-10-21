@@ -33,7 +33,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import java.util.List;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
+//import com.google.common.collect.Lists;
 
 import org.hibernate.annotations.Type;
 
@@ -42,7 +43,7 @@ import org.hibernate.annotations.Type;
 public class Famille implements Serializable {
     private Long id;
     private String designation;	
-	private List<Article> articles = Lists.newArrayList();
+	private List<Article> articles = new ArrayList<Article>(); //Lists.newArrayList();
 
 	public Famille()
 	{

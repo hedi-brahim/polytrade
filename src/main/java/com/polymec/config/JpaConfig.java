@@ -18,7 +18,6 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-//@ComponentScan({"com.polymec.model","com.polymec.repository"})
 @EnableJpaRepositories({"com.polymec.repository"})
 @EnableTransactionManagement
 public class JpaConfig{
@@ -40,10 +39,8 @@ public class JpaConfig{
    public DataSource dataSource(){
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/g_stock?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");	  
-		//dataSource.setUrl("jdbc:mysql://192.168.1.3:3306/g_stock?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");		   	  
+		dataSource.setUrl("jdbc:mysql://localhost:3306/g_stock?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");	  
 		dataSource.setUsername("root");
-		//dataSource.setPassword("polymec");
 		dataSource.setPassword("p@55w0rd");
       return dataSource;
    }
@@ -68,7 +65,7 @@ public class JpaConfig{
       properties.setProperty("hibernate.max_fetch_depth", "3");
       properties.setProperty("hibernate.jdbc.fetch_size", "50");
 	  properties.setProperty("hibernate.jdbc.batch_size", "10");
-      properties.setProperty("hibernate.show_sql", "true");	  
+      //properties.setProperty("hibernate.show_sql", "true");	  
       return properties;
    }
 }

@@ -4,57 +4,68 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
 						http://maven.apache.org/xsd/maven-4.0.0.xsd">					
 	
-   <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-   <groupId>com.polymec.apps</groupId>
-   <artifactId>polytrade</artifactId>
-   <version>1.0.0</version>
-   <packaging>war</packaging>
+	<groupId>com.polymec.apps</groupId>
+	<artifactId>polytrade</artifactId>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+  
+	<dependencyManagement>
+		<dependencies>
+		<!-- Bill Of Materials 'BOM' dependencies to put all the group artifacts under the same version -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>4.3.3.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+   
    <dependencies> 
 		
-   <!-- Spring Framework -->   		
+	<!-- Spring Framework --> 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.3.RELEASE</version>
-		</dependency>  			  
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 			<version>1.10.4.RELEASE</version>
+		</dependency>	
+		
+	<!-- Hibernate --> 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.2.3.Final</version>
 		</dependency>
 
-   <!-- MySQL -->   
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.39</version>
-		</dependency>
-		
-   <!-- Hibernate --> 
-		<dependency>
-		   <groupId>org.hibernate</groupId>
-		   <artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.11.Final</version>
-		</dependency>		
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.0.Final</version>
-		</dependency>
-
-		
-	<!-- Dandelion-DataTables -->
-		<dependency>
-			<groupId>com.github.dandelion</groupId>
-			<artifactId>dandelion-thymeleaf</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.dandelion</groupId>
-			<artifactId>datatables-thymeleaf</artifactId>
-			<version>1.1.0</version>
 		</dependency>
 	  
 	<!-- Thymeleaf -->
@@ -69,7 +80,6 @@
 			<version>2.1.4.RELEASE</version>
 		</dependency>
 
-
 	<!-- BootStrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -82,18 +92,33 @@
 			<version>3.3.6</version>
 		</dependency>
 
-	<!-- Jasper Reports -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>4.3.0.RELEASE</version>
-		</dependency>			
+	<!-- Jasper Reports -->	
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>4.7.1</version>	
+		</dependency>		
+		
+	<!-- Dandelion-DataTables -->
+		<dependency>
+			<groupId>com.github.dandelion</groupId>
+			<artifactId>dandelion-thymeleaf</artifactId>
+			<version>1.1.1</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.github.dandelion</groupId>
+			<artifactId>datatables-thymeleaf</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		
+	<!-- MySQL -->   
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.39</version>
+			<scope>runtime</scope>			
+		</dependency>
+		
 	<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -102,11 +127,11 @@
 			<scope>provided</scope>
 		</dependency>
 		
-	<!-- Helpers -->
+	<!-- Logback -->
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>14.0.1</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.7</version>
 		</dependency>
 		
    </dependencies>
@@ -133,7 +158,7 @@
 				   <port>9090</port>
 				   <path>/${project.artifactId}</path>			   
 				</configuration>
-			</plugin>
+			</plugin>			
 		</plugins>
 	</build>
 

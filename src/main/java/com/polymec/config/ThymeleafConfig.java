@@ -43,12 +43,11 @@ public class ThymeleafConfig {
 		//resolver.setOrder(2);		
 		return resolver;
 	}
-	
+
 	@Bean
 	public ResourceBundleViewResolver getResourceBundleViewResolver() {
 	  ResourceBundleViewResolver resolver = new ResourceBundleViewResolver();
 	  resolver.setBasename("jasperreport-views");
 	  return resolver;
-	}	
-	
+	}
 }

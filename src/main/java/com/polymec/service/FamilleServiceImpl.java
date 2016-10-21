@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
+//import com.google.common.collect.Lists;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,11 +32,11 @@ public class FamilleServiceImpl implements FamilleService {
 	@Autowired
 	private FamilleRepository familleRepository;
 
-    private Log log = LogFactory.getLog(FamilleServiceImpl.class);
+    //private Log log = LogFactory.getLog(FamilleServiceImpl.class);
 	
     @Override
     public List<Famille> findAllValid() {
-        return Lists.newArrayList(familleRepository.findAllValid());
+        return (new ArrayList<Famille>(familleRepository.findAllValid()));
     }
 	
     @Override

@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
+//import com.google.common.collect.Lists;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +45,7 @@ public class ArticleFrnsServiceImpl implements ArticleFrnsService {
         return articleRepository.findAll(pageRequest);
     }
 	*/
-    private Log log = LogFactory.getLog(ArticleFrnsServiceImpl.class);
+    //private Log log = LogFactory.getLog(ArticleFrnsServiceImpl.class);
 	
 	//@Autowired
 	//private ArticleRepository articleRepository;
@@ -62,12 +63,12 @@ public class ArticleFrnsServiceImpl implements ArticleFrnsService {
     //@Transactional(readOnly=true)
     @Override
     public List<ArticleFrns> findAllValid() {
-        return Lists.newArrayList(articleFrnsRepository.findAllValid());
+        return (new ArrayList<ArticleFrns>(articleFrnsRepository.findAllValid()));
     }
 	
     @Override
     public List<ArticleFrns> findByFamille(Long id) {
-        return Lists.newArrayList(articleFrnsRepository.findByFamille(id));
+        return (new ArrayList<ArticleFrns>(articleFrnsRepository.findByFamille(id)));
     }	
 
 /*
