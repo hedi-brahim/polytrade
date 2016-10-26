@@ -158,7 +158,8 @@
 				   <port>9090</port>
 				   <path>/${project.artifactId}</path>			   
 				</configuration>
-			</plugin>			
+			</plugin>	
+		
 		</plugins>
 	</build>
 

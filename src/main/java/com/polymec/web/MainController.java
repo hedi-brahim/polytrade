@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 
 import com.github.dandelion.core.util.StringUtils;
@@ -43,22 +44,15 @@ import org.slf4j.LoggerFactory;
  */
 @Controller
 @RequestMapping(method = RequestMethod.GET)
-public class SampleController {
+public class MainController {
 
-	private Logger logger = LoggerFactory.getLogger("com.polymec.web.SampleController");
+	private Logger logger = LoggerFactory.getLogger("com.polymec.web.MainController");
 
 	@Autowired
     private ArticleFrnsService articleFrnsService;	
 	
 	@Autowired
 	private FamilleService familleService;
-	/**
-	 * <p>
-	 * Populates the model with the domain objects. Used in all examples that
-	 * use a DOM source.
-	 * 
-	 * @return a list of persons for display.
-	 */
 
 
 	@ModelAttribute("allFamille")
@@ -77,18 +71,9 @@ public class SampleController {
         return this.articleFrnsService.findAllValid();
     }
 	
-	
-	@RequestMapping(value = "articlesReport", method = RequestMethod.POST)
-	public ModelAndView getArticlesReport(ModelMap modelMap, ModelAndView modelAndView) {
-		Map<String,Object> parameterMap = new HashMap<String,Object>(); 
-		List<ArticleFrns> arts= this.articleFrnsService.findAllValid();
-        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
-        parameterMap.put("datasource", JRdataSource);		
-		return new ModelAndView("articlesReport", parameterMap);
-	}
 
-	@RequestMapping(value = "familleReport", method = RequestMethod.POST)
-	public ModelAndView getArticlesReport(@RequestParam("id") Long id, ModelMap modelMap, ModelAndView modelAndView) {
+	@PostMapping("/familleReport")
+	public ModelAndView getArticlesReport(@RequestParam("id") Long id) {
 		
 		logger.info("Print Famille id : " + id);
 		
@@ -109,29 +94,8 @@ public class SampleController {
 	}
 	
 	@RequestMapping(value = "/")
-	public String goToIndex(Model model) {
-		model.addAttribute("famille", this.familleService.findById(1L));
+	public String goToIndex(@ModelAttribute Famille famille) {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/bootstrap2/{page}")
-	public String goToBootstrap2Example(@PathVariable String page) {
-		return "bootstrap2." + page;
-	}
-	
-	@RequestMapping(value = "/bootstrap3/{page}")
-	public String goToBootstrap3Example(@PathVariable String page) {
-		return "bootstrap3." + page;
-	}
-	
-	
-	@RequestMapping(value = "/jqueryui/{page}")
-	public String goToBasicJqueryuiExample(@PathVariable String page, HttpServletRequest request) {
-		String themeName = request.getParameter("theme");
-		if(StringUtils.isNotBlank(themeName)){
-			request.setAttribute("themeName", themeName);
-		}
-		
-		return "jqueryui." + page;
-	}
 }

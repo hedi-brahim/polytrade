@@ -12,14 +12,16 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
 
 @Configuration
-public class ThymeleafConfig {
-	
+public class DandelionConfig {
+
 	@Bean
-	public ThymeleafViewResolver thymeleafViewResolver(SpringTemplateEngine templateEngine) {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine(templateEngine);
-		//resolver.setOrder(2);		
-		return resolver;
+	public SpringTemplateEngine templateEngine(ServletContextTemplateResolver templateResolver) {
+		SpringTemplateEngine engine = new SpringTemplateEngine();
+		engine.addTemplateModeHandler(StandardTemplateModeHandlers.HTML5);
+		engine.addTemplateResolver(templateResolver);
+		engine.addDialect(new DandelionDialect());
+		engine.addDialect(new DataTablesDialect());
+		return engine;
 	}
-	
+
 }

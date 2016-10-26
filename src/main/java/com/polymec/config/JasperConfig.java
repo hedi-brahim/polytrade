@@ -12,14 +12,13 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
 
 @Configuration
-public class ThymeleafConfig {
-	
+public class JasperConfig {
+
 	@Bean
-	public ThymeleafViewResolver thymeleafViewResolver(SpringTemplateEngine templateEngine) {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine(templateEngine);
-		//resolver.setOrder(2);		
-		return resolver;
+	public ResourceBundleViewResolver getResourceBundleViewResolver() {
+	  ResourceBundleViewResolver resolver = new ResourceBundleViewResolver();
+	  resolver.setBasename("jasperreport-views");
+	  return resolver;
 	}
 	
 }
