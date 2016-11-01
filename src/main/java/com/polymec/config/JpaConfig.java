@@ -60,7 +60,7 @@ public class JpaConfig{
  
    Properties additionalProperties() {
       Properties properties = new Properties();
-      properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+      //properties.setProperty("hibernate.hbm2ddl.auto", "validate");
       properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
       properties.setProperty("hibernate.max_fetch_depth", "3");
       properties.setProperty("hibernate.jdbc.fetch_size", "50");

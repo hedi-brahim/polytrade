@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html 	xmlns:th="http://www.thymeleaf.org"
-		xmlns:tiles="http://www.thymeleaf.org"
-		xmlns:ddl="http://www.thymeleaf.org/dandelion" 
-		xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
-		ddl:bundle-includes="sample,bootstrap2">
+		xmlns:tiles="http://www.thymeleaf.org">
 
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>PolyTrade</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}"/>	
-		<style>
-			.dataTables_filter {
-				float: left !important;
-				text-align: left !important;
-			}
-			.dataTables_paginate {
-				float: left !important;
-				text-align: left !important;
-			}	
-		</style>
+		<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}"/>
+		<link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
+		<script src="webjars/jquery/2.2.3/jquery.js" th:src="@{/webjars/jquery/2.2.3/jquery.js}"></script>	
+		<script src="webjars/bootstrap/3.3.6/js/bootstrap.js" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>	   
+		<script src="webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	   		   					
 	</head>
 
 	<body>
@@ -35,52 +26,54 @@
 							</button>
 							<a class="navbar-brand" href="#">PolyTrade</a>	  
 						</div>		
-					</nav>
-				</div>
-			</div>
-			<div class="row-fluid">
-				<div class="span12">
-					<div dt:conf="myTableId">
-						<div dt:confType="extrahtml" dt:uid="0" dt:cssStyle="float:right;">
-							<form class="form-inline" th:object="${famille}" action="index.html" th:action="@{/familleReport}" method="post">
-								<div class="form-group">
-									<label for="sel1">Famille: </label>					
-									<select th:field="*{id}" class="form-control" id="sel1">
-										<option th:each="fml : ${allFamille}"
-												th:value="${fml.id}"
-												th:text="${{fml.designation}}">Famille Null
-										</option>					
-									</select>
-									<button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-print"></span></button>
-								</div>
-							</form>
-						</div>
-					</div>
-
-					<table id="myTableId" dt:table="true" dt:dom="f0tp" dt:info="false" dt:pagingType="bootstrap_full_numbers" dt:displaylength="15" class="table table-striped table-bordered table-condensed">
+					</nav>				
+					<div id="toolbar" class="btn-group">
+						<form class="form-inline" th:object="${famille}" action="index.html" th:action="@{/familleReport}" method="post">
+							<div class="form-group">
+								<label for="sel1">Famille: </label>					
+								<select th:field="*{id}" class="form-control" id="sel1">
+									<option th:each="fml : ${allFamille}"
+											th:value="${fml.id}"
+											th:text="${{fml.designation}}">Famille Null
+									</option>					
+								</select>
+								<button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-print"></span></button>
+							</div>
+						</form>						
+					</div>				
+					<table id="eventsTable"
+						   data-toggle="table"
+						   th:attr="data-url=@{/arts}"
+						   data-pagination="true"
+						   data-page-size="15"					   
+						   data-search="true"
+						   data-toolbar="#toolbar"
+						   data-classes="table table-hover table-condensed"
+						   data-striped="true"
+						   data-show-footer="false"
+						   data-search-align="left"
+						   data-buttons-align="left"
+						   data-toolbar-align="right"
+						   data-pagination-h-align="left"
+						   data-pagination-detail-h-align="right"
+						   data-page-list="[10,15,20]"
+						   data-height="630">
 						<thead>
-							<tr>
-								<th dt:sortInitDirection="asc" dt:sortInitOrder="0">Reference</th>	
-								<th dt:sortInitDirection="asc" dt:sortInitOrder="1">Designation</th>									
-								<th dt:searchable="false">Quantite</th>
-								<th dt:searchable="false">Prix Unitaire Achat TTC</th>
-								<th dt:searchable="false">Prix Unitaire Vente TTC</th>	
-							</tr>
+						<tr>
+							<th data-field="article.reference" data-width="15%">Reference</th>
+							<th data-field="article.designation" data-width="50%">Designation</th>							
+							<th data-field="quantite" data-width="5%" data-align="center">Quantite</th>
+							<th data-field="article.puaht" data-formatter="enMillimes" data-width="15%" data-align="center">Prix Unitaire Achat TTC</th>							
+							<th data-field="article.puvht" data-formatter="enMillimes" data-width="15%" data-align="center">Prix Unitaire Vente TTC</th>
+						</tr>
 						</thead>
-						<tbody>
-							<tr th:each="ct : ${allArticleFrns}">
-								<td th:text="${{ct.article.reference}}">123456</td>			
-								<td th:text="${{ct.article.designation}}">pieceauto</td>
-								<td th:text="${#numbers.formatInteger({ct.quantite},1,'WHITESPACE')}">1</td>
-								<td th:text="${#numbers.formatDecimal({ct.article.puaht*1.18},1,'WHITESPACE',3,'POINT')}">5.500</td>	
-								<td th:text="${#numbers.formatDecimal({ct.article.puvht*1.18},1,'WHITESPACE',3,'POINT')}">8.750</td>					
-							</tr>
-						</tbody>
-					</table>
+					</table>		
 				</div>
 			</div>
-		</div>   
-		<script src="webjars/jquery/2.2.3/jquery.js"></script>	
-		<script src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>	   
+		</div>
+		<script src="webjars/jquery/2.2.3/jquery.js" th:src="@{webjars/jquery/jquery.js}"></script>	
+		<script src="webjars/bootstrap/3.3.6/js/bootstrap.js" th:src="@{webjars/bootstrap/js/bootstrap.js}"></script>	   
+		<script src="webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js" th:src="@{webjars/bootstrap-table/dist/bootstrap-table.js}"></script>	   		
+		<script type="text/javascript" src="/resources/js/polytrade.js" th:src="@{/resources/js/polytrade.js}"></script>			
 	</body>
 </html>

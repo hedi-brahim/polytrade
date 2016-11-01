@@ -44,24 +44,12 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 		
 		
-		
-		/*********************   Filters     ***********************/
-		// Register the Dandelion filter
-		FilterRegistration.Dynamic dandelionFilter = servletContext.addFilter("dandelionFilter", new DandelionFilter());
-		dandelionFilter.addMappingForUrlPatterns(null, false, "/*");
-
-		
-		
 		/*********************   Servlets     ***********************/		
 		// Spring dispatcher servlet
 		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("springServlet", new DispatcherServlet(webContext));
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping("/");
 
-		// Dandelion servlet
-		ServletRegistration.Dynamic dandelionServlet = servletContext.addServlet("dandelionServlet",new DandelionServlet());
-		dandelionServlet.setLoadOnStartup(2);
-		dandelionServlet.addMapping("/dandelion-assets/*");
 		
 		// LogBack ViewStatusMessages servlet
 		// The ViewStatusMessages servlet will be viewable at the URL http://localhost:9090/polytrade/lbClassicStatus

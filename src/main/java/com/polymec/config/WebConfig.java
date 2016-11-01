@@ -1,11 +1,19 @@
 package com.polymec.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.http.CacheControl;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 
 import org.springframework.context.annotation.Bean;
@@ -21,23 +29,29 @@ import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
 @Configuration
 @ComponentScan(basePackages = { "com.polymec.web" })
 @EnableWebMvc
-@Import({ JasperConfig.class,ThymeleafConfig.class,DandelionConfig.class })
+@Import({ JasperConfig.class,ThymeleafConfig.class })
 public class WebConfig extends WebMvcConfigurerAdapter {
-
+	
+	private Logger logger = LoggerFactory.getLogger("com.polymec.config.WebConfig");
+	
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-	
-	@Bean
-	public ServletContextTemplateResolver templateResolver() {
-		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
-		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".html");
-		resolver.setTemplateMode("HTML5");
-		resolver.setCacheable(false);
-		//resolver.setOrder(1);		
-		return resolver;
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+		if (!registry.hasMappingForPattern("/webjars/**")) {
+			registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+		}
+		
+		if (!registry.hasMappingForPattern("/resources/**")) {				
+			registry.addResourceHandler("/resources/**")
+					.addResourceLocations("/resources/")
+					.setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic());
+		}
+
 	}	
 
 }

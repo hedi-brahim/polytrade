@@ -3,6 +3,8 @@ package com.polymec.model;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -57,6 +59,7 @@ public class Article implements Serializable {
 	private double puaht;
 	private double puvht;
 	private Famille famille = new Famille();	
+	@JsonIgnore
 	private ArticleFrns articleFrns;	
     //private DateTime birthDate;
 
@@ -239,7 +242,7 @@ public class Article implements Serializable {
     }
 */
 	
-	@ManyToOne //(fetch=FetchType.LAZY)
+	@ManyToOne 
 	@JoinColumn(name="arts_fle")	
 	public Famille getFamille() {
 		return this.famille;

@@ -29,6 +29,7 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.EntityResult;
 
 import java.io.*;
+import java.util.List;
 
 import org.hibernate.annotations.Type;
 
@@ -46,6 +47,8 @@ public class ArticleFrns implements Serializable {
     private Long id;
     private double quantite;
 	private Article article = new Article();
+	//private List<Mouvement> mvts;
+	//private List<Inventaire> inventaires;	
 	private	int sr;
 
 	
@@ -70,7 +73,7 @@ public class ArticleFrns implements Serializable {
         this.id = id;
     }
 
-	@OneToOne //(fetch=FetchType.LAZY)  //(mappedBy = "contact", cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToOne 
 	@JoinColumn(name="ArtFrns_ae")
 	public Article getArticle() {
 		return this.article;
@@ -97,7 +100,24 @@ public class ArticleFrns implements Serializable {
     public void setSr(int sr) {
         this.sr = sr;
     }
+/*
+	@OneToMany(mappedBy = "articleFrns")
+	public List<Mouvement> getMvts() {
+		return this.mvts;
+	}
 	
+	public void setMvts(List<Mouvement> mvts) {
+		this.mvts = mvts;
+	}
+
+	@OneToMany(mappedBy = "articleFrns")
+	public List<Inventaire> getInventaires() {
+		return this.inventaires;
+	}
+	public void setInventaires(List<Inventaire> inventaires) {
+		this.inventaires = inventaires;
+	}
+	*/
     @Override
     public String toString() {
         return "Quantite: " + quantite;
