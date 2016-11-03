@@ -8,4 +8,8 @@ function enMillimes(value) {
 	var v = value*1.18;
     return v.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 }
-	
+
+$(document)
+  .ready(function() {
+		$('.ui.sidebar').sidebar({context: $('.bottom.segment')}).sidebar('attach events', '.menu .item');
+		})	
