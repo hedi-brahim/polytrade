@@ -10,23 +10,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import java.sql.Timestamp;
-
-import org.hibernate.annotations.Type;
+import java.util.Date;
 
 @Entity
 @Table(name = "iteds")
 public class Inventaire implements Serializable {
-    private Long id;
 
+    private Long id;
+    private Date date;
     private double quantite;
     private double qteAvInvt;
-	
-	private ArticleFrns articleFrns;	
 
-	
-    @Id	
+    private ArticleFrns articleFrns;
+
+    @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "iteds_num")
     public Long getId() {
@@ -37,8 +34,16 @@ public class Inventaire implements Serializable {
         this.id = id;
     }
 
+    @Column(name = "ce")
+    public Date getDate() {
+        return this.date;
+    }
 
-	@Column(name = "iteds_qne")
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Column(name = "iteds_qne")
     public double getQuantite() {
         return this.quantite;
     }
@@ -47,7 +52,7 @@ public class Inventaire implements Serializable {
         this.quantite = quantite;
     }
 
-	@Column(name = "iteds_qan")
+    @Column(name = "iteds_qan")
     public double getQteAvInvt() {
         return this.qteAvInvt;
     }
@@ -55,17 +60,17 @@ public class Inventaire implements Serializable {
     public void setQteAvInvt(double qteAvInvt) {
         this.qteAvInvt = qteAvInvt;
     }
-	
-	@ManyToOne
-	@JoinColumn(name="iteds_ar")	
-	public ArticleFrns getArticleFrns() {
-		return this.articleFrns;
-	}
 
-	public void setArticleFrns(ArticleFrns articleFrns) {
-		this.articleFrns = articleFrns;
-	}
-	
+    @ManyToOne
+    @JoinColumn(name = "iteds_ar")
+    public ArticleFrns getArticleFrns() {
+        return this.articleFrns;
+    }
+
+    public void setArticleFrns(ArticleFrns articleFrns) {
+        this.articleFrns = articleFrns;
+    }
+
     @Override
     public String toString() {
         return "Inventaire - Id: " + id;

@@ -1,92 +1,116 @@
 <!DOCTYPE html>
 <html 	xmlns:th="http://www.thymeleaf.org"
-		xmlns:tiles="http://www.thymeleaf.org">
+       xmlns:tiles="http://www.thymeleaf.org">
 
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<title>PolyTrade</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}"/>
-		<link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
-		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.2.2/semantic.min.css}"/>
-	</head>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>PolyTrade</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}"/>
+        <link rel="stylesheet" href="css/bootstrap-table.css" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
+        <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.2.2/semantic.min.css}"/>
+    </head>
 
-	<body>
-<div class="ui top blue massive inverted attached menu">
-  <a class="item">
-    <i class="sidebar icon"></i>
-    PolyTrade
-  </a>
-</div>
-<div class="ui bottom attached segment pushable">
-  <div class="ui inverted labeled icon left inline vertical sidebar menu">
-    <a class="item">
-      <i class="home icon"></i>
-      Home
-    </a>
-    <a class="item">
-      <i class="block layout icon"></i>
-      Topics
-    </a>
-    <a class="item">
-      <i class="smile icon"></i>
-      Friends
-    </a>
-    <a class="item">
-      <i class="calendar icon"></i>
-      History
-    </a>
-  </div>
-  <div class="pusher">
-    <div class="ui basic segment">
-					<div id="toolbar" class="btn-group">					
-						<form class="ui small form" th:object="${famille}" action="index.html" th:action="@{/familleReport}" method="post">
-							<div class="field">
-								<div class="ui action input">
-									<select th:field="*{id}" class="ui dropdown">
-										<option th:each="fml : ${allFamille}"
-												th:value="${fml.id}"
-												th:text="${{fml.designation}}">Famille Null
-										</option>					
-									</select>
-									<button type="submit" class="ui icon blue button"><i class="print icon"></i></button>
-								</div>
-							</div>
-						</form>							
-					</div>				
-					<table id="eventsTable"
-						   data-toggle="table"
-						   th:attr="data-url=@{/arts}"
-						   data-pagination="true"
-						   data-page-size="15"					   
-						   data-search="true"
-						   data-toolbar="#toolbar"
-						   data-classes="table table-hover table-condensed"
-						   data-striped="true"
-						   data-show-footer="false"
-						   data-search-align="left"
-						   data-buttons-align="left"
-						   data-toolbar-align="right"
-						   data-pagination-h-align="left"
-						   data-pagination-detail-h-align="right"
-						   data-page-list="[10,15,20]"
-						   data-height="630">
-						<thead>
-						<tr>
-							<th data-field="article.reference" data-width="15%" data-sortable="true">Reference</th>
-							<th data-field="article.designation" data-width="50%" data-sortable="true">Designation</th>							
-							<th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
-							<th data-field="article.puaht" data-formatter="enMillimes" data-sortable="true" data-width="15%" data-align="center">Prix Unitaire Achat TTC</th>							
-							<th data-field="article.puvht" data-formatter="enMillimes" data-sortable="true" data-width="15%" data-align="center">Prix Unitaire Vente TTC</th>
-						</tr>
-						</thead>
-					</table>		
-    </div>
-  </div>
-</div>
-		<script src="webjars/jquery/2.2.3/jquery.js" th:src="@{/webjars/jquery/2.2.3/jquery.js}"></script>	
-		<script src="webjars/bootstrap/3.3.6/js/bootstrap.js" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>	   
-		<script src="webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	   		   						
-		<script src="webjars/Semantic-UI/2.2.2/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.2.2/semantic.min.js}"></script>	
-		<script type="text/javascript" src="/resources/js/polytrade.js" th:src="@{/resources/js/polytrade.js}"></script>			
-	</body>
+    <body>
+        <div class="ui top blue massive attached inverted menu">
+            <a class="item">
+                <!--i class="sidebar icon"></i-->
+                PolyTrade
+            </a>
+            <!--div class="ui simple dropdown item">Dropdown<i class="dropdown icon"></i>
+                    <div class="menu">
+                      <div class="item">Choice 1</div>
+                      <div class="item">Choice 2</div>
+                      <div class="item">Choice 3</div>
+                    </div>
+      </div-->  
+        </div>
+        <div class="ui bottom attached segment pushable">  
+            <div class="ui large compact inverted vertical sidebar menu">
+                <div class="item">
+                    <div class="header"><i class="home icon"></i>Products</div>
+                    <div class="menu">
+                        <a class="item">Enterprise</a>
+                        <a class="item">Consumer</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="header"><i class="block layout icon"></i>CMS Solutions</div>
+                    <div class="menu">
+                        <a class="item">Rails</a>
+                        <a class="item">Python</a>
+                        <a class="item">PHP</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="header"><i class="smile icon"></i>Hosting</div>
+                    <div class="menu">
+                        <a class="item">Shared</a>
+                        <a class="item">Dedicated</a>	
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="header"><i class="calendar icon"></i>Support</div>
+                    <div class="menu">
+                        <a class="item">E-mail Support</a>
+                        <a class="item">FAQs</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pusher">
+                <div class="ui basic segment">
+                    <div id="toolbar" class="btn-group">					
+                        <form class="ui small form" th:object="${famille}" action="index.html" th:action="@{/familleReport}" method="post">
+                            <div class="field">
+                                <div class="ui action input">
+                                    <select th:field="*{id}" class="ui dropdown">
+                                        <option th:each="fml : ${allFamille}"
+                                                th:value="${fml.id}"
+                                                th:text="${{fml.designation}}">Famille Null
+                                        </option>					
+                                    </select>
+                                    <button type="submit" class="ui icon blue button"><i class="print icon"></i></button>
+                                </div>
+                            </div>
+                        </form>							
+                    </div>				
+                    <table id="eventsTable"
+                           data-toggle="table"
+                           th:attr="data-url=@{/arts}"
+                           data-pagination="true"
+                           data-page-size="15"					   
+                           data-search="true"
+                           data-toolbar="#toolbar"
+                           data-classes="table table-hover table-condensed"
+                           data-striped="true"
+                           data-show-footer="false"
+                           data-search-align="left"
+                           data-buttons-align="left"
+                           data-toolbar-align="right"
+                           data-pagination-h-align="left"
+                           data-pagination-detail-h-align="right"
+                           data-page-list="[10,15,20]"
+                           data-height="630">
+                        <thead>
+                            <tr>
+                                <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
+                                <th data-field="famille" data-width="15%">Famille</th>							
+                                <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
+                                <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
+                                <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
+                                <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
+                                <th data-field="action" data-width="5%" data-align="center" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
+                            </tr>
+                        </thead>
+                    </table>		
+                </div>
+            </div>
+        </div>
+        <script src="webjars/jquery/2.2.3/jquery.js" th:src="@{/webjars/jquery/2.2.3/jquery.js}"></script>	
+        <script src="webjars/bootstrap/3.3.6/js/bootstrap.js" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>	   
+        <script src="webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	   		   						
+        <script src="webjars/Semantic-UI/2.2.2/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.2.2/semantic.min.js}"></script>	
+        <script type="text/javascript" src="/resources/js/polytrade.js" th:src="@{/resources/js/polytrade.js}"></script>			
+    </body>
 </html>

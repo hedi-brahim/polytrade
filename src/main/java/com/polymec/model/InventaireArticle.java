@@ -1,51 +1,42 @@
 package com.polymec.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.GenerationType.SEQUENCE;
-import static javax.persistence.GenerationType.AUTO;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Column;
-import javax.persistence.Version;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.EntityResult;
 
-import java.io.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-
-import org.hibernate.annotations.Type;
+import java.text.SimpleDateFormat;
 
 @Entity
-public class InventaireArticle implements Serializable {
-	
+public class InventaireArticle implements Comparable<InventaireArticle>, Serializable {
+
     private Long id;
+    private String date;
+    private String type;
+    private String nom;
     private String reference;
-	private Double quantite;
-	private String artDesignation;
-	
-	@Id
-	@GeneratedValue(strategy = AUTO)
+    private double quantite;
+    private double puaht;
+    private double remise;
+    private String designation;
+
+    public InventaireArticle(Date date, String type, String ref, String nom, double qte, double puaht, double remise, String des) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+        this.date = dateFormat.format(date); //date.toString();
+        this.type = type;
+        this.reference = ref;
+        this.nom = nom;
+        this.quantite = qte;
+        this.designation = des;
+        this.puaht = puaht;
+        this.remise = remise;
+    }
+
+    @Id
+    @GeneratedValue(strategy = SEQUENCE)
     public Long getId() {
         return this.id;
     }
@@ -54,33 +45,81 @@ public class InventaireArticle implements Serializable {
         this.id = id;
     }
 
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
     public String getReference() {
-		return reference;
+        return reference;
     }
 
     public void setReference(String reference) {
-		this.reference = reference;
-    }
-	
-    public Double getQuantite() {
-		return quantite;
+        this.reference = reference;
     }
 
-    public void setQuantite(Double quantite) {
-		this.quantite = quantite;
-    }
-	
-    public String getArtDesignation() {
-		return artDesignation;
+    public double getQuantite() {
+        return quantite;
     }
 
-    public void setArtDesignation(String artDesignation) {
-		this.artDesignation = artDesignation;
+    public void setQuantite(double quantite) {
+        this.quantite = quantite;
     }
 
-	
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public double getPuaht() {
+        return this.puaht;
+    }
+
+    public void setPuaht(double puaht) {
+        this.puaht = puaht;
+    }
+
+    public double getRemise() {
+        return this.remise;
+    }
+
+    public void setRemise(double remise) {
+        this.remise = remise;
+    }
+
+    @Override
+    public int compareTo(InventaireArticle n) {
+        /*
+        int lastCmp = lastName.compareTo(n.lastName);
+        return (lastCmp != 0 ? lastCmp : firstName.compareTo(n.firstName));
+         */
+        return n.getDate().compareTo(date);
+    }
+
     @Override
     public String toString() {
-        return "Document - Ref: " + reference + ", Article: " + artDesignation;
+        return "Document - Ref: " + reference + ", Article: " + designation;
     }
 }

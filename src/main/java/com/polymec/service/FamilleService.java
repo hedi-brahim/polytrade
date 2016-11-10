@@ -5,6 +5,8 @@ import java.util.List;
 import com.polymec.model.Famille;
 
 public interface FamilleService {
-    List<Famille> findAllValid();	
+
+    List<Famille> findAllValid();
+
     Famille findById(Long id);
 }
