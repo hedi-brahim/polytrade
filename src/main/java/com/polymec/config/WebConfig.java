@@ -37,7 +37,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
         if (!registry.hasMappingForPattern("/resources/**")) {
             registry.addResourceHandler("/resources/**")
-                    .addResourceLocations("/resources/")
+                    .addResourceLocations("/WEB-INF/resources/")
                     .setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic());
         }
 
