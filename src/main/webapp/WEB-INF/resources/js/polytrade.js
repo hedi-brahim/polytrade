@@ -12,7 +12,7 @@ function enMillimes(value) {
 function actionFormatter(value, row, index) {
     return [
         '<a class="inventaire" href="javascript:void(0)" title="Fiche Commercial">',
-        '<i class="file text icon"></i>',
+        '<span class="glyphicon glyphicon-list-alt"></span>',
         '</a>'
     ].join('');
 }
