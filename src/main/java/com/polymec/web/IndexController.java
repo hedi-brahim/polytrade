@@ -1,5 +1,6 @@
 package com.polymec.web;
 
+import com.polymec.config.SecurityConfig;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,9 +32,16 @@ import com.polymec.model.ArticleFrns;
 import com.polymec.service.ArticleFrnsService;
 import com.polymec.model.InventaireArticle;
 import com.polymec.service.InventaireArticleService;
+import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
+import org.unbescape.html.HtmlEscape;
 
 /**
  * <p>
@@ -45,9 +53,9 @@ import org.slf4j.LoggerFactory;
 @RequestMapping(method = RequestMethod.GET)
 public class IndexController {
 
-    private Logger logger = LoggerFactory.getLogger("com.polymec.web.MainController");
-    //private String artRef;
+    private Logger log = LoggerFactory.getLogger("com.polymec.web.IndexController");
 
+    //private String artRef;
     @Autowired
     private ArticleFrnsService articleFrnsService;
 
@@ -86,7 +94,7 @@ public class IndexController {
     @PostMapping("/familleReport")
     public ModelAndView getArticlesReport(@RequestParam("id") Long id) {
 
-        logger.info("Print Famille id : " + id);
+        log.info("Print Famille id : " + id);
 
         Map<String, Object> parameterMap = new HashMap<String, Object>();
 
@@ -109,10 +117,146 @@ public class IndexController {
 		return "/pages/inventaire";
 	}	
      */
+    
+    @RequestMapping("/")
+    public String root(@ModelAttribute Famille famille) {
+        return "redirect:/index.html";
+    }
 
-    @RequestMapping(value = "/")
-    public String goToIndex(@ModelAttribute Famille famille) {
+    /** Home page. */
+    @RequestMapping("/index")
+    public String index() {
         return "index";
+    }
+    
+ /** User zone index. */
+    @RequestMapping("/user/index")
+    public String userIndex() {
+        return "user/index";
+    }
+
+    /** Administration zone index. */
+    @RequestMapping("/admin/index")
+    public String adminIndex() {
+        return "admin/index";
+    }
+
+    /** Shared zone index. */
+    @RequestMapping("/shared/index")
+    public String sharedIndex() {
+        return "shared/index";
+    }
+
+    /** Login form. */
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }    
+    
+    /** Login form with error. */
+    @RequestMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
+    }
+
+    /** Simulation of an exception. */
+    @RequestMapping("/simulateError")
+    public void simulateError() {
+        throw new RuntimeException("This is a simulated error message");
+    }
+
+    /** Error page. */
+    @RequestMapping("/error")
+    public String error(HttpServletRequest request, Model model) {
+        model.addAttribute("errorCode", "Error " + request.getAttribute("javax.servlet.error.status_code"));
+        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+        StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append("<ul>");
+        while (throwable != null) {
+            errorMessage.append("<li>").append(HtmlEscape.escapeHtml5(throwable.getMessage())).append("</li>");
+            throwable = throwable.getCause();
+        }
+        errorMessage.append("</ul>");
+        model.addAttribute("errorMessage", errorMessage.toString());
+        return "error";
+    }
+
+    /** Error page. */
+    @RequestMapping("/403.html")
+    public String forbidden() {
+        return "403";
+    }    
+    /*
+    @GetMapping(value = "/")
+    public String getIndex(@ModelAttribute Famille famille) {
+        return "login";
+    }
+
+    
+    @PostMapping(value = "/index")
+    public String postIndex(@ModelAttribute Famille famille) {
+        return "index";
+    }
+    */
+    /*
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public ModelAndView login(@ModelAttribute Famille famille,
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout) {
+
+        ModelAndView model = new ModelAndView();
+        if (error != null) {
+            model.addObject("error", "Invalid username and password!");
+        }
+
+        if (logout != null) {
+            model.addObject("msg", "You've been logged out successfully.");
+        }
+        model.setViewName("index");
+
+        return model;
+
+    }
+*/
+// Login form
+    /*
+    @PostMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    // Login form with error
+    @RequestMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
+    }
+
+    @RequestMapping("/hello")
+    public String helloLogin() {
+        System.out.println("in here ....");
+        return "hello";
+    }
+
+    @RequestMapping("/test")
+    public String testLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("the logged user " + authentication.getName() + " has role ROLE_ADMIN");
+        System.out.println("test is here ....");
+        return "test";
+    }
+*/
+    private boolean hasRole(String role) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean hasRole = false;
+        for (GrantedAuthority authority : authorities) {
+            hasRole = authority.getAuthority().equals(role);
+            if (hasRole) {
+                break;
+            }
+        }
+        return hasRole;
     }
 
     @GetMapping(path = "/arts", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -146,9 +290,9 @@ public class IndexController {
         JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
         parameterMap.put("datasource", JRdataSource);
 
-        logger.info("Print ArticleInfo id : " + art.getReference());
-        logger.info("Print ArticleInfo Puaht: " + art.getPuaht());
-        logger.info("Print ArticleInfo Puvht : " + art.getPuvht());
+        log.info("Print ArticleInfo id : " + art.getReference());
+        log.info("Print ArticleInfo Puaht: " + art.getPuaht());
+        log.info("Print ArticleInfo Puvht : " + art.getPuvht());
 
         parameterMap.put("reference", art.getReference());
         parameterMap.put("designation", art.getDesignation());

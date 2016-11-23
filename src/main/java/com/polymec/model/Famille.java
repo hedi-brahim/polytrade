@@ -19,7 +19,7 @@ public class Famille implements Serializable {
 
     private Long id;
     private String designation;
-    private List<Article> articles = new ArrayList<Article>(); //Lists.newArrayList();
+    private List<Article> articles = new ArrayList<Article>();
 
     public Famille() {
 
@@ -50,7 +50,7 @@ public class Famille implements Serializable {
     }
 
     @OneToMany(mappedBy = "famille")
-    private List<Article> getArticles() {
+    public List<Article> getArticles() {
         return this.articles;
     }
 

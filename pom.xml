@@ -11,6 +11,25 @@
     <version>1.0.0</version>
     <packaging>war</packaging>
 
+    <developers>
+        <developer>
+            <id>hb</id>
+            <name>Mohamed Hedi Ben Brahim</name>
+            <email>hedi.brahim@gmail.com</email>
+                    <url>http://www.example.com/jdoe</url>
+                    <organization>Polymec</organization>
+                    <organizationUrl>http://www.polymec.com</organizationUrl>
+                    <roles>
+                        <role>architect</role>
+                        <role>developer</role>
+                    </roles>
+                    <timezone>Africa/Tunisia</timezone>
+                    <properties>
+                        <picUrl>http://www.polymec.com/hedi/brahim</picUrl>
+                    </properties>
+        </developer>
+    </developers>
+  
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -87,13 +106,19 @@
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
-            <version>2.1.4.RELEASE</version>
+            <version>3.0.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring4</artifactId>
-            <version>2.1.4.RELEASE</version>
+            <version>3.0.2.RELEASE</version>
         </dependency>
+    <dependency>
+      <groupId>org.thymeleaf.extras</groupId>
+      <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+      <version>3.0.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>        
 
         <!-- BootStrap -->
         <!--dependency>
