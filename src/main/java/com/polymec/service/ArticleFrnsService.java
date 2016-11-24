@@ -2,8 +2,8 @@ package com.polymec.service;
 
 import java.util.List;
 
-import com.polymec.model.ArticleFrns;
-import com.polymec.model.ArticleInfo;
+import com.polymec.domain.ArticleFrns;
+import com.polymec.domain.ArticleInfo;
 
 public interface ArticleFrnsService {
 

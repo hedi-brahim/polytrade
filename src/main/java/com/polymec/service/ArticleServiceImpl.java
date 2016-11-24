@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.polymec.model.Article;
-import com.polymec.repository.ArticleRepository;
+import com.polymec.domain.Article;
+import com.polymec.dao.ArticleRepository;
 
 @Service("jpaArticleService")
 public class ArticleServiceImpl implements ArticleService {

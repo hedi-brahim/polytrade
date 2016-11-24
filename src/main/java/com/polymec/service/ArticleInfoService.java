@@ -1,6 +1,6 @@
 package com.polymec.service;
 
-import com.polymec.model.ArticleInfo;
+import com.polymec.domain.ArticleInfo;
 
 public interface ArticleInfoService {
 

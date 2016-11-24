@@ -1,23 +1,26 @@
 package com.polymec.config;
 
+import com.polymec.domain.UserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
-
 import org.springframework.http.CacheControl;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
+import org.springframework.core.convert.converter.Converter; 
+
 @Configuration
-@ComponentScan(basePackages = {"com.polymec.web"})
+@ComponentScan(basePackages = {"com.polymec.controller"})
 @EnableWebMvc
 @Import({JasperConfig.class, ThymeleafConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
@@ -45,12 +48,42 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
     
     @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(getStringToUserRole());
+        //registry.addConverter(new LocalDateTimeConverter("yyyy-MM-dd'T'HH:mm:ss.SSS"));
+    }
+    
+/*
+    public Converter<String, EmailAddress> getStringToEmailAddressConverter() {
+        return new Converter<String, EmailAddress>() {
+            @Override
+            public EmailAddress convert(String source) {
+                EmailAddress emailAddress = new EmailAddress();
+                emailAddress.setAddress(source);
+                return emailAddress;
+            }
+        };
+    }
+*/
+    public Converter<String, UserRole> getStringToUserRole() {
+        return new Converter<String, UserRole>(){
+            @Override
+            public UserRole convert(String s){
+                UserRole ur = new UserRole();
+                ur.setRole(s);
+                return ur;
+            }
+        };
+    }
+
+    /*
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/home").setViewName("home");
-        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/main").setViewName("main");
+        registry.addViewController("/").setViewName("main");
         registry.addViewController("/hello").setViewName("hello");
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("main");
         registry.addViewController("/403").setViewName("403");
     }    
-
+     */
 }

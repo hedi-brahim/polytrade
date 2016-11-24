@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.polymec.model.ArticleInfo;
-import com.polymec.repository.ArticleInfoRepository;
+import com.polymec.domain.ArticleInfo;
+import com.polymec.dao.ArticleInfoRepository;
 
 @Service("jpaArticleInfoService")
 public class ArticleInfoServiceImpl implements ArticleInfoService {

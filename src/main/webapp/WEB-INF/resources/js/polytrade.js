@@ -21,13 +21,24 @@ window.actionEvents = {
     'click .inventaire': function (e, value, row, index) {
         //alert('You click inventaire icon, row: ' + JSON.stringify(row.article.reference));		
         //alert('You click inventaire icon, row: ' + JSON.stringify(row));
-        window.open('invs_jasper/' + row.id, '_self', false)
+        window.open('invs_jasper/' + row.id, '_self', false);
         //console.log(value, row, index);
         //console.log(row.article);
     }
 };
 
+$(function () {
+    //document.getElementById("eventsTable").focus();
+    $(".search").append('<span class="glyphicon glyphicon-search"></span>');
+    $("div.search > input").focus();
+//$(".search").focus();
+    /* add the span inside search div with append box*/
+});
+
 $(document)
         .ready(function () {
+//document.getElementById("eventsTable").focus();
+//document.getElementsByClassName("search").focus();
             //$('.ui.sidebar').sidebar({context: $('.bottom.segment')}).sidebar('attach events', '.menu .item');
-        })	
+            $("div.search > input").focus();
+        });

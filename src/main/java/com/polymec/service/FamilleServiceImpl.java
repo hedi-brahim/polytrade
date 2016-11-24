@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.polymec.model.Famille;
-import com.polymec.repository.FamilleRepository;
+import com.polymec.domain.Famille;
+import com.polymec.dao.FamilleRepository;
 
 @Service("jpaFamilleService")
 public class FamilleServiceImpl implements FamilleService {

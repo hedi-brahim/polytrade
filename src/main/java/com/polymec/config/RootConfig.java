@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({SecurityConfig.class, JpaConfig.class})
-@ComponentScan(basePackages = {"com.polymec.service", "com.polymec.repository"})
+@ComponentScan(basePackages = {"com.polymec.service", "com.polymec.dao"})
 public class RootConfig {
 }

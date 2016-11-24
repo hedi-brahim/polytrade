@@ -5,49 +5,44 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import com.polymec.service.CustomUserDetailsService;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import com.polymec.service.JPAUserDetailsService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
 
+    
+    @Autowired
+    private JPAUserDetailsService userDetailsService;
+    
+    @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("hedi").password("goodluck").roles("ADMIN");     
         auth.userDetailsService(userDetailsService);
     }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**")
-                .antMatchers("/webjars/**")
-                .antMatchers("/test");
-    }
-
+      
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/resources/**","/webjars/**","/main/**").permitAll() 
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/shared/**").hasAnyRole("USER", "ADMIN")
-                .and()
+                .anyRequest().authenticated()
+                .and()                
                 .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login-error")
-                .and()
-                .logout()
-                .logoutSuccessUrl("/index")
+                .loginPage("/main")
+                .successForwardUrl("/main")
+                //.failureUrl("/login-error")
+                .permitAll()
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/403");
 
     }
 
-    /*
+/*   
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -2,7 +2,7 @@ package com.polymec.service;
 
 import java.util.List;
 
-import com.polymec.model.Article;
+import com.polymec.domain.Article;
 
 public interface ArticleService {
 

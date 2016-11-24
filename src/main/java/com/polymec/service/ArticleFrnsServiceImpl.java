@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.polymec.model.ArticleInfo;
-import com.polymec.model.ArticleFrns;
-import com.polymec.repository.ArticleFrnsRepository;
+import com.polymec.domain.ArticleInfo;
+import com.polymec.domain.ArticleFrns;
+import com.polymec.dao.ArticleFrnsRepository;
 
 @Service("jpaArticleFrnsService")
 public class ArticleFrnsServiceImpl implements ArticleFrnsService {

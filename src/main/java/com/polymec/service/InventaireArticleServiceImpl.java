@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.polymec.model.InventaireArticle;
-import com.polymec.repository.InventaireArticleRepository;
+import com.polymec.domain.InventaireArticle;
+import com.polymec.dao.InventaireArticleRepository;
 
 @Service("jpaInventaireArticleService")
 public class InventaireArticleServiceImpl implements InventaireArticleService {
