@@ -26,7 +26,7 @@ public class ArticleFrns implements Serializable {
 
     private Long id;
     private double quantite;
-    private Article article = new Article();
+    private Article article = null;
     private Fournisseur fournisseur;
 
     //private List<Mouvement> mvts;

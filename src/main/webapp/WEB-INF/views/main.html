@@ -54,7 +54,7 @@
                         </div>
                     </nav-->                                   
                     <div id="toolbar" class="btn-group">
-                        <form class="form-inline" th:object="${famille}" action="main.html" th:action="@{/familleReport}" method="post">
+                        <form class="form-inline" th:object="${famille}" action="main.html" th:action="@{/main/familleReport}" method="post">
                             <div class="form-group">
                                 <label for="sel1">Famille: </label>					
                                 <select th:field="*{id}" class="form-control" id="sel1">

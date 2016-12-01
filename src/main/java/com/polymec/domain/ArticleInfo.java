@@ -6,11 +6,12 @@ import javax.persistence.Id;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import javax.persistence.Column;
 
 @Entity
 public class ArticleInfo implements Serializable {
 
-    private Long id;
+    private Long id;    
     private String famille;
     private String reference;
     private String designation;
@@ -36,7 +37,8 @@ public class ArticleInfo implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+    //@Column(nullable=true)
     public String getFamille() {
         return famille;
     }

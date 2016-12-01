@@ -222,8 +222,9 @@ public class Article implements Serializable {
         this.birthDate = birthDate;
     }
      */
-    @ManyToOne
-    @JoinColumn(name = "arts_fle")
+    
+    @ManyToOne(optional=true)
+    @JoinColumn(name = "arts_fle", nullable=true)
     public Famille getFamille() {
         return this.famille;
     }

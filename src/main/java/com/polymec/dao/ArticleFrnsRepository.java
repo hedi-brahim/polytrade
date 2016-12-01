@@ -20,7 +20,10 @@ public interface ArticleFrnsRepository extends JpaRepository<ArticleFrns, Long> 
     //List<Article> findByFirstNameAndLastName(String firstName, String lastName);
     //@Query("select c from ArticleFrns c where c.sr = 0 and c.quantite > 0 order by c.article.reference, c.article.designation")
 
-    @Query("select new ArticleInfo(c.article.id, c.article.famille.designation, c.article.reference, c.article.designation, c.quantite, c.article.puaht, c.article.puvht) from ArticleFrns c where c.sr = 0 and c.quantite > 0 order by c.article.reference, c.article.designation")
+    //@Query("select new ArticleInfo(c.article.id, c.article.reference, c.article.designation, c.quantite, c.article.puaht, c.article.puvht) from ArticleFrns c where c.sr = 0 and c.quantite > 0 and c.article.id = 4141 order by c.article.reference, c.article.designation")
+    @Query("select new ArticleInfo(c.id, f.designation, c.reference, "
+            + "c.designation, c.articleFrns.quantite, c.puaht, c.puvht) "
+            + "from Article c left join c.famille f where c.articleFrns.sr = 0 and c.articleFrns.quantite > 0 order by c.reference, c.designation")
     List<ArticleInfo> findAllValid();
 
     @Query("select c from ArticleFrns c where c.sr = 0 and c.quantite > 0 and c.article.famille.id = ?1 order by c.article.reference, c.article.designation")

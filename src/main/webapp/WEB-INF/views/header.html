@@ -30,11 +30,11 @@
                     <form class="navbar-form navbar-right" role="form" method="POST" th:action="@{/main}" sec:authorize="isAnonymous()">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="text" class="form-control input-sm" placeholder="Email address" name="username" required="true" autofocus="true"/>
+                            <input type="text" class="form-control input-sm" placeholder="Utilisateur" name="username" required="true" autofocus="true"/>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input type="password" class="form-control input-sm" placeholder="Password" name="password" required="true"/>
+                            <input type="password" class="form-control input-sm" placeholder="Mot de passe" name="password" required="true"/>
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm">Sign in</button>
                     </form>
