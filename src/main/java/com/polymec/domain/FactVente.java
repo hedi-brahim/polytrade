@@ -1,5 +1,6 @@
 package com.polymec.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
@@ -17,8 +18,8 @@ import java.util.List;
 import javax.persistence.OneToOne;
 
 @Entity
-@Table(name = "blv")
-public class BlVente implements Serializable {
+@Table(name = "ftrev")
+public class FactVente implements Serializable {
 
     private Long id;
 
@@ -26,14 +27,14 @@ public class BlVente implements Serializable {
     private Date dateModif;    
     private String numero;
     private Client client;
-    //private Long blv_fe;
-    private FactVente factVente = null;
     private int sr;
+    @JsonIgnore
+    private BlVente blVente;
     private List<Mouvement> mvts;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "blv_num")
+    @Column(name = "ftrev_num")
     public Long getId() {
         return this.id;
     }
@@ -42,7 +43,7 @@ public class BlVente implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "blv_dl")
+    @Column(name = "ftrev_de")
     public Date getDate() {
         return this.date;
     }
@@ -51,7 +52,7 @@ public class BlVente implements Serializable {
         this.date = date;
     }
 
-    @Column(name = "ue")    
+    @Column(name = "ue")        
     public Date getDateModif() {
         return this.dateModif;
     }
@@ -60,7 +61,7 @@ public class BlVente implements Serializable {
         this.dateModif = dateModif;
     }
     
-    @Column(name = "blv_no")
+    @Column(name = "ftrev_no")
     public String getNumero() {
         return this.numero;
     }
@@ -69,17 +70,17 @@ public class BlVente implements Serializable {
         this.numero = numero;
     }
 
-    @OneToOne
-    @JoinColumn(name = "blv_fe")
-    public FactVente getFactVente() {
-        return this.factVente;
+    @OneToOne(mappedBy = "factVente")
+    public BlVente getBlVente() {
+        return this.blVente;
     }
 
-    public void setFactVente(FactVente factVente) {
-        this.factVente = factVente;
-    }    
+    public void setBlVente(BlVente blVente) {
+        this.blVente = blVente;
+    }
+    
     @ManyToOne
-    @JoinColumn(name = "blv_ct")
+    @JoinColumn(name = "ftrev_ct")
     public Client getClient() {
         return this.client;
     }
@@ -88,7 +89,7 @@ public class BlVente implements Serializable {
         this.client = client;
     }
 
-    @OneToMany(mappedBy = "blVente")
+    @OneToMany(mappedBy = "factVente")
     public List<Mouvement> getMvts() {
         return this.mvts;
     }
@@ -99,7 +100,7 @@ public class BlVente implements Serializable {
 
     @Override
     public String toString() {
-        return "BL Achat - Id: " + id + ", Reference: " + numero;
+        return "Facture Vente - Id: " + id + ", Reference: " + numero;
     }
 
     /**
@@ -116,13 +117,4 @@ public class BlVente implements Serializable {
     public void setSr(int sr) {
         this.sr = sr;
     }
-/*
-    public Long getBlv_fe() {
-        return blv_fe;
-    }
-
-    public void setBlv_fe(Long blv_fe) {
-        this.blv_fe = blv_fe;
-    }
-*/
 }

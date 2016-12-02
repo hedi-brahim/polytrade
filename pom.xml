@@ -16,17 +16,17 @@
             <id>hb</id>
             <name>Mohamed Hedi Ben Brahim</name>
             <email>hedi.brahim@gmail.com</email>
-                    <url>http://www.example.com/jdoe</url>
-                    <organization>Polymec</organization>
-                    <organizationUrl>http://www.polymec.com</organizationUrl>
-                    <roles>
-                        <role>architect</role>
-                        <role>developer</role>
-                    </roles>
-                    <timezone>Africa/Tunisia</timezone>
-                    <properties>
-                        <picUrl>http://www.polymec.com/hedi/brahim</picUrl>
-                    </properties>
+            <url>http://www.example.com/jdoe</url>
+            <organization>Polymec</organization>
+            <organizationUrl>http://www.polymec.com</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Africa/Tunisia</timezone>
+            <properties>
+                <picUrl>http://www.polymec.com/hedi/brahim</picUrl>
+            </properties>
         </developer>
     </developers>
   
@@ -113,12 +113,11 @@
             <artifactId>thymeleaf-spring4</artifactId>
             <version>3.0.2.RELEASE</version>
         </dependency>
-    <dependency>
-      <groupId>org.thymeleaf.extras</groupId>
-      <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-      <version>3.0.1.RELEASE</version>
-      <scope>compile</scope>
-    </dependency>        
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <version>3.0.1.RELEASE</version>
+        </dependency>        
 
         <!-- BootStrap -->
         <!--dependency>

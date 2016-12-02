@@ -30,6 +30,7 @@ import com.polymec.service.ArticleInfoService;
 import com.polymec.domain.ArticleFrns;
 import com.polymec.service.ArticleFrnsService;
 import com.polymec.domain.InventaireArticle;
+import com.polymec.domain.Credit;
 import com.polymec.service.InventaireArticleService;
 import java.io.IOException;
 import java.util.Collection;
@@ -45,6 +46,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.unbescape.html.HtmlEscape;
+import com.polymec.dao.CreditRepository;
 
 /**
  * <p>
@@ -59,6 +61,7 @@ public class MainController {
     private Logger log = LoggerFactory.getLogger("com.polymec.controller.MainController");
 
     //private String artRef;
+    
     @Autowired
     private ArticleFrnsService articleFrnsService;
 
@@ -91,16 +94,19 @@ public class MainController {
     @RequestMapping(value = {"", "/"})
     public String main(@ModelAttribute Famille famille) {
         
-        if (hasRole("ROLE_ADMIN")) {          
-            return "/admin/index";
+        if (hasRole("ROLE_ADMIN")) {  
+            //POST-REDIRECT-GET Design Pattern applied here
+            return "redirect:/admin/index";
         }
         
         if (hasRole("ROLE_MANAGER")) {
-            return "/manager/index";
+            //POST-REDIRECT-GET Design Pattern applied here
+            return "redirect:/manager/index";
         }
 
         if (hasRole("ROLE_USER")) {
-            return "/user/index";
+            //POST-REDIRECT-GET Design Pattern applied here
+            return "redirect:/user/index";
         }
 
         return "main";
@@ -347,4 +353,6 @@ public class MainController {
         return new ModelAndView("inventaireReport", parameterMap);
 
     }
+    
+   
 }

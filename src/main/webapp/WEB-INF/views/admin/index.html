@@ -53,7 +53,7 @@
                             </div>	
                         </div>
                     </nav-->                                   
-                    <div id="toolbar" class="btn-group">
+                    <!--div id="toolbar" class="btn-group">
                         <form class="form-inline" th:object="${famille}" action="index.html" th:action="@{/familleReport}" method="post">
                             <div class="form-group">
                                 <label for="sel1"> ADMIN Famille: </label>					
@@ -66,14 +66,13 @@
                                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></button>
                             </div>
                         </form>						
-                    </div>				
+                    </div-->				
                     <table id="eventsTable"
                            data-toggle="table"
-                           th:attr="data-url=@{/arts}"
+                           th:attr="data-url=@{/admin/reglements}"
                            data-pagination="true"
-                           data-page-size="10"					   
+                           data-page-size="12"					   
                            data-search="true"
-                           data-toolbar="#toolbar"
                            data-classes="table table-hover table-condensed"
                            data-striped="true"
                            data-show-footer="false"
@@ -83,19 +82,21 @@
                            data-pagination-h-align="left"
                            data-pagination-detail-h-align="right"
                            data-page-list="[10,15,20]"
-                           data-height="500">
+                           data-height="530"
+                           data-sort-name="date"
+                           data-sort-order="desc">
                         <thead>
                             <tr>
-
-                                <th data-field="id" data-width="5%" data-visible="false">Id</th>						
-                                <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
+                                <th data-field="id" data-width="0%" data-visible="false">Id</th>						
+                                <th data-field="date" data-width="10%" data-sortable="true">Date</th>
+                                <th data-field="dateModif" data-width="10%" data-sortable="true">Modif</th>                                
                                 <!--th data-field="famille" data-width="15%">Famille</th-->							
-                                <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
+                                <th data-field="nom" data-width="25%" data-sortable="true">Client</th>
+                                <th data-field="type" data-width="5%" data-sortable="true">Type</th>                                
+                                <th data-field="reference" data-width="15%" data-sortable="true">Reference</th> 
+                                <th data-field="designation" data-width="20%" data-sortable="true">Designation</th>                                 
                                 <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
-                                <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
-                                <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
-                                <th data-field="action" data-width="5%" data-align="center" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
-
+                                <th data-field="mnt" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Montant TTC</th>
                             </tr>
                         </thead>
                     </table>		

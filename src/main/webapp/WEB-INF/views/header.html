@@ -37,6 +37,10 @@
                             <input type="password" class="form-control input-sm" placeholder="Mot de passe" name="password" required="true"/>
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm">Sign in</button>
+                        <!--input type="hidden" 
+                               th:name="${_csrf.parameterName}" 
+                               th:value="${_csrf.token}" /-->
+
                     </form>
 
                     <!--ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">

@@ -9,6 +9,7 @@ function enMillimes(value) {
     return v.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 }
 
+
 function actionFormatter(value, row, index) {
     return [
         '<a class="inventaire" href="javascript:void(0)" title="Fiche Commercial">',

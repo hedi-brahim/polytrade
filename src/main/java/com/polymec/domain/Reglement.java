@@ -1,36 +1,40 @@
 package com.polymec.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
+import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Date;
+
+import java.util.List;
+import javax.persistence.OneToOne;
 
 @Entity
-@Table(name = "mvt")
-public class Mouvement implements Serializable {
+@Table(name = "rgmt")
+public class Reglement implements Serializable {
 
     private Long id;
+
     private Date date;
     private Date dateModif;    
-    private double quantite;
-    private double puaht;
-    private double remise;
+    private String numero;
+    private double montant;
+    private Client client;
     private int sr;
-    private BlAchat blAchat;
     private BlVente blVente;
     private FactVente factVente;
-    private ArticleFrns articleFrns;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "Mvt_Num")
+    @Column(name = "rgmt_num")
     public Long getId() {
         return this.id;
     }
@@ -39,7 +43,7 @@ public class Mouvement implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "ce")        
+    @Column(name = "ce")
     public Date getDate() {
         return this.date;
     }
@@ -48,39 +52,67 @@ public class Mouvement implements Serializable {
         this.date = date;
     }
 
-    @Column(name = "ue")    
+    @Column(name = "ue")        
     public Date getDateModif() {
         return this.dateModif;
     }
 
     public void setDateModif(Date dateModif) {
         this.dateModif = dateModif;
-    }    
-    @Column(name = "mvt_qt")
-    public double getQuantite() {
-        return this.quantite;
+    }
+    
+    @Column(name = "rgmt_no")
+    public String getNumero() {
+        return this.numero;
     }
 
-    public void setQuantite(double quantite) {
-        this.quantite = quantite;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    @Column(name = "mvt_pt")
-    public double getPuaht() {
-        return this.puaht;
+    @Column(name = "rgmt_mt")
+    public double getMontant() {
+        //return round(this.puaht,3);
+        return this.montant;
     }
 
-    public void setPuaht(double puaht) {
-        this.puaht = puaht;
+    public void setMontant(double montant) {
+        this.montant = montant;
     }
 
-    @Column(name = "mvt_re")
-    public double getRemise() {
-        return this.remise;
+    /*
+    @OneToOne(mappedBy = "factVente")
+    public BlVente getBlVente() {
+        return this.blVente;
     }
 
-    public void setRemise(double remise) {
-        this.remise = remise;
+    public void setBlVente(BlVente blVente) {
+        this.blVente = blVente;
+    }
+     */
+    @ManyToOne
+    @JoinColumn(name = "ftrev_ct")
+    public Client getClient() {
+        return this.client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    /*
+    @OneToMany(mappedBy = "factVente")
+    public List<Mouvement> getMvts() {
+        return this.mvts;
+    }
+
+    public void setMvts(List<Mouvement> mvts) {
+        this.mvts = mvts;
+    }
+     */
+    @Override
+    public String toString() {
+        return "Facture Vente - Id: " + id + ", Reference: " + numero;
     }
 
     /**
@@ -97,19 +129,9 @@ public class Mouvement implements Serializable {
     public void setSr(int sr) {
         this.sr = sr;
     }
-    
-    @ManyToOne
-    @JoinColumn(name = "mvt_bt")
-    public BlAchat getBlAchat() {
-        return this.blAchat;
-    }
-
-    public void setBlAchat(BlAchat blAchat) {
-        this.blAchat = blAchat;
-    }
 
     @ManyToOne
-    @JoinColumn(name = "mvt_be")
+    @JoinColumn(name = "rgmt_be")
     public BlVente getBlVente() {
         return this.blVente;
     }
@@ -119,27 +141,12 @@ public class Mouvement implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumn(name = "mvt_fe")
+    @JoinColumn(name = "rgmt_bt")
     public FactVente getFactVente() {
         return this.factVente;
     }
 
     public void setFactVente(FactVente factVente) {
         this.factVente = factVente;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "mvt_ar")
-    public ArticleFrns getArticleFrns() {
-        return this.articleFrns;
-    }
-
-    public void setArticleFrns(ArticleFrns articleFrns) {
-        this.articleFrns = articleFrns;
-    }
-
-    @Override
-    public String toString() {
-        return "Mouvement - Id: " + id + ", Quantite: " + quantite;
     }
 }

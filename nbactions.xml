@@ -12,4 +12,12 @@
                 <goal>tomcat7:run</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-tomcat7</actionName>
+            <displayName>tomcat7</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>tomcat7:run</goal>
+            </goals>
+        </action>
     </actions>
