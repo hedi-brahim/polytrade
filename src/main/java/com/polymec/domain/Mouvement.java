@@ -21,6 +21,7 @@ public class Mouvement implements Serializable {
     private Date dateModif;    
     private double quantite;
     private double puaht;
+    private double marge;    
     private double remise;
     private int sr;
     private BlAchat blAchat;
@@ -74,6 +75,15 @@ public class Mouvement implements Serializable {
         this.puaht = puaht;
     }
 
+    @Column(name = "mvt_tx")
+    public double getMarge() {
+        return this.marge;
+    }
+
+    public void setMarge(double marge) {
+        this.marge = marge;
+    }
+    
     @Column(name = "mvt_re")
     public double getRemise() {
         return this.remise;
