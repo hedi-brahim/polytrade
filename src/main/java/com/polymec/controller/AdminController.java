@@ -53,6 +53,24 @@ public class AdminController {
     }
     
     /**
+     * Recettes page.
+     */
+    @GetMapping("/recettes")
+    public String pageRecettes() {
+        return "admin/recettes";
+    }
+
+     /**
+     * Depenses page.
+     */
+    @GetMapping("/depenses")
+    public String pageDepenses() {
+        return "admin/depenses";
+    }
+    
+    
+    
+    /**
      * Registration page.
      */
     @GetMapping("/register")
@@ -114,6 +132,25 @@ public class AdminController {
     public List<Credit> getReglements() {
 
         List<Credit> regs = this.reglementService.listReglements();
+
+        return regs;
+    }  
+    
+    @GetMapping(path = "/json_recettes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Credit> getRecettes() {
+
+        List<Credit> regs = this.reglementService.listReglements();
+
+        return regs;
+    } 
+    
+    
+    @GetMapping(path = "/json_depenses", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Credit> getDepenses() {
+
+        List<Credit> regs = this.reglementService.listAchatsReglements();
 
         return regs;
     }     

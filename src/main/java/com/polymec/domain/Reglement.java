@@ -26,9 +26,10 @@ public class Reglement implements Serializable {
     private Date date;
     private Date dateModif;    
     private String numero;
-    private double montant;
-    private Client client;
+    private double montant;  
     private int sr;
+    private BlAchat blAchat;
+    private FactAchat factAchat;    
     private BlVente blVente;
     private FactVente factVente;
 
@@ -90,15 +91,6 @@ public class Reglement implements Serializable {
         this.blVente = blVente;
     }
      */
-    @ManyToOne
-    @JoinColumn(name = "ftrev_ct")
-    public Client getClient() {
-        return this.client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     /*
     @OneToMany(mappedBy = "factVente")
@@ -130,6 +122,26 @@ public class Reglement implements Serializable {
         this.sr = sr;
     }
 
+   @ManyToOne
+    @JoinColumn(name = "rgmt_bt")
+    public BlAchat getBlAchat() {
+        return this.blAchat;
+    }
+
+    public void setBlAchat(BlAchat blAchat) {
+        this.blAchat = blAchat;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "rgmt_ft")
+    public FactAchat getFactAchat() {
+        return this.factAchat;
+    }
+
+    public void setFactAchat(FactAchat factAchat) {
+        this.factAchat = factAchat;
+    }
+    
     @ManyToOne
     @JoinColumn(name = "rgmt_be")
     public BlVente getBlVente() {
@@ -141,7 +153,7 @@ public class Reglement implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumn(name = "rgmt_bt")
+    @JoinColumn(name = "rgmt_fe")
     public FactVente getFactVente() {
         return this.factVente;
     }
@@ -149,4 +161,5 @@ public class Reglement implements Serializable {
     public void setFactVente(FactVente factVente) {
         this.factVente = factVente;
     }
+
 }

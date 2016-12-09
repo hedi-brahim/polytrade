@@ -21,6 +21,13 @@
                                 <li><a th:href="@{/admin/register}">Enregistrement</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Verification <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/admin/depenses}">Depenses</a></li>                                
+                                <li><a th:href="@{/admin/recettes}">Recettes</a></li>
+                            </ul>
+                        </li>                        
                     </ul>
 
                     <!--form class="navbar-form navbar-right" role="form" method="POST" th:action="@{/main}" sec:authorize="isAnonymous()">

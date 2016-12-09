@@ -26,6 +26,7 @@ public class Mouvement implements Serializable {
     private int sr;
     private BlAchat blAchat;
     private BlVente blVente;
+    private FactAchat factAchat;    
     private FactVente factVente;
     private ArticleFrns articleFrns;
 
@@ -138,6 +139,16 @@ public class Mouvement implements Serializable {
         this.factVente = factVente;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "mvt_ft")
+    public FactAchat getFactAchat() {
+        return this.factAchat;
+    }
+
+    public void setFactAchat(FactAchat factAchat) {
+        this.factAchat = factAchat;
+    }
+    
     @ManyToOne
     @JoinColumn(name = "mvt_ar")
     public ArticleFrns getArticleFrns() {

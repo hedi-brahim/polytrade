@@ -77,7 +77,8 @@ public class BlVente implements Serializable {
 
     public void setFactVente(FactVente factVente) {
         this.factVente = factVente;
-    }    
+    }   
+    
     @ManyToOne
     @JoinColumn(name = "blv_ct")
     public Client getClient() {
