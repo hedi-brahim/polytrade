@@ -1,0 +1,8 @@
+# to ignore the log files
+*.log
+
+# to ignore the target directory
+target/
+/src/main/webapp/WEB-INF/reports/FamilleReport.jasper
+/src/main/webapp/WEB-INF/reports/ArticlesReport.jasper
+/src/main/webapp/WEB-INF/reports/InventaireReport.jasper
