@@ -20,5 +20,5 @@ You can then access the app as follow: http://localhost:8080/polytrade/main
 
 ## Bug/improvement
 
-Please report it using the corresponding issue tracker: [https://github.com/dandelion/dandelion-datatables-samples/issues](https://github.com/dandelion/dandelion-datatables-samples/issues)
+Please report it using the corresponding issue tracker: [https://github.com/hedigates/polytrade/issues](https://github.com/hedigates/polytrade/issues)
 
