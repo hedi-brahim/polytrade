@@ -2,13 +2,17 @@
 <html 	xmlns:th="http://www.thymeleaf.org"
        xmlns:tiles="http://www.thymeleaf.org">
 
-    <head>
-        <!--meta name="viewport" content="width=device-width, initial-scale=1.0"/-->
+    <!--head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>PolyTrade</title>
+        <link rel="icon" type="image/png" href="#" th:href="@{/resources/img/cashbox.png}"/>
         <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}"/>
         <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
         <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
-    </head>
+    </head-->
+    <head>
+    <thymeleaf th:replace="fragment_head :: head" />
+</head>
 
     <body>
         <div class="container-fluid">

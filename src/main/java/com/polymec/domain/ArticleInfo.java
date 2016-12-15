@@ -12,21 +12,21 @@ import javax.persistence.Column;
 public class ArticleInfo implements Serializable {
 
     private Long id;    
-    private String famille;
+    private String famille;   
     private String reference;
     private String designation;
     private double quantite;
     private double puaht;
     private double puvht;
 
-    public ArticleInfo(Long id, String famille, String reference, String designation, double qte, double puaht, double puvht) {
+    public ArticleInfo(Long id, String famille, String reference, String designation, double qte, double puaht, double puvht, double tva) {
         this.id = id;
         this.famille = famille;
         this.reference = reference;
         this.designation = designation;
         this.quantite = qte;
-        this.puaht = puaht;
-        this.puvht = puvht;
+        this.puaht = puaht * (1 + tva/100);
+        this.puvht = puvht * (1 + tva/100);
     }
 
     @Id

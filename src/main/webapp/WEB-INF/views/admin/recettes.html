@@ -2,13 +2,9 @@
 <html 	xmlns:th="http://www.thymeleaf.org"
        xmlns:tiles="http://www.thymeleaf.org">
 
-    <head>
-        <!--meta name="viewport" content="width=device-width, initial-scale=1.0"/-->
-        <title>PolyTrade</title>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
-    </head>
+   <head>
+    <thymeleaf th:replace="fragment_head :: head" />
+</head>
 
     <body>
         <div class="container-fluid">
@@ -83,15 +79,18 @@
                            data-pagination-detail-h-align="right"
                            data-page-list="[10,15,20]"
                            data-height="500"
+                           data-detail-view="true"
+                           data-detail-formatter="detailFormatter"                              
                            data-sort-name="date"
                            data-sort-order="desc">
                         <thead>
                             <tr>
-                                <th data-field="id" data-width="0%" data-visible="false">Id</th>						
-                                <th data-field="date" data-width="10%" data-sortable="true">Date</th>
-                                <th data-field="dateModif" data-width="10%" data-sortable="true">Modif</th>                                
+                                <th data-field="id" data-visible="false">Id</th>
+                                <th data-field="numero" data-visible="false">Numero</th> 
+                                <th data-field="dateModif" data-visible="false">Modif</th>                                   
+                                <th data-field="date" data-width="10%" data-sortable="true">Date</th>                             
                                 <!--th data-field="famille" data-width="15%">Famille</th-->							
-                                <th data-field="nom" data-width="20%" data-sortable="true">Client</th>
+                                <th data-field="nom" data-width="35%" data-sortable="true">Client</th>
                                 <th data-field="type" data-width="5%" data-sortable="true">Type</th>                                
                                 <th data-field="reference" data-width="15%" data-sortable="true">Reference</th> 
                                 <th data-field="designation" data-width="20%" data-sortable="true">Designation</th>                                 

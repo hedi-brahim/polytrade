@@ -23,6 +23,7 @@ public class Mouvement implements Serializable {
     private double puaht;
     private double marge;    
     private double remise;
+    private double tva;
     private int sr;
     private BlAchat blAchat;
     private BlVente blVente;
@@ -94,6 +95,15 @@ public class Mouvement implements Serializable {
         this.remise = remise;
     }
 
+    @Column(name = "mvt_ta")
+    public double getTva() {
+        return this.tva;
+    }
+
+    public void setTva(double tva) {
+        this.tva = tva;
+    }
+    
     /**
      * @return the sr
      */

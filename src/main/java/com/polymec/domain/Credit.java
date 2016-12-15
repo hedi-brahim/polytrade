@@ -20,14 +20,16 @@ public class Credit implements Comparable<Credit>, Serializable {
     private String dateModif = null;
     private String type;
     private String nom;
+    private String numero;    
     private String reference;
     private double quantite;
     private double gain;
     private double mnt;
     private double remise;
+    private double tva;    
     private String designation;
 
-    public Credit(Date date, Date dateModif, String type, String ref, String nom, double qte, double puaht, double mnt, double remise, String des) {
+    public Credit(Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double mnt, double remise, double tva, String ref, String des) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 
         this.date = dateFormat.format(date); //date.toString();
@@ -36,18 +38,21 @@ public class Credit implements Comparable<Credit>, Serializable {
         } //date.toString();        
 
         this.type = type;
+        this.numero = num;        
         this.reference = ref;
         this.nom = nom;
         this.quantite = qte;
         this.designation = des;
-        // calculer le montant total de la ligna article * qte - remise
-        this.mnt = qte * mnt * (1 - (remise / 100));
+        // calculer le montant ttc total de la ligne article * qte - remise
+        this.mnt = qte * mnt * (1 - (remise / 100)) * (1 + (tva/100));
+        //calculer le gain en pourcentage
         if (puaht > 0) {
             this.gain = this.round(((this.mnt / puaht - 1) * 100), 2);
         } else {
             this.gain = 0.0;
         }
         this.remise = remise;
+        this.tva = tva;
     }
 
     public double round(double value, int places) {
@@ -103,6 +108,14 @@ public class Credit implements Comparable<Credit>, Serializable {
         this.nom = nom;
     }
 
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+    
     public String getReference() {
         return reference;
     }
@@ -151,6 +164,14 @@ public class Credit implements Comparable<Credit>, Serializable {
         this.remise = remise;
     }
 
+    public double getTva() {
+        return this.tva;
+    }
+
+    public void setTva(double tva) {
+        this.tva = tva;
+    }
+    
     @Override
     public int compareTo(Credit n) {
         /*

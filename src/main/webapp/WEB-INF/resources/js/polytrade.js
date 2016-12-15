@@ -5,8 +5,8 @@
  */
 
 function enMillimes(value) {
-    var v = value * 1.18;
-    return v.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    //var v = value * 1.18;
+    return value.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 }
 
 
@@ -16,6 +16,20 @@ function actionFormatter(value, row, index) {
         '<span class="glyphicon glyphicon-list-alt"></span>',
         '</a>'
     ].join('');
+}
+
+function detailFormatter(value, row, index) {
+    //html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+
+    return['<form class="form-horizontal">',
+        '<div class="form-group">',
+        '<div class="col-sm-6">',
+        '<label for="numero">Numero</label>',
+        '<span> </span>',
+        '<input type="email" class="form-control col-sm-5" id="numero" placeholder="' + row.numero + '" readonly>',
+        '</div>',
+        '</div>',
+        '</form>'].join('');
 }
 
 window.actionEvents = {

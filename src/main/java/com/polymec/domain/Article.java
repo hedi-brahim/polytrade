@@ -37,6 +37,7 @@ public class Article implements Serializable {
     private String designation;
     private double puaht;
     private double puvht;
+    private double tva;
     private Famille famille = new Famille();
     @JsonIgnore
     private ArticleFrns articleFrns;
@@ -117,6 +118,16 @@ public class Article implements Serializable {
         this.puvht = puvht;
     }
 
+    @Column(name = "Arts_ta")
+    public double getTva() {
+        //return round(this.puvht,3);
+        return this.tva;
+    }
+
+    public void setTva(double tva) {
+        this.tva = tva;
+    }
+    
     /*
 	public double round(double value, int places) {
 		if (places < 0) throw new IllegalArgumentException();
