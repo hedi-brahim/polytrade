@@ -24,12 +24,13 @@ public class Credit implements Comparable<Credit>, Serializable {
     private String reference;
     private double quantite;
     private double gain;
+    private double puttc;
     private double mnt;
     private double remise;
     private double tva;    
     private String designation;
 
-    public Credit(Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double mnt, double remise, double tva, String ref, String des) {
+    public Credit(Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double puttc, double remise, double tva, String ref, String des) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 
         this.date = dateFormat.format(date); //date.toString();
@@ -43,11 +44,12 @@ public class Credit implements Comparable<Credit>, Serializable {
         this.nom = nom;
         this.quantite = qte;
         this.designation = des;
+        this.puttc = puttc * (1 - (remise / 100));
         // calculer le montant ttc total de la ligne article * qte - remise
-        this.mnt = qte * mnt * (1 - (remise / 100)) * (1 + (tva/100));
+        this.mnt = qte * this.puttc * (1 + (tva/100));
         //calculer le gain en pourcentage
         if (puaht > 0) {
-            this.gain = this.round(((this.mnt / puaht - 1) * 100), 2);
+            this.gain = this.round(((this.puttc / puaht - 1) * 100), 2);
         } else {
             this.gain = 0.0;
         }
@@ -148,6 +150,14 @@ public class Credit implements Comparable<Credit>, Serializable {
         this.gain = gain;
     }
 
+    public double getPuttc() {
+        return this.puttc;
+    }
+
+    public void setPuttc(double puttc) {
+        this.puttc = puttc;
+    }
+    
     public double getMnt() {
         return this.mnt;
     }
