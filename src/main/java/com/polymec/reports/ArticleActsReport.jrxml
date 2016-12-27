@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ArticleActsReport" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="ae663e85-bbc9-4708-804d-fbf907211b90">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.layers" value="##Wed Nov 09 14:39:07 GMT+01:00 2016\nlayer.1.name=Layer 1\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0"/>
@@ -50,6 +50,9 @@
 	</field>
 	<pageHeader>
 		<band height="117">
+			<rectangle radius="10">
+				<reportElement x="6" y="44" width="544" height="64" uuid="a70be48e-0372-42d6-98a4-315cc66252f9"/>
+			</rectangle>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="10" y="8" width="100" height="14" backcolor="#FFFFFF" uuid="8bd9b7fc-3f73-4519-9385-37336c260df6"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -69,51 +72,99 @@
 				</textElement>
 				<text><![CDATA[sur]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement x="190" y="5" width="172" height="23" backcolor="#FFFFFF" uuid="1f2735af-efe9-41d1-8eab-9c31a8981530"/>
-				<textElement textAlignment="Center">
-					<font size="16"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Fiche Commercial"]]></textFieldExpression>
-			</textField>
-			<rectangle>
-				<reportElement x="0" y="28" width="555" height="32" forecolor="#000099" backcolor="#CCCCFF" uuid="f084ae25-903d-407a-97c9-0dc57e539a32"/>
-			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="28" width="555" height="32" forecolor="#330099" backcolor="#FFFFFF" uuid="02241599-a4b9-4f6e-a054-00f6c0244e57"/>
+				<reportElement x="74" y="52" width="126" height="20" forecolor="#000099" backcolor="#FFFFFF" uuid="02241599-a4b9-4f6e-a054-00f6c0244e57"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reference}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="81" width="48" height="20" forecolor="#000099" uuid="0156cb77-82e9-44b5-8f1f-6319fbe31841"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new java.text.DecimalFormat("#,###,###").format(Double.valueOf($P{quantite})))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="238" y="81" width="76" height="20" forecolor="#000099" uuid="49235b72-8f55-44fb-a65f-fe731e6eef38"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puaht})))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="445" y="81" width="100" height="20" forecolor="#000099" uuid="1024cbf5-388f-4d54-9e60-41bf248dccac"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puvht})))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="81" width="51" height="20" uuid="040d9dad-15fb-41ba-b40a-73a04583ff65"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Quantite:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="52" width="266" height="20" forecolor="#000099" backcolor="#FFFFFF" uuid="a0bdcb20-c99c-4c3d-97f4-2717cebfc146"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{designation}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="81" width="86" height="20" uuid="9785b963-4279-46ff-8735-7c3a444c4040"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Prix Achat ttc:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="81" width="86" height="20" uuid="32db68f2-e993-4801-acac-64a353b08a16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Prix Vente ttc:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="52" width="78" height="20" uuid="3473d428-d57d-4ad4-8e75-25cbeb4b5b3f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Designation:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="51" width="63" height="20" uuid="d2a4efd5-712e-49c5-9007-99fcb90e347f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Reference:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="3" width="280" height="39" uuid="59c75d90-e7ab-4242-99a9-05edda420356"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-					<paragraph leftIndent="5"/>
+					<font fontName="Arial" size="22" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{reference}+" - "+$P{designation}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="10" y="73" width="100" height="20" uuid="0156cb77-82e9-44b5-8f1f-6319fbe31841"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Quantite: "+(new java.text.DecimalFormat("#,###,###").format(Double.valueOf($P{quantite})))]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="220" y="73" width="100" height="20" uuid="49235b72-8f55-44fb-a65f-fe731e6eef38"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA["PUA HT: "+(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puaht})))]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="430" y="73" width="100" height="20" uuid="1024cbf5-388f-4d54-9e60-41bf248dccac"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA["PUV HT: "+(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puvht})))]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Fiche Article]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="23" backcolor="#CCCCCC" uuid="3bd6f8df-154e-43b7-b6eb-770b6f340379"/>
+				<reportElement x="1" y="0" width="554" height="23" backcolor="#666666" uuid="3bd6f8df-154e-43b7-b6eb-770b6f340379"/>
 				<graphicElement>
 					<pen lineWidth="1.5"/>
 				</graphicElement>
@@ -172,18 +223,18 @@
 	<detail>
 		<band height="17" splitType="Stretch">
 			<rectangle>
-				<reportElement x="1" y="0" width="554" height="17" backcolor="#CCCCCC" uuid="c8ea245a-807e-4ee5-ab53-1dd2b98c93b8">
+				<reportElement x="1" y="0" width="554" height="17" backcolor="#FFFFFF" uuid="c8ea245a-807e-4ee5-ab53-1dd2b98c93b8">
 					<printWhenExpression><![CDATA[$F{type}.equals("Inventaire")]]></printWhenExpression>
 				</reportElement>
 			</rectangle>
 			<rectangle>
-				<reportElement x="1" y="0" width="554" height="17" backcolor="#CCFFCC" uuid="273cbbb9-9f3e-42b2-ae0d-0374576f7c15">
-					<printWhenExpression><![CDATA[$F{type}.equals("FACTV") OR $F{type}.equals("BLV")]]></printWhenExpression>
+				<reportElement x="1" y="0" width="554" height="17" backcolor="#99FFCC" uuid="273cbbb9-9f3e-42b2-ae0d-0374576f7c15">
+					<printWhenExpression><![CDATA[$F{type}.equals("FACTV")||$F{type}.equals("BLV")]]></printWhenExpression>
 				</reportElement>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="17" backcolor="#CCFFFF" uuid="dada3023-22df-4964-a53b-b365d762e134">
-					<printWhenExpression><![CDATA[$F{type}.equals("FACTA") OR $F{type}.equals("BLA")]]></printWhenExpression>
+				<reportElement x="1" y="0" width="554" height="17" backcolor="#CCFFFF" uuid="dada3023-22df-4964-a53b-b365d762e134">
+					<printWhenExpression><![CDATA[$F{type}.equals("FACTA")||$F{type}.equals("BLA")]]></printWhenExpression>
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
@@ -244,9 +295,9 @@
 					<font size="10"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{puttx}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{puttx}==0.000?null:$F{puttx})]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.000" isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="504" y="0" width="51" height="17" backcolor="#FFFFFF" uuid="7626e9ce-e42d-4701-ac8d-fcc6e86be31f">
 					<property name="ireport.layer" value="1"/>
 				</reportElement>
@@ -254,7 +305,7 @@
 					<font size="10"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{marge}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{marge}==0.00?null:$F{marge})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

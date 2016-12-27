@@ -33,11 +33,11 @@ public class ArticleActServiceImpl implements ArticleActService {
 
     @Override
     public List<ArticleAct> listArticleActs(Long artId) {
-        List<ArticleAct> arts = new ArrayList<ArticleAct>(articleActRepository.listBlAchats(artId));
-        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listFactureAchats(artId)));
-        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listBlVentes(artId)));
-        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listFactureVentes(artId)));        
-        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listInventaires(artId)));
+        List<ArticleAct> arts = new ArrayList<ArticleAct>(articleActRepository.listInventaires(artId)); 
+        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listFactureVentes(artId)));
+        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listBlVentes(artId)));        
+        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listFactureAchats(artId)));      
+        arts.addAll(new ArrayList<ArticleAct>(articleActRepository.listBlAchats(artId)));
         return (arts);
     }
 }

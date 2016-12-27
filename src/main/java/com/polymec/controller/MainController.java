@@ -47,6 +47,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.unbescape.html.HtmlEscape;
 import com.polymec.dao.CreditRepository;
+import com.polymec.domain.ArticleAct;
+import com.polymec.service.ArticleActService;
 
 /**
  * <p>
@@ -61,6 +63,8 @@ public class MainController {
     private Logger log = LoggerFactory.getLogger("com.polymec.controller.MainController");
 
     //private String artRef;
+    @Autowired
+    private ArticleActService articleActService;
     
     @Autowired
     private ArticleFrnsService articleFrnsService;
@@ -324,6 +328,40 @@ public class MainController {
 		return arts;
 	}
      */
+        @GetMapping("/art_acts/{artId}")
+    public ModelAndView listArticleActsReport(@PathVariable Long artId) {
+        
+        log.info("Print Article id : " + artId);
+  
 
+        ArticleInfo art = this.ArticleInfoService.findArticleInfoById(artId);
+
+        log.info("Print Article ref : " + art.getDesignation());      
+        
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        List<ArticleAct> arts = this.articleActService.listArticleActs(artId);
+        log.info("Print list articles : " + arts.size());          
+        Collections.sort(arts);
+        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
+        parameterMap.put("datasource", JRdataSource);
+/*
+        log.info("Print ArticleInfo id : " + art.getReference());
+        log.info("Print ArticleInfo Puaht: " + art.getPuaht());
+        log.info("Print ArticleInfo Puvht : " + art.getPuvht());
+*/
+        parameterMap.put("reference", art.getReference());
+        parameterMap.put("designation", art.getDesignation());
+        parameterMap.put("quantite", art.getQuantite());
+        parameterMap.put("puaht", art.getPuaht());
+        parameterMap.put("puvht", art.getPuvht());
+
+        /*
+		parameterMap.put("myarticle", new ArticleInfo(1L,"balha01","balha",3,4,5));
+		parameterMap.put("testparam", 52648.235);
+         */
+        return new ModelAndView("articleActsReport", parameterMap);
+
+    }  
    
 }
