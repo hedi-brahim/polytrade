@@ -48,6 +48,11 @@ public class ArticleFrnsServiceImpl implements ArticleFrnsService {
         return (new ArrayList<ArticleFrns>(articleFrnsRepository.findByFamille(id)));
     }
 
+    @Override
+    public List<ArticleInfo> listArticles() {
+        return (new ArrayList<ArticleInfo>(articleFrnsRepository.listArticles()));
+    }
+    
     /*
     @Override
     public List<Article> findAllWithDetail() {

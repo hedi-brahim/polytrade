@@ -12,7 +12,7 @@ function enMillimes(value) {
 
 function actionFormatter(value, row, index) {
     return [
-        '<a class="inventaire" href="javascript:void(0)" title="Fiche Commercial">',
+        '<a class="inventaire" href="javascript:void(0)" title="Fiche Article">',
         '<span class="glyphicon glyphicon-list-alt"></span>',
         '</a>'
     ].join('');
@@ -36,7 +36,7 @@ window.actionEvents = {
     'click .inventaire': function (e, value, row, index) {
         //alert('You click inventaire icon, row: ' + JSON.stringify(row.article.reference));		
         //alert('You click inventaire icon, row: ' + JSON.stringify(row));
-        window.open('art_acts/' + row.id, '_self', false);
+        window.open('main/art_acts/' + row.id, '_self', false);
         //console.log(value, row, index);
         //console.log(row.article);
     }
