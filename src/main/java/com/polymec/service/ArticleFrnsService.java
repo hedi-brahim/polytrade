@@ -10,6 +10,7 @@ public interface ArticleFrnsService {
     List<ArticleInfo> findAllValid();
 
     List<ArticleFrns> findByFamille(Long id);
+    List<ArticleInfo> listArticles();    
     //List<Article> findByReference(String reference);
     //List<Article> findAllWithDetail();	
     //Page<Article> getArticles(Integer pageNumber);

@@ -38,7 +38,7 @@ public class Article implements Serializable {
     private double puaht;
     private double puvht;
     private double tva;
-    private Famille famille = new Famille();
+    private Famille famille;
     @JsonIgnore
     private ArticleFrns articleFrns;
     //private DateTime birthDate;
@@ -127,7 +127,7 @@ public class Article implements Serializable {
     public void setTva(double tva) {
         this.tva = tva;
     }
-    
+
     /*
 	public double round(double value, int places) {
 		if (places < 0) throw new IllegalArgumentException();
@@ -233,15 +233,19 @@ public class Article implements Serializable {
         this.birthDate = birthDate;
     }
      */
-    
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "arts_fle", nullable=true)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "arts_fle", nullable = true)
     public Famille getFamille() {
+
         return this.famille;
+
+        //return this.famille;
     }
 
     public void setFamille(Famille famille) {
+
         this.famille = famille;
+
     }
 
     @Override

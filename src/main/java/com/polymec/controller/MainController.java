@@ -311,9 +311,9 @@ public class MainController {
 
     @GetMapping(path = "/arts", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public List<ArticleInfo> goToIndex() {
+    public List<ArticleInfo> listArticles() {
 
-        List<ArticleInfo> arts = this.articleFrnsService.findAllValid();
+        List<ArticleInfo> arts = this.articleFrnsService.listArticles();
 
         return arts;
     }
