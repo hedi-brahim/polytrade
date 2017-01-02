@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html 	xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 
+    <head th:fragment="head">
+        <title>PolyTrade</title>
+        <link rel="icon" type="image/png" href="#" th:href="@{/resources/img/numbers-black-icon128.png}"/>
+        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}"/>
+        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
+        <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
+    </head>
+    
     <body>
         <nav class="navbar navbar-inverse" th:fragment="navbar">
             <div class="container-fluid">

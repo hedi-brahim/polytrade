@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FamilleReport" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="ae663e85-bbc9-4708-804d-fbf907211b90">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FicheFamille" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="ae663e85-bbc9-4708-804d-fbf907211b90">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -8,23 +8,23 @@
 	<style name="Arial_Italic" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Comic_Normal" fontName="Comic Sans MS" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<style name="Comic_Bold" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-	<field name="article.reference" class="java.lang.String">
-		<fieldDescription><![CDATA[article.reference]]></fieldDescription>
+	<field name="reference" class="java.lang.String">
+		<fieldDescription><![CDATA[reference]]></fieldDescription>
 	</field>
-	<field name="article.designation" class="java.lang.String">
-		<fieldDescription><![CDATA[article.designation]]></fieldDescription>
+	<field name="designation" class="java.lang.String">
+		<fieldDescription><![CDATA[designation]]></fieldDescription>
 	</field>
 	<field name="quantite" class="java.lang.Double">
 		<fieldDescription><![CDATA[quantite]]></fieldDescription>
 	</field>
-	<field name="article.puaht" class="java.lang.Double">
-		<fieldDescription><![CDATA[article.puaht]]></fieldDescription>
+	<field name="puaht" class="java.lang.Double">
+		<fieldDescription><![CDATA[puaht]]></fieldDescription>
 	</field>
 	<field name="famille" class="java.lang.String">
-		<fieldDescription><![CDATA[article.famille.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[famille]]></fieldDescription>
 	</field>
 	<variable name="total" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{article.puaht}*$F{quantite}]]></variableExpression>
+		<variableExpression><![CDATA[$F{puaht}*$F{quantite}]]></variableExpression>
 	</variable>
 	<group name="familleGrp" isStartNewPage="true" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{famille}]]></groupExpression>
@@ -70,7 +70,7 @@
 				<textElement textAlignment="Center">
 					<font size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Etat de Stock"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Fiche Famille"]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="0" width="555" height="2" uuid="20ea7ae5-6bb7-4d2d-92c5-2146736e8764"/>
@@ -131,7 +131,7 @@
 					<font size="10"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{article.reference}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{reference}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="204" y="1" width="214" height="15" uuid="e454d8ce-af68-4369-a52a-61cb1db1d421"/>
@@ -139,7 +139,7 @@
 					<font size="10"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{article.designation}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0" isBlankWhenNull="true">
 				<reportElement x="418" y="0" width="37" height="15" uuid="1aabc8ee-920a-4911-8dcc-0cfd7ef9c14b"/>
@@ -155,7 +155,7 @@
 					<font size="10"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{article.puaht}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{puaht}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="123" y="1" width="81" height="15" uuid="4ddfa5df-1301-44ee-a44f-0a27ff272028"/>

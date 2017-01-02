@@ -2,23 +2,14 @@
 <html 	xmlns:th="http://www.thymeleaf.org"
        xmlns:tiles="http://www.thymeleaf.org">
 
-    <!--head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>PolyTrade</title>
-        <link rel="icon" type="image/png" href="#" th:href="@{/resources/img/cashbox.png}"/>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
-    </head-->
-    <head>
-    <thymeleaf th:replace="fragment_head :: head" />
-</head>
+    <div th:replace="admin/fragments :: head"></div>
+
 
     <body>
         <div class="container-fluid">
             <div class="row-fluid">
                 <!--div class="span12"-->
-                <div th:replace="admin/header :: navbar"></div>                                   
+                <div th:replace="admin/fragments :: navbar"></div>                                   
                 <!--div th:fragment="logout" class="logout"
                      sec:authorize="isAuthenticated()">
                     Logged user: <span sec:authentication="name">Bob</span> |
@@ -58,11 +49,11 @@
                         </div>
                     </nav-->                                   
                     <div id="toolbar" class="btn-group">
-                        <form class="form-inline" th:object="${famille}" action="main.html" th:action="@{/main/familleReport}" method="post">
+                        <form class="form-inline" th:object="${famille}" th:action="@{/admin/familles}" method="post">
                             <div class="form-group">
                                 <label for="sel1">Famille: </label>					
                                 <select th:field="*{id}" class="form-control" id="sel1">
-                                    <option th:each="fml : ${allFamille}"
+                                    <option th:each="fml : ${familles}"
                                             th:value="${fml.id}"
                                             th:text="${{fml.designation}}">Famille Null
                                     </option>					
@@ -73,7 +64,7 @@
                     </div>				
                     <table id="eventsTable"
                            data-toggle="table"
-                           th:attr="data-url=@{/main/arts}"
+                           th:attr="data-url=@{/admin/articles}"
                            data-pagination="true"                       
                            data-page-size="10"					   
                            data-search="true"
@@ -93,12 +84,11 @@
 
                                 <th data-field="id" data-width="5%" data-visible="false">Id</th>						
                                 <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
-                                <!--th data-field="famille" data-width="15%">Famille</th-->							
                                 <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
                                 <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
                                 <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
                                 <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
-                                <th data-field="action" data-width="5%" data-align="center" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
+                                <th data-field="action" data-width="5%" data-align="center" data-formatter="articleActions" data-events="articleEvents">Action</th>
 
                             </tr>
                         </thead>

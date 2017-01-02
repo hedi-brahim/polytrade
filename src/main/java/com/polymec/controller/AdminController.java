@@ -5,19 +5,15 @@
  */
 package com.polymec.controller;
 
-import com.polymec.dao.RoleRepository;
 import com.polymec.domain.User;
 import com.polymec.dao.UserRepository;
 import com.polymec.domain.ArticleAct;
 import com.polymec.domain.ArticleInfo;
 import com.polymec.domain.Credit;
 import com.polymec.domain.Famille;
-import com.polymec.domain.InventaireArticle;
-import com.polymec.domain.Role;
 import com.polymec.domain.UserRole;
 import com.polymec.service.ArticleInfoService;
 import com.polymec.service.ArticleActService;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,18 +23,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.polymec.service.CreditService;
 import com.polymec.service.FamilleService;
-import com.polymec.service.InventaireArticleService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -49,26 +46,27 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private Logger log = LoggerFactory.getLogger("com.polymec.controller.AdminController");
+    
     @Autowired
     private CreditService reglementService;
 
     @Autowired
-    private FamilleService familleService;
+    private ArticleInfoService articleInfoService;
     
     @Autowired
-    private InventaireArticleService inventaireArticleService;
-  
+    private FamilleService familleService;
+
+
     @Autowired
     private ArticleActService articleActService;
-    
-    @Autowired
-    private ArticleInfoService ArticleInfoService;
-    
+
+
+
     @Autowired
     UserRepository userRepository;
-    
-    
-    @ModelAttribute("allFamille")
+
+    @ModelAttribute("familles")
     public List<Famille> populateallFamille() {
 
         Famille fml = new Famille("STOCK TOTAL");
@@ -78,12 +76,67 @@ public class AdminController {
 
         return fmls;
     }
-    
-    @ModelAttribute("allRoles")
-    public List<Role> populateFeatures() {
-        return Arrays.asList(Role.ALL);
-    }
 
+    @ModelAttribute("articlesExistants")
+    public List<ArticleInfo> listArticlesExistants() {
+        return this.articleInfoService.listArticlesExistants();
+    }
+    
+    // Module liste des familles
+    @PostMapping("/familles")
+    public ModelAndView getFamilles(@RequestParam("id") Long id) {
+
+        log.info("Print Famille id : " + id);
+
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        if (id == null) {
+            return new ModelAndView("ficheStock", parameterMap);
+        } else {
+            List<ArticleInfo> arts = this.articleInfoService.findByFamille(id);
+
+            JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
+            parameterMap.put("datasource", JRdataSource);
+
+            return new ModelAndView("ficheFamille", parameterMap);
+        }
+    }
+    
+    // Module liste des articles
+    @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<ArticleInfo> listArticles() {
+
+        List<ArticleInfo> arts = this.articleInfoService.listArticles();
+
+        return arts;
+    }
+    
+    // Module Fiche Article
+    @GetMapping("/fiche_article/{artId}")
+    public ModelAndView ficheArticle(@PathVariable Long artId) {
+
+        //log.info("Print Article id : " + artId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        // pass article infos to jasper reports
+        ArticleInfo art = this.articleInfoService.findArticleInfoById(artId);
+        parameterMap.put("reference", art.getReference());
+        parameterMap.put("designation", art.getDesignation());
+        parameterMap.put("quantite", art.getQuantite());
+        parameterMap.put("puaht", art.getPuaht());
+        parameterMap.put("puvht", art.getPuvht());
+
+        // pass list of article acts to jasper reports
+        List<ArticleAct> arts = this.articleActService.listArticleActs(artId);
+        Collections.sort(arts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(arts);
+        parameterMap.put("datasource", jrDS);
+
+        return new ModelAndView("ficheArticle", parameterMap);
+
+    }
+    
     /**
      * Registration page.
      */
@@ -91,7 +144,7 @@ public class AdminController {
     public String index(@ModelAttribute Famille famille) {
         return "admin/index";
     }
-    
+
     /**
      * Recettes page.
      */
@@ -100,16 +153,14 @@ public class AdminController {
         return "admin/recettes";
     }
 
-     /**
+    /**
      * Depenses page.
      */
     @GetMapping("/depenses")
     public String pageDepenses() {
         return "admin/depenses";
     }
-    
-    
-    
+
     /**
      * Registration page.
      */
@@ -117,56 +168,23 @@ public class AdminController {
     public String register(@ModelAttribute User user) {
         return "admin/registration";
     }
-    
-    
+
     @PostMapping("/register")
-    public String saveNewUser(@ModelAttribute User user,BindingResult result)
-    {
-        if(result.hasErrors())
-        {
+    public String saveNewUser(@ModelAttribute User user, BindingResult result) {
+        if (result.hasErrors()) {
             return "admin/registration";
         }
-        
-        for(UserRole role: user.getRoles())
-        {
+
+        for (UserRole role : user.getRoles()) {
             role.setUser(user);
         }
-        
+
         userRepository.save(user);
         return "admin/complete";
-        //return "complete";
-
     }
 
-    /*
-    @GetMapping("/reglements")
-    public ModelAndView getReglementReport() {
-
-        //ArticleInfo art = this.ArticleInfoService.findArticleInfoById(artId);
-
-        Map<String, Object> parameterMap = new HashMap<String, Object>();
-
-        List<InventaireArticle> arts = this.inventaireArticleService.findInventaireArticle(artId);
-        Collections.sort(arts);
-        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
-        parameterMap.put("datasource", JRdataSource);
-
-        log.info("Print ArticleInfo id : " + art.getReference());
-        log.info("Print ArticleInfo Puaht: " + art.getPuaht());
-        log.info("Print ArticleInfo Puvht : " + art.getPuvht());
-
-        parameterMap.put("reference", art.getReference());
-        parameterMap.put("designation", art.getDesignation());
-        parameterMap.put("quantite", art.getQuantite());
-        parameterMap.put("puaht", art.getPuaht());
-        parameterMap.put("puvht", art.getPuvht());
-
-        return new ModelAndView("inventaireReport", parameterMap);
-
-    }  
-    
-    */
-    
+ 
+   
     @GetMapping(path = "/reglements", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Credit> getReglements() {
@@ -174,8 +192,8 @@ public class AdminController {
         List<Credit> regs = this.reglementService.listReglements();
 
         return regs;
-    }  
-    
+    }
+
     @GetMapping(path = "/json_recettes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Credit> getRecettes() {
@@ -183,9 +201,8 @@ public class AdminController {
         List<Credit> regs = this.reglementService.listReglements();
 
         return regs;
-    } 
-    
-    
+    }
+
     @GetMapping(path = "/json_depenses", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Credit> getDepenses() {
@@ -193,9 +210,9 @@ public class AdminController {
         List<Credit> regs = this.reglementService.listAchatsReglements();
 
         return regs;
-    } 
-
-        @GetMapping("/invs_jasper/{artId}")
+    }
+/*
+    @GetMapping("/invs_jasper/{artId}")
     public ModelAndView getInvsArticleReport(@PathVariable Long artId) {
 
         ArticleInfo art = this.ArticleInfoService.findArticleInfoById(artId);
@@ -206,53 +223,15 @@ public class AdminController {
         Collections.sort(arts);
         JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
         parameterMap.put("datasource", JRdataSource);
-/*
-        log.info("Print ArticleInfo id : " + art.getReference());
-        log.info("Print ArticleInfo Puaht: " + art.getPuaht());
-        log.info("Print ArticleInfo Puvht : " + art.getPuvht());
-*/
+
         parameterMap.put("reference", art.getReference());
         parameterMap.put("designation", art.getDesignation());
         parameterMap.put("quantite", art.getQuantite());
         parameterMap.put("puaht", art.getPuaht());
         parameterMap.put("puvht", art.getPuvht());
 
-        /*
-		parameterMap.put("myarticle", new ArticleInfo(1L,"balha01","balha",3,4,5));
-		parameterMap.put("testparam", 52648.235);
-         */
         return new ModelAndView("inventaireReport", parameterMap);
 
     }
-    
-        @GetMapping("/art_acts/{artId}")
-    public ModelAndView listArticleActsReport(@PathVariable Long artId) {
-
-        ArticleInfo art = this.ArticleInfoService.findArticleInfoById(artId);
-
-        Map<String, Object> parameterMap = new HashMap<String, Object>();
-
-        List<ArticleAct> arts = this.articleActService.listArticleActs(artId);
-        Collections.sort(arts);
-        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
-        parameterMap.put("datasource", JRdataSource);
-/*
-        log.info("Print ArticleInfo id : " + art.getReference());
-        log.info("Print ArticleInfo Puaht: " + art.getPuaht());
-        log.info("Print ArticleInfo Puvht : " + art.getPuvht());
 */
-        parameterMap.put("reference", art.getReference());
-        parameterMap.put("designation", art.getDesignation());
-        parameterMap.put("quantite", art.getQuantite());
-        parameterMap.put("puaht", art.getPuaht());
-        parameterMap.put("puvht", art.getPuvht());
-
-        /*
-		parameterMap.put("myarticle", new ArticleInfo(1L,"balha01","balha",3,4,5));
-		parameterMap.put("testparam", 52648.235);
-         */
-        return new ModelAndView("articleActsReport", parameterMap);
-
-    }    
-    
 }

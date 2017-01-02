@@ -2,15 +2,13 @@
 <html 	xmlns:th="http://www.thymeleaf.org"
        xmlns:tiles="http://www.thymeleaf.org">
 
-   <head>
-    <thymeleaf th:replace="fragment_head :: head" />
-</head>
+    <div th:replace="admin/fragments :: head"></div>
 
     <body>
         <div class="container-fluid">
             <div class="row-fluid">
                 <!--div class="span12"-->
-                    <div th:replace="admin/header :: navbar"></div>                                   
+                    <div th:replace="admin/fragments :: navbar"></div>                                   
                     <!--div th:fragment="logout" class="logout"
                          sec:authorize="isAuthenticated()">
                         Logged user: <span sec:authentication="name">Bob</span> |

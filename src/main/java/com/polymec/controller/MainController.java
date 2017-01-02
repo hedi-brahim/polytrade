@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,26 +26,15 @@ import com.polymec.domain.Famille;
 import com.polymec.service.FamilleService;
 import com.polymec.domain.ArticleInfo;
 import com.polymec.service.ArticleInfoService;
-import com.polymec.domain.ArticleFrns;
-import com.polymec.service.ArticleFrnsService;
-import com.polymec.domain.InventaireArticle;
-import com.polymec.domain.Credit;
-import com.polymec.service.InventaireArticleService;
-import java.io.IOException;
 import java.util.Collection;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.unbescape.html.HtmlEscape;
-import com.polymec.dao.CreditRepository;
 import com.polymec.domain.ArticleAct;
 import com.polymec.service.ArticleActService;
 
@@ -61,24 +49,17 @@ import com.polymec.service.ArticleActService;
 public class MainController {
 
     private Logger log = LoggerFactory.getLogger("com.polymec.controller.MainController");
-
-    //private String artRef;
-    @Autowired
-    private ArticleActService articleActService;
     
     @Autowired
-    private ArticleFrnsService articleFrnsService;
+    private ArticleInfoService articleInfoService;
 
     @Autowired
     private FamilleService familleService;
-
+    
     @Autowired
-    private InventaireArticleService inventaireArticleService;
+    private ArticleActService articleActService;
 
-    @Autowired
-    private ArticleInfoService ArticleInfoService;
-
-    @ModelAttribute("allFamille")
+    @ModelAttribute("familles")
     public List<Famille> populateallFamille() {
 
         Famille fml = new Famille("STOCK TOTAL");
@@ -89,131 +70,118 @@ public class MainController {
         return fmls;
     }
 
-    @ModelAttribute("allArticleFrns")
-    public List<ArticleInfo> populateArticleFrns() {
-        return this.articleFrnsService.findAllValid();
+    @ModelAttribute("articlesExistants")
+    public List<ArticleInfo> listArticlesExistants() {
+        return this.articleInfoService.listArticlesExistants();
     }
 
-    
-    @RequestMapping(value = {"", "/"})
+    private boolean hasRole(String role) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean hasRole = false;
+        for (GrantedAuthority authority : authorities) {
+            hasRole = authority.getAuthority().equals(role);
+            if (hasRole) {
+                break;
+            }
+        }
+        return hasRole;
+    }
+
+    // Module selection du role utilisateur
+    @PostMapping(value = {"", "/", "/index"})
     public String main(@ModelAttribute Famille famille) {
-        
-        if (hasRole("ROLE_ADMIN")) {  
-            //POST-REDIRECT-GET Design Pattern applied here
+
+        if (hasRole("ROLE_ADMIN")) {
             return "redirect:/admin/index";
         }
-        
+
         if (hasRole("ROLE_MANAGER")) {
-            //POST-REDIRECT-GET Design Pattern applied here
             return "redirect:/manager/index";
         }
 
         if (hasRole("ROLE_USER")) {
-            //POST-REDIRECT-GET Design Pattern applied here
             return "redirect:/user/index";
         }
 
-        return "main";
-    }    
-/*
-    @RequestMapping("/logout")
-    public String logout(@ModelAttribute Famille famille) {
-
-        return "index";
+        return "redirect:/main/index";
     }
-    */
-    /*
-	@ModelAttribute("allArticleFrns")
-	@ResponseBody
-    public List<ArticleFrns> populateArticleFrns() {
-        return this.articleFrnsService.findAllValid();
-    }	
-     */
-    @PostMapping("/familleReport")
-    public ModelAndView getArticlesReport(@RequestParam("id") Long id) {
+
+    //POST-REDIRECT-GET Design Pattern applied here
+    @GetMapping(value = {"", "/", "/index"})
+    public String index(@ModelAttribute Famille famille) {
+        log.info("this is index method");
+        return "main/index";
+    }
+
+    // Module liste des familles
+    @PostMapping("/familles")
+    public ModelAndView getFamilles(@RequestParam("id") Long id) {
 
         log.info("Print Famille id : " + id);
 
         Map<String, Object> parameterMap = new HashMap<String, Object>();
 
         if (id == null) {
-            return new ModelAndView("articlesReport", parameterMap);
+            return new ModelAndView("ficheStock", parameterMap);
         } else {
-            List<ArticleFrns> arts = this.articleFrnsService.findByFamille(id);
+            List<ArticleInfo> arts = this.articleInfoService.findByFamille(id);
+
             JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
             parameterMap.put("datasource", JRdataSource);
 
-            return new ModelAndView("familleReport", parameterMap);
+            return new ModelAndView("ficheFamille", parameterMap);
         }
     }
 
-    /*
-	@GetMapping("/inventaire/{lartRef}")
-	public String getInventaireArticle(@PathVariable String lartRef) {
-		artRef = lartRef;
-		logger.info("Print Method GetInventaireArticle");
-		return "/pages/inventaire";
-	}	
-     */
-    /**
-     * Home page.
-     */
-    /*
-    @RequestMapping("/index")
-    public String index(@ModelAttribute Famille famille) {
-        return "index";
-    }
-     */
-    
-    @RequestMapping("/index")
-    public String goIndex() {
-        return "index";
+    // Module liste des articles
+    @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<ArticleInfo> listArticles() {
+
+        List<ArticleInfo> arts = this.articleInfoService.listArticles();
+
+        return arts;
     }
     
-    /**
-     * User zone index.
-     */
-    @RequestMapping("/user/index")
-    public String userIndex() {
-        return "user/index";
+    
+    // Module Fiche Article
+    @GetMapping("/fiche_article/{artId}")
+    public ModelAndView ficheArticle(@PathVariable Long artId) {
+
+        //log.info("Print Article id : " + artId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        // pass article infos to jasper reports
+        ArticleInfo art = this.articleInfoService.findArticleInfoById(artId);
+        parameterMap.put("reference", art.getReference());
+        parameterMap.put("designation", art.getDesignation());
+        parameterMap.put("quantite", art.getQuantite());
+        parameterMap.put("puaht", art.getPuaht());
+        parameterMap.put("puvht", art.getPuvht());
+
+        // pass list of article acts to jasper reports
+        List<ArticleAct> arts = this.articleActService.listArticleActs(artId);
+        Collections.sort(arts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(arts);
+        parameterMap.put("datasource", jrDS);
+
+        return new ModelAndView("ficheArticle", parameterMap);
+
     }
 
-    /**
-     * Administration zone index.
-     */
-    @RequestMapping("/admin/index")
-    public String adminIndex() {
-        return "admin/index";
-    }
-
-    /**
-     * Shared zone index.
-     */
-    @RequestMapping("/shared/index")
-    public String sharedIndex() {
-        return "shared/index";
-    }
-
-    /**
-     * Login form with error.
-     */
+/*
     @RequestMapping("/login-error")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
     }
 
-    /**
-     * Simulation of an exception.
-     */
+
     @RequestMapping("/simulateError")
     public void simulateError() {
         throw new RuntimeException("This is a simulated error message");
     }
 
-    /**
-     * Error page.
-     */
     @RequestMapping("/error")
     public String error(HttpServletRequest request, Model model) {
         model.addAttribute("errorCode", "Error " + request.getAttribute("javax.servlet.error.status_code"));
@@ -229,139 +197,9 @@ public class MainController {
         return "error";
     }
 
-    /**
-     * Error page.
-     */
     @RequestMapping("/403.html")
     public String forbidden() {
         return "403";
     }
-
-    /*
-    @GetMapping(value = "/")
-    public String getIndex(@ModelAttribute Famille famille) {
-        return "login";
-    }
-
-    
-    @PostMapping(value = "/index")
-    public String postIndex(@ModelAttribute Famille famille) {
-        return "index";
-    }
-     */
- /*
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView login(@ModelAttribute Famille famille,
-            @RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout) {
-
-        ModelAndView model = new ModelAndView();
-        if (error != null) {
-            model.addObject("error", "Invalid username and password!");
-        }
-
-        if (logout != null) {
-            model.addObject("msg", "You've been logged out successfully.");
-        }
-        model.setViewName("index");
-
-        return model;
-
-    }
-     */
-// Login form
-    /*
-    @PostMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    // Login form with error
-    @RequestMapping("/login-error")
-    public String loginError(Model model) {
-        model.addAttribute("loginError", true);
-        return "login";
-    }
-
-    @RequestMapping("/hello")
-    public String helloLogin() {
-        System.out.println("in here ....");
-        return "hello";
-    }
-
-    @RequestMapping("/test")
-    public String testLogin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("the logged user " + authentication.getName() + " has role ROLE_ADMIN");
-        System.out.println("test is here ....");
-        return "test";
-    }
-     */
-    private boolean hasRole(String role) {
-        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        boolean hasRole = false;
-        for (GrantedAuthority authority : authorities) {
-            hasRole = authority.getAuthority().equals(role);
-            if (hasRole) {
-                break;
-            }
-        }
-        return hasRole;
-    }
-
-    @GetMapping(path = "/arts", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public List<ArticleInfo> listArticles() {
-
-        List<ArticleInfo> arts = this.articleFrnsService.listArticles();
-
-        return arts;
-    }
-
-    /*
-	@GetMapping(path = "/invs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public List<InventaireArticle> listInventaires() {
-		
-		List<InventaireArticle> arts = this.inventaireArticleService.findInventaireArticle(artRef);
-		
-		return arts;
-	}
-     */
-        @GetMapping("/art_acts/{artId}")
-    public ModelAndView listArticleActsReport(@PathVariable Long artId) {
-        
-        log.info("Print Article id : " + artId);
-  
-
-        ArticleInfo art = this.ArticleInfoService.findArticleInfoById(artId);
-
-        log.info("Print Article ref : " + art.getDesignation());      
-        
-        Map<String, Object> parameterMap = new HashMap<String, Object>();
-
-        List<ArticleAct> arts = this.articleActService.listArticleActs(artId);
-        log.info("Print list articles : " + arts.size());          
-        Collections.sort(arts);
-        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
-        parameterMap.put("datasource", JRdataSource);
-/*
-        log.info("Print ArticleInfo id : " + art.getReference());
-        log.info("Print ArticleInfo Puaht: " + art.getPuaht());
-        log.info("Print ArticleInfo Puvht : " + art.getPuvht());
 */
-        parameterMap.put("reference", art.getReference());
-        parameterMap.put("designation", art.getDesignation());
-        parameterMap.put("quantite", art.getQuantite());
-        parameterMap.put("puaht", art.getPuaht());
-        parameterMap.put("puvht", art.getPuvht());
-
-        /*
-		parameterMap.put("myarticle", new ArticleInfo(1L,"balha01","balha",3,4,5));
-		parameterMap.put("testparam", 52648.235);
-         */
-        return new ModelAndView("articleActsReport", parameterMap);
-
-    }  
-   
 }

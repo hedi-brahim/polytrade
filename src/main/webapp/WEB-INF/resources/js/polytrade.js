@@ -10,13 +10,7 @@ function enMillimes(value) {
 }
 
 
-function actionFormatter(value, row, index) {
-    return [
-        '<a class="inventaire" href="javascript:void(0)" title="Fiche Article">',
-        '<span class="glyphicon glyphicon-list-alt"></span>',
-        '</a>'
-    ].join('');
-}
+
 
 function detailFormatter(value, row, index) {
     //html.push('<p><b>' + key + ':</b> ' + value + '</p>');
@@ -32,28 +26,28 @@ function detailFormatter(value, row, index) {
         '</form>'].join('');
 }
 
-window.actionEvents = {
-    'click .inventaire': function (e, value, row, index) {
+
+function articleActions(value, row, index) {
+    return [
+        '<a id="fiche_article" href="javascript:void(0)" title="Fiche Article">',
+        '<span class="glyphicon glyphicon-list-alt"></span>',
+        '</a>'
+    ].join('');
+}
+
+window.articleEvents = {
+    'click #fiche_article': function (e, value, row, index) {
         //alert('You click inventaire icon, row: ' + JSON.stringify(row.article.reference));		
-        //alert('You click inventaire icon, row: ' + JSON.stringify(row));
-        window.open('main/art_acts/' + row.id, '_self', false);
-        //console.log(value, row, index);
+        window.open('fiche_article/' + row.id, '_self', false);
         //console.log(row.article);
     }
 };
 
-$(function () {
+
+$(document).ready(function () {
     //document.getElementById("eventsTable").focus();
+    //document.getElementsByClassName("search").focus();
+    //$('.ui.sidebar').sidebar({context: $('.bottom.segment')}).sidebar('attach events', '.menu .item');
     $(".search").append('<span class="glyphicon glyphicon-search"></span>');
     $("div.search > input").focus();
-//$(".search").focus();
-    /* add the span inside search div with append box*/
 });
-
-$(document)
-        .ready(function () {
-//document.getElementById("eventsTable").focus();
-//document.getElementsByClassName("search").focus();
-            //$('.ui.sidebar').sidebar({context: $('.bottom.segment')}).sidebar('attach events', '.menu .item');
-            $("div.search > input").focus();
-        });

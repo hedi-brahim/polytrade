@@ -76,14 +76,18 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         };
     }
 
-    /*
+  /*  
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/main").setViewName("main");
+        registry.addViewController("/").setViewName("index");    
+        //registry.addViewController("/main").setViewName("index");
+    
         registry.addViewController("/").setViewName("main");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("main");
         registry.addViewController("/403").setViewName("403");
-    }    
-     */
+    
+    }
+*/    
+    
 }

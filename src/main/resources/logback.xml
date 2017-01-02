@@ -19,7 +19,7 @@
     <!--logger name="com.polymec" level="info"/-->    
     <logger name="com.polymec" level="off"/>  
 
-    <!--root level="off"-->
+    <!--root level="debug"-->
     <root level="off">        
         <appender-ref ref="FILE" />  
         <appender-ref ref="STDOUT" />

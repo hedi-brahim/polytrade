@@ -4,9 +4,6 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import javax.persistence.Column;
 
 @Entity
 public class ArticleInfo implements Serializable {

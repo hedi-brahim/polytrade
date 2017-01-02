@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Bootstrap 101 Template</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <!-- Bootstrap -->      
-        <title>PolyTrade</title>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
-    </head>
+<html 	xmlns:th="http://www.thymeleaf.org"
+       xmlns:tiles="http://www.thymeleaf.org">    
+    
+    <div th:replace="admin/fragments :: head"></div>
+
     <body>
         <div id="wrap">
-            <div th:replace="admin/header :: navbar"></div>
+            <div th:replace="admin/fragments :: navbar"></div>
 
             <div class="container">
 

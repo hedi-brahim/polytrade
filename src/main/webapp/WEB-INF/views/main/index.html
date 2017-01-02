@@ -2,37 +2,22 @@
 <html 	xmlns:th="http://www.thymeleaf.org"
        xmlns:tiles="http://www.thymeleaf.org">
 
-    <head>
-        <!--meta name="viewport" content="width=device-width, initial-scale=1.0"/-->
-        <title>PolyTrade</title>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
-        <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
-    </head>
+    <div th:replace="main/fragments :: head"></div>
 
     <body>
         <div class="container-fluid">
             <div class="row-fluid">
-                <div class="span12">
-                    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <a class="navbar-brand" href="#">PolyTrade</a>	                                                    
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>  
-                            </div>	
-                        </div>
-                    </nav>                                   
+                <div th:replace="main/fragments :: navbar"></div>                                   
+            </div>
+
+            <div class="row-fluid">
+                <div class="span12">                                 
                     <div id="toolbar" class="btn-group">
-                        <form class="form-inline" th:object="${famille}" action="main.html" th:action="@{/familleReport}" method="post">
+                        <form class="form-inline" th:object="${famille}" th:action="@{/main/familles}" method="post">
                             <div class="form-group">
                                 <label for="sel1">Famille: </label>					
                                 <select th:field="*{id}" class="form-control" id="sel1">
-                                    <option th:each="fml : ${allFamille}"
+                                    <option th:each="fml : ${familles}"
                                             th:value="${fml.id}"
                                             th:text="${{fml.designation}}">Famille Null
                                     </option>					
@@ -41,10 +26,10 @@
                             </div>
                         </form>						
                     </div>				
-                    <table id="eventsTable"
+                    <table id="listArticles"
                            data-toggle="table"
-                           th:attr="data-url=@{/arts}"
-                           data-pagination="true"
+                           th:attr="data-url=@{/main/articles}"
+                           data-pagination="true"                       
                            data-page-size="10"					   
                            data-search="true"
                            data-toolbar="#toolbar"
@@ -60,26 +45,20 @@
                            data-height="500">
                         <thead>
                             <tr>
-
                                 <th data-field="id" data-width="5%" data-visible="false">Id</th>						
                                 <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
-                                <!--th data-field="famille" data-width="15%">Famille</th-->							
                                 <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
                                 <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
                                 <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
                                 <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
-                                <th data-field="action" data-width="5%" data-align="center" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
-
+                                <th data-field="action" data-width="5%" data-align="center" data-formatter="articleActions" data-events="articleEvents">Action</th>
                             </tr>
                         </thead>
                     </table>		
                 </div>
-            </div>
+            </div>            
         </div>
 
-        <script src="#" th:src="@{/webjars/jquery/2.2.3/jquery.js}"></script>	
-        <script src="#" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>	   
-        <script src="#" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	   		   						
-        <script src="#" th:src="@{/resources/js/polytrade.js}"></script>			
+        <div th:replace="main/fragments :: footer"></div>
     </body>
 </html>
