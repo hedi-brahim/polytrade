@@ -16,6 +16,11 @@ public class ArticleInfo implements Serializable {
     private double puaht;
     private double puvht;
 
+    public ArticleInfo()
+    {
+        
+    }
+    
     public ArticleInfo(Long id, String famille, String reference, String designation, double qte, double puaht, double puvht, double tva) {
         this.id = id;
         this.famille = famille;
