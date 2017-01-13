@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+       xmlns:tiles="http://www.thymeleaf.org">
+
+    <div th:replace="pages/fragments :: head"></div>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div th:replace="pages/fragments :: navbar"></div>                                   
+            </div>
+
+            <div class="row-fluid">
+                <div class="span12">                                 
+                    <div id="toolbar" class="btn-group">
+                        <form class="form-inline" th:object="${famille}" th:action="@{/familles}" method="post">
+                            <div class="form-group">
+                                <label for="sel1">Famille: </label>					
+                                <select th:field="*{id}" class="form-control" id="sel1">
+                                    <option th:each="fml : ${familles}"
+                                            th:value="${fml.id}"
+                                            th:text="${{fml.designation}}">Famille Null
+                                    </option>					
+                                </select>
+                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></button>
+                            </div>
+                        </form>						
+                    </div>				
+                    <table id="listArticles"
+                           data-toggle="table"
+                           th:attr="data-url=@{/articles}"
+                           data-pagination="true"                       
+                           data-page-size="10"					   
+                           data-search="true"
+                           data-toolbar="#toolbar"
+                           data-classes="table table-hover table-condensed"
+                           data-striped="true"
+                           data-show-footer="false"
+                           data-search-align="left"
+                           data-buttons-align="left"
+                           data-toolbar-align="right"
+                           data-pagination-h-align="left"
+                           data-pagination-detail-h-align="right"
+                           data-page-list="[10,15,20]"
+                           data-height="500">
+                        <thead>
+                            <tr>
+                                <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
+                                <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
+                                <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
+                                <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
+                                <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
+                                <th data-field="action" data-width="5%" data-align="center" data-formatter="articleActions" data-events="articleEvents">Action</th>
+                            </tr>
+                        </thead>
+                    </table>		
+                </div>
+            </div>            
+        </div>
+
+        <div th:replace="pages/fragments :: footer"></div>
+    </body>
+</html>

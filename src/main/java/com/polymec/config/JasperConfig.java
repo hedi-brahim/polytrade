@@ -11,6 +11,7 @@ public class JasperConfig {
     public ResourceBundleViewResolver getResourceBundleViewResolver() {
         ResourceBundleViewResolver resolver = new ResourceBundleViewResolver();
         resolver.setBasename("jasperreport-views");
+        resolver.setOrder(0);        
         return resolver;
     }
 
