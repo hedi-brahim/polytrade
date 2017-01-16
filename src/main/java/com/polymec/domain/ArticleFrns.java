@@ -3,6 +3,7 @@ package com.polymec.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 // @Entity, which means that this is a mapped entity class
 @Entity
@@ -30,7 +32,7 @@ public class ArticleFrns implements Serializable {
     private Fournisseur fournisseur;
 
     //private List<Mouvement> mvts;
-    //private List<Inventaire> inventaires;	
+    private List<Inventaire> inventaires;	
     private int sr;
 
     /*
@@ -101,7 +103,7 @@ public class ArticleFrns implements Serializable {
 	public void setMvts(List<Mouvement> mvts) {
 		this.mvts = mvts;
 	}
-
+*/
 	@OneToMany(mappedBy = "articleFrns")
 	public List<Inventaire> getInventaires() {
 		return this.inventaires;
@@ -109,7 +111,7 @@ public class ArticleFrns implements Serializable {
 	public void setInventaires(List<Inventaire> inventaires) {
 		this.inventaires = inventaires;
 	}
-     */
+     
     @Override
     public String toString() {
         return "Quantite: " + quantite;

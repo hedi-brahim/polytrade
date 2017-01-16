@@ -23,12 +23,13 @@ public interface ArticleInfoRepository extends JpaRepository<ArticleInfo, Long> 
             + "from Article c left join c.famille f where c.id = ?1")
     ArticleInfo findById(Long id);
     
-    //@Query("select c from ArticleFrns c where c.sr = 0 and c.quantite > 0 and c.article.famille.id = ?1 order by c.article.reference, c.article.designation")
-            
+    //Inventaire d'articles par famille avec date du dernier inventaire        
     @Query("select new ArticleInfo(c.id, f.designation, c.reference, "
-        + "c.designation, c.articleFrns.quantite, c.puaht, c.puvht, c.tva) "
-        + "from Article c left join c.famille f where c.articleFrns.sr = 0 "
-        + "and c.famille.id = ?1 and c.articleFrns.quantite > 0 order by c.reference, c.designation")
+        + "c.designation, inv.quantite, inv.date, fr.quantite, c.puaht, c.puvht, c.tva) "
+        + "from Article c left join c.famille f join c.articleFrns fr left join fr.inventaires inv where fr.sr = 0 "
+        + "and c.famille.id = ?1 and fr.quantite > 0 "
+        + "and (inv.date = (select max(inv1.date) from Inventaire inv1 where inv1.articleFrns.id = fr.id) or inv.date is null)"
+        + "order by c.reference, c.designation")
     List<ArticleInfo> findByFamille(Long id);    
         
     //c.famille.designation
