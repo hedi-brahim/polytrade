@@ -1,5 +1,6 @@
 package com.polymec.controllers;
 
+import com.polymec.domain.ArticleAct;
 import com.polymec.domain.ArticleInfo;
 import com.polymec.domain.Famille;
 import com.polymec.services.ArticleActService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -100,7 +103,14 @@ public class DefaultController {
     }
 
     //POST-REDIRECT-GET Design Pattern applied here
-    @GetMapping(value = {"","/index"})
+    @GetMapping(value = {""})
+    public String index() {
+       log.info("this is a redirect get index method");
+        return "redirect:/index";
+    }
+    
+ 
+    @GetMapping(value = {"/index"})
     public String index(@ModelAttribute Famille famille) {
         log.info("this is get index method");
         return "/index";
@@ -134,5 +144,31 @@ public class DefaultController {
 
             return new ModelAndView("ficheFamille", parameterMap);
         }
+    }  
+    
+    
+    // Module Fiche Article
+    @GetMapping(value = {"fiche_article/{artId}"})
+    public ModelAndView ficheArticle(@PathVariable Long artId) {
+
+        log.info("Print Article id : " + artId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        // pass article infos to jasper reports
+        ArticleInfo art = this.articleInfoService.findArticleInfoById(artId);
+        parameterMap.put("reference", art.getReference());
+        parameterMap.put("designation", art.getDesignation());
+        parameterMap.put("quantite", art.getQuantite());
+        parameterMap.put("puaht", art.getPuaht());
+        parameterMap.put("puvht", art.getPuvht());
+
+        // pass list of article acts to jasper reports
+        List<ArticleAct> arts = this.articleActService.listArticleActs(artId);
+        Collections.sort(arts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(arts);
+        parameterMap.put("datasource", jrDS);
+
+        return new ModelAndView("ficheArticle", parameterMap);
+
     }    
 }
