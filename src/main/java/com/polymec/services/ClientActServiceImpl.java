@@ -22,25 +22,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.polymec.dao.ClientRepository;
-import com.polymec.domain.Client;
+import com.polymec.dao.ClientActRepository;
+import com.polymec.domain.ClientAct;
 
-@Service("jpaClientService")
-public class ClientServiceImpl implements ClientService {
+@Service("jpaClientActService")
+public class ClientActServiceImpl implements ClientActService {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientActRepository clientActRepository;
 
     @Override
-    public Client findById(Long cltId)
-    {
-        return clientRepository.findById(cltId);
-    }
-    
-    @Override
-    public List<Client> listClients() {
-        List<Client> clts = new ArrayList<Client>(clientRepository.listClients()); 
-        return (clts);
+    public List<ClientAct> listClientActs(Long cltId) {
+        List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listFactureVentes(cltId)); 
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listBlVentes(cltId)));        
+        return (acts);
     }
 }
 

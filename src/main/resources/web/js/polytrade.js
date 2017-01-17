@@ -43,6 +43,37 @@ window.articleEvents = {
     }
 };
 
+function clientActions(value, row, index) {
+    return [
+        '<a id="fiche_client" href="javascript:void(0)" title="Fiche Client">',
+        '<span class="glyphicon glyphicon-list-alt"></span>',
+        '</a>'
+    ].join('');
+}
+
+window.clientEvents = {
+    'click #fiche_client': function (e, value, row, index) {
+        //alert('You click inventaire icon, row: ' + JSON.stringify(row.article.reference));		
+        window.open('fiche_client/' + row.id, '_self', false);
+        //console.log(row.article);
+    }
+};
+
+function fournisseurActions(value, row, index) {
+    return [
+        '<a id="fiche_fournisseur" href="javascript:void(0)" title="Fiche Fournisseur">',
+        '<span class="glyphicon glyphicon-list-alt"></span>',
+        '</a>'
+    ].join('');
+}
+
+window.fournisseurEvents = {
+    'click #fiche_fournisseur': function (e, value, row, index) {
+        //alert('You click inventaire icon, row: ' + JSON.stringify(row.article.reference));		
+        window.open('fiche_fournisseur/' + row.id, '_self', false);
+        //console.log(row.article);
+    }
+};
 
 $(document).ready(function () {
     //document.getElementById("eventsTable").focus();

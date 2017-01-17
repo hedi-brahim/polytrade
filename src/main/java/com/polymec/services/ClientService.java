@@ -6,5 +6,6 @@ import com.polymec.domain.Client;
 
 public interface ClientService {
 
+    Client findById(Long cltId);
     List<Client> listClients();
 }

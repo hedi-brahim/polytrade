@@ -1,11 +1,13 @@
 package com.polymec.controllers;
 
 import com.polymec.domain.ArticleAct;
+import com.polymec.domain.ClientAct;
 import com.polymec.domain.ArticleInfo;
 import com.polymec.domain.Client;
 import com.polymec.domain.Famille;
 import com.polymec.domain.Fournisseur;
 import com.polymec.services.ArticleActService;
+import com.polymec.services.ClientActService;
 import com.polymec.services.ArticleInfoService;
 import com.polymec.services.ClientService;
 import com.polymec.services.FamilleService;
@@ -63,6 +65,10 @@ public class DefaultController {
     
     @Autowired
     private ArticleActService articleActService;
+    
+    @Autowired
+    private ClientActService clientActService;
+    
 
     @ModelAttribute("familles")
     public List<Famille> populateallFamille() {
@@ -201,4 +207,28 @@ public class DefaultController {
         return new ModelAndView("ficheArticle", parameterMap);
 
     }    
+    
+    // Module Fiche Client
+    @GetMapping(value = {"fiche_client/{cltId}"})
+    public ModelAndView ficheClient(@PathVariable Long cltId) {
+
+        log.info("Print Client id : " + cltId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        // pass article infos to jasper reports
+        Client clt = this.clientService.findById(cltId);
+        parameterMap.put("raison", clt.getRaison());
+        
+       log.info("Print Client raison : " + clt.getRaison());
+       
+        // pass list of article acts to jasper reports
+        
+        List<ClientAct> acts = this.clientActService.listClientActs(cltId);
+        Collections.sort(acts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
+        parameterMap.put("datasource", jrDS);
+        
+        return new ModelAndView("ficheClient", parameterMap);
+
+    }     
 }
