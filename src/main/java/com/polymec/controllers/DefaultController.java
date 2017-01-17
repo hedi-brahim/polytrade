@@ -2,10 +2,14 @@ package com.polymec.controllers;
 
 import com.polymec.domain.ArticleAct;
 import com.polymec.domain.ArticleInfo;
+import com.polymec.domain.Client;
 import com.polymec.domain.Famille;
+import com.polymec.domain.Fournisseur;
 import com.polymec.services.ArticleActService;
 import com.polymec.services.ArticleInfoService;
+import com.polymec.services.ClientService;
 import com.polymec.services.FamilleService;
+import com.polymec.services.FournisseurService;
 import java.util.ArrayList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +54,12 @@ public class DefaultController {
 
     @Autowired
     private FamilleService familleService;
+    
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private FournisseurService fournisseurService;    
     
     @Autowired
     private ArticleActService articleActService;
@@ -115,8 +125,8 @@ public class DefaultController {
         log.info("this is get index method");
         return "/index";
     }
-
-        // Module liste des articles
+    
+    // Module liste des articles
     @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<ArticleInfo> listArticles() {
@@ -124,6 +134,26 @@ public class DefaultController {
         List<ArticleInfo> arts = this.articleInfoService.listArticles();
 
         return arts;
+    }
+    
+    // Module liste des clients
+    @GetMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Client> listClients() {
+
+        List<Client> clts = this.clientService.listClients();
+
+        return clts;
+    }
+    
+    // Module liste des fournisseurs
+    @GetMapping(path = "/fournisseurs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Fournisseur> listFournisseurs() {
+
+        List<Fournisseur> frs = this.fournisseurService.listFournisseurs();
+
+        return frs;
     }
     
     // Module liste des familles

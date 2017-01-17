@@ -15,6 +15,7 @@ public class Fournisseur implements Serializable {
 
     private Long id;
     private String raison;
+    private int sr;    
     //private List<ArticleFrns> artFrns = new ArrayList<ArticleFrns>(); //Lists.newArrayList();
 
     @Id
@@ -37,6 +38,21 @@ public class Fournisseur implements Serializable {
         this.raison = raison;
     }
 
+    /**
+     * @return the sr
+     */
+    @Column(name = "sr")
+    public int getSr() {
+        return sr;
+    }
+
+    /**
+     * @param sr the sr to set
+     */
+    public void setSr(int sr) {
+        this.sr = sr;
+    }
+    
     @Override
     public String toString() {
         return "Fournisseur - Id: " + id + ", Raison: " + raison;
