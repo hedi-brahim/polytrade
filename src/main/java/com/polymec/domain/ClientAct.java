@@ -10,19 +10,70 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 
 import java.text.SimpleDateFormat;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 
+@SqlResultSetMapping(
+    name="listClientActs",
+    classes={
+        @ConstructorResult(
+            targetClass=ClientAct.class,
+            columns={
+                @ColumnResult(name="date", type = Date.class),
+                @ColumnResult(name="dateModif", type = Date.class),
+                @ColumnResult(name="type", type = String.class),
+                @ColumnResult(name="numero", type = String.class),
+                @ColumnResult(name="nom", type = String.class),
+                @ColumnResult(name="qte", type = Double.class),
+                @ColumnResult(name="puttx", type = Double.class),
+                @ColumnResult(name="total", type = Double.class),
+                @ColumnResult(name="reglement", type = Double.class),
+                @ColumnResult(name="marge", type = Double.class)                            
+            }
+        )
+    }
+)
 @Entity
+@NamedNativeQueries({
+@NamedNativeQuery(name="ClientAct.listArticlesBlVentes", 
+        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom, \n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx, \n" +
+"		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) total,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) reglement,\n" +
+"		0.0 marge\n" +
+"		from blv b	join mvt on blv_num = mvt_be and mvt.sr = 0\n" +
+"					join artfrns on mvt_ar = ArtFrns_Num \n" +
+"					join arts on arts_num = ArtFrns_ae \n" +
+"					join clts on clts_num = b.blv_ct \n" +
+"		where b.blv_fe is null and b.sr = 0 and clts_num = :cltId", resultSetMapping="listClientActs"),
+@NamedNativeQuery(name="ClientAct.listArticlesFactVentes", 
+        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, arts_le nom, \n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx, \n" +
+"		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) total,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0) reglement,\n" +
+"		0.0 marge\n" +
+"		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
+"				join artfrns on mvt_ar = ArtFrns_Num \n" +
+"				join arts on arts_num = ArtFrns_ae \n" +
+"				join clts on clts_num = f.ftrev_ct \n" +
+"		where f.sr = 0 and clts_num = :cltId", resultSetMapping="listClientActs")    
+})
 public class ClientAct implements Comparable<ClientAct>, Serializable {
 
     private Long id;
     private String date;
-    private String dateModif;    
+    private String dateModif;
     private String type;
-    private String numero;    
+    private String numero;
     private String nom;
     private double qte;
     private double puttx;
-    private double marge;    
+    private double total;
+    private Double reglement;    
+    private double marge;
 
     public double round(double value, int places) {
         if (places < 0) {
@@ -33,24 +84,65 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
-    
-    public ClientAct(Date date, Date dateModif,String type, String num, String nom, double qte, double puaht, double puht, double remise, double ta) {
+
+   public ClientAct(Date date, Date dateModif, String type, String num, String nom, Double qte, Double puttx, Double total, Double reglement, Double marge) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-        this.date = (date == null ? null :dateFormat.format(date));
-        this.dateModif = (dateModif == null ? null : dateFormat.format(dateModif));        
+        this.date = (date == null ? null : dateFormat.format(date));
+        this.dateModif = (dateModif == null ? null : dateFormat.format(dateModif));
         this.type = type;
-        this.numero = num;
+        if(type.equals("FACTURE"))
+        {
+            this.numero = "F".concat(num);
+        }
+        else if(type.equals("BL"))
+        {
+            this.numero = "BL".concat(num);
+        }
+        else
+            this.numero = num;
+        //this.numero = ("FACTURE".equals(type) ? "F".concat(num) : "BL".concat(num));
         this.nom = nom;
         this.qte = qte;
         // calculer le prix unitaire ttc de l' article avec remise        
-        this.puttx = (puht * (1 - remise/100)) * (1 + ta/100);
+        this.puttx = puttx;
+        //calculer le gain en pourcentage
+            this.marge = marge;
+        this.total = total;
+        this.reglement = (reglement == null ? null : reglement);
+        //this.reglement = reglement;        
+    }
+   
+    public ClientAct(Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double puht, double remise, double ta, double total, Double reglement) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+        this.date = (date == null ? null : dateFormat.format(date));
+        this.dateModif = (dateModif == null ? null : dateFormat.format(dateModif));
+        this.type = type;
+        if(type.equals("FACTURE"))
+        {
+            this.numero = "F".concat(num);
+        }
+        else if(type.equals("BL"))
+        {
+            this.numero = "BL".concat(num);
+        }
+        else
+            this.numero = num;
+        //this.numero = ("FACTURE".equals(type) ? "F".concat(num) : "BL".concat(num));
+        this.nom = nom;
+        this.qte = qte;
+        // calculer le prix unitaire ttc de l' article avec remise        
+        this.puttx = (puht * (1 - remise / 100)) * (1 + ta / 100);
         //calculer le gain en pourcentage
         if (puaht > 0) {
-            this.marge = this.round((((puht * (1 - remise/100)) / puaht - 1) * 100), 2);
+            this.marge = this.round((((puht * (1 - remise / 100)) / puaht - 1) * 100), 2);
         } else {
             this.marge = 0.0;
-        }        
+        }
+        this.total = total;
+        this.reglement = (reglement == null ? null : reglement);
+        //this.reglement = reglement;        
     }
 
     @Id
@@ -78,7 +170,7 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
     public void setDateModif(String dateModif) {
         this.dateModif = dateModif;
     }
-    
+
     public String getType() {
         return type;
     }
@@ -119,6 +211,22 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         this.puttx = puttx;
     }
 
+    public double getTotal() {
+        return this.total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Double getReglement() {
+        return this.reglement;
+    }
+
+    public void setReglement(Double reglement) {
+        this.reglement = reglement;
+    }
+    
     public double getMarge() {
         return this.marge;
     }
@@ -126,14 +234,16 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
     public void setMarge(double marge) {
         this.marge = marge;
     }
-    
+
     @Override
     public int compareTo(ClientAct n) {
         /*
         int lastCmp = lastName.compareTo(n.lastName);
         return (lastCmp != 0 ? lastCmp : firstName.compareTo(n.firstName));
          */
-        return n.getDate().compareTo(date);
+        //return n.getNumero().compareTo(this.numero);
+        int lastCmp = n.date.compareTo(this.date);
+        return (lastCmp != 0 ? lastCmp : n.getNumero().compareTo(this.numero));
     }
 
     @Override
