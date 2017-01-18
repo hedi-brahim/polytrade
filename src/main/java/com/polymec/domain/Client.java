@@ -1,5 +1,6 @@
 package com.polymec.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
@@ -21,6 +22,8 @@ public class Client implements Serializable {
 
     private Long id;
     private String raison;
+    private int sr;
+    @JsonIgnore
     private List<BlVente> blVentes = new ArrayList<BlVente>();
 
     @Id
@@ -41,6 +44,21 @@ public class Client implements Serializable {
 
     public void setRaison(String raison) {
         this.raison = raison;
+    }
+
+    /**
+     * @return the sr
+     */
+    @Column(name = "sr")
+    public int getSr() {
+        return sr;
+    }
+
+    /**
+     * @param sr the sr to set
+     */
+    public void setSr(int sr) {
+        this.sr = sr;
     }
 
     @OneToMany(mappedBy = "client")

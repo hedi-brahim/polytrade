@@ -33,10 +33,10 @@ public class BlAchat implements Serializable {
     //@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")	
     private Date date;
     private String numero;
-    private Fournisseur fournisseur;    
-    private FactAchat factAchat = null;    
+    private Fournisseur fournisseur;
+    private FactAchat factAchat = null;
     private List<Mouvement> mvts;
-        private int sr;
+    private int sr;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -80,12 +80,12 @@ public class BlAchat implements Serializable {
     public void setNumero(String numero) {
         this.numero = numero;
     }
-    
+
     /**
      * @return the fournisseur
      */
     @ManyToOne
-    @JoinColumn(name = "bla_fr")     
+    @JoinColumn(name = "bla_fr")
     public Fournisseur getFournisseur() {
         return fournisseur;
     }
@@ -96,7 +96,6 @@ public class BlAchat implements Serializable {
     public void setFournisseur(Fournisseur fournisseur) {
         this.fournisseur = fournisseur;
     }
-    
 
     @OneToOne
     @JoinColumn(name = "bla_ft")
@@ -106,8 +105,8 @@ public class BlAchat implements Serializable {
 
     public void setFactAchat(FactAchat factAchat) {
         this.factAchat = factAchat;
-    } 
-    
+    }
+
     @OneToMany(mappedBy = "blAchat")
     public List<Mouvement> getMvts() {
         return this.mvts;
@@ -116,7 +115,7 @@ public class BlAchat implements Serializable {
     public void setMvts(List<Mouvement> mvts) {
         this.mvts = mvts;
     }
-    
+
     /**
      * @return the sr
      */
@@ -130,7 +129,7 @@ public class BlAchat implements Serializable {
      */
     public void setSr(int sr) {
         this.sr = sr;
-    }    
+    }
 
     @Override
     public String toString() {

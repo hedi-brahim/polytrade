@@ -15,6 +15,7 @@ import java.util.Date;
 
 import java.util.List;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "blv")
@@ -26,10 +27,12 @@ public class BlVente implements Serializable {
     private Date dateModif;    
     private String numero;
     private Client client;
+    private Double mntTot;
     //private Long blv_fe;
     private FactVente factVente = null;
     private int sr;
     private List<Mouvement> mvts;
+    private List<Reglement> regls;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -68,7 +71,16 @@ public class BlVente implements Serializable {
     public void setNumero(String numero) {
         this.numero = numero;
     }
+  
+    @Column(name = "blv_remg")
+    public Double getMntTot() {
+        return this.mntTot;
+    }
 
+    public void setMntTot(Double mntTot) {
+        this.mntTot = mntTot;
+    }
+    
     @OneToOne
     @JoinColumn(name = "blv_fe")
     public FactVente getFactVente() {
@@ -97,6 +109,15 @@ public class BlVente implements Serializable {
     public void setMvts(List<Mouvement> mvts) {
         this.mvts = mvts;
     }
+    
+    @OneToMany(mappedBy = "blVente")
+    public List<Reglement> getRegls() {
+            return this.regls;
+    }
+    public void setRegls(List<Reglement> reglements) {
+            this.regls = reglements;
+    }
+        
 
     @Override
     public String toString() {

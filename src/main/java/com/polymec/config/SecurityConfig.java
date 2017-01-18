@@ -1,51 +1,48 @@
-package com.polymec.config;
+/*
+ * Copyright 2017 Pivotal Software, Inc..
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.polymec;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import com.polymec.service.JPAUserDetailsService;
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.ComponentScan.Filter;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.WebUtils;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+/**
+ *
+ * @author Hedi
+ */
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-    
-    @Autowired
-    private JPAUserDetailsService userDetailsService;
-    
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("hedi").password("goodluck").roles("ADMIN");     
-        auth.userDetailsService(userDetailsService);
-    }
-      
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**","/webjars/**","/main/**").permitAll() 
+                .antMatchers("/","/index","/resources/**","/webjars/**","/articles/**","/clients/**","/fournisseurs/**","/familles/**","/fiche_article/**","/fiche_client/**","/fiche_fournisseur/**").permitAll() 
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/shared/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()                
                 .formLogin()
-                .loginPage("/main")
-                .successForwardUrl("/main")
+                .loginPage("/index")
+                .successForwardUrl("/login-success")
                 //.failureUrl("/login-error")
                 .permitAll()
                 .and()
@@ -54,44 +51,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-/*   
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("hedi").password("goodluck").roles("ADMIN");     
+        //auth.userDetailsService(userDetailsService);
     }
-     */
+    
     /*
- private OncePerRequestFilter csrfHeaderFilter() {
-        return new OncePerRequestFilter() {
-
-            @Override
-            protected void doFilterInternal(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain filterChain) throws ServletException, IOException {
-
-                CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-                if (csrf != null) {
-                    Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
-                    String token = csrf.getToken();
-                    if (cookie == null || token != null
-                            && !token.equals(cookie.getValue())) {
-
-                        // Token is being added to the XSRF-TOKEN cookie.
-                        cookie = new Cookie("XSRF-TOKEN", token);
-                        cookie.setPath("/");
-                        response.addCookie(cookie);
-                    }
-                }
-                filterChain.doFilter(request, response);
-            }
-        };
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .inMemoryAuthentication()
+                .withUser("user").password("password").roles("USER");
     }
-
-    private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        repository.setHeaderName("X-XSRF-TOKEN");
-        //repository.setSessionAttributeName(("X-XSRF-TOKEN"));
-        return repository;
-    }    
-*/
+    */
 }

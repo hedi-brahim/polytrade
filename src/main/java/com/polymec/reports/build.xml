@@ -7,7 +7,7 @@
       <taskdef name = "jrc" classname = "net.sf.jasperreports.ant.JRAntCompileTask">
          <classpath refid = "classpath" />
       </taskdef>
-      <jrc destdir = "..\..\..\..\webapp\WEB-INF\reports">
+      <jrc destdir = "..\..\..\..\resources\reports">
          <src>
             <fileset dir = ".">
                <include name = "*.jrxml" />

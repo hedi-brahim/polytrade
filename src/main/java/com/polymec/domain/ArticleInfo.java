@@ -1,12 +1,11 @@
 package com.polymec.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import javax.persistence.Column;
 
 @Entity
 public class ArticleInfo implements Serializable {
@@ -15,11 +14,20 @@ public class ArticleInfo implements Serializable {
     private String famille;   
     private String reference;
     private String designation;
+    private Double qteInv;    
+    private String dateInv;     
     private double quantite;
     private double puaht;
     private double puvht;
 
+
+    public ArticleInfo()
+    {
+        
+    }
+    
     public ArticleInfo(Long id, String famille, String reference, String designation, double qte, double puaht, double puvht, double tva) {
+        
         this.id = id;
         this.famille = famille;
         this.reference = reference;
@@ -27,6 +35,21 @@ public class ArticleInfo implements Serializable {
         this.quantite = qte;
         this.puaht = puaht * (1 + tva/100);
         this.puvht = puvht * (1 + tva/100);
+    }
+
+    //avec date du dernier inventaire
+    public ArticleInfo(Long id, String famille, String reference, String designation, Double qteInv, Date dateInv, double qte, double puaht, double puvht, double tva) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        
+        this.id = id;
+        this.famille = famille;
+        this.reference = reference;
+        this.designation = designation;
+        this.qteInv = (qteInv == null ? null : qteInv);
+        this.dateInv = (dateInv == null ? null : dateFormat.format(dateInv));         
+        this.quantite = qte;
+        this.puaht = puaht * (1 + tva/100);
+        this.puvht = puvht * (1 + tva/100);    
     }
 
     @Id
@@ -63,6 +86,22 @@ public class ArticleInfo implements Serializable {
         this.designation = designation;
     }
 
+    public Double getQteInv() {
+        return qteInv;
+    }
+
+    public void setQteInv(Double qteInv) {
+        this.qteInv = qteInv;
+    }
+
+    public String getDateInv() {
+        return this.dateInv;
+    }
+
+    public void setDateInv(String dateInv) {
+        this.dateInv = dateInv;
+    }
+    
     public double getQuantite() {
         return quantite;
     }

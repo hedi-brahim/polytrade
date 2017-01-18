@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
         <action>
-            <actionName>run</actionName>
-            <packagings>
-                <packaging>war</packaging>
-                <packaging>ear</packaging>
-                <packaging>ejb</packaging>
-            </packagings>
+            <actionName>CUSTOM-sbrun</actionName>
+            <displayName>sbrun</displayName>
             <goals>
-                <goal>clean</goal>
-                <goal>tomcat7:run</goal>
-            </goals>
-        </action>
-        <action>
-            <actionName>CUSTOM-tomcat7</actionName>
-            <displayName>tomcat7</displayName>
-            <goals>
-                <goal>clean</goal>
-                <goal>tomcat7:run</goal>
+                <goal>spring-boot:run</goal>
             </goals>
         </action>
     </actions>
