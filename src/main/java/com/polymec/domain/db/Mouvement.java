@@ -1,5 +1,8 @@
-package com.polymec.domain;
+package com.polymec.domain.db;
 
+import com.polymec.domain.db.BlVente;
+import com.polymec.domain.db.BlAchat;
+import com.polymec.domain.db.ArticleFrns;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;

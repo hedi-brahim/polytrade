@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.polymec.dao.ClientRepository;
-import com.polymec.domain.Client;
+import com.polymec.domain.db.Client;
 
 @Service("jpaClientService")
 public class ClientServiceImpl implements ClientService {

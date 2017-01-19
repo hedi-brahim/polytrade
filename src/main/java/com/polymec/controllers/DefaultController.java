@@ -3,9 +3,9 @@ package com.polymec.controllers;
 import com.polymec.domain.ArticleAct;
 import com.polymec.domain.ClientAct;
 import com.polymec.domain.ArticleInfo;
-import com.polymec.domain.Client;
-import com.polymec.domain.Famille;
-import com.polymec.domain.Fournisseur;
+import com.polymec.domain.db.Client;
+import com.polymec.domain.db.Famille;
+import com.polymec.domain.db.Fournisseur;
 import com.polymec.services.ArticleActService;
 import com.polymec.services.ClientActService;
 import com.polymec.services.ArticleInfoService;
@@ -217,7 +217,10 @@ public class DefaultController {
 
         // pass article infos to jasper reports
         Client clt = this.clientService.findById(cltId);
+        parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
+        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));        
         parameterMap.put("raison", clt.getRaison());
+        
         
        log.info("Print Client raison : " + clt.getRaison());
        

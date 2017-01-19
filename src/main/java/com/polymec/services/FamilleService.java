@@ -2,7 +2,7 @@ package com.polymec.services;
 
 import java.util.List;
 
-import com.polymec.domain.Famille;
+import com.polymec.domain.db.Famille;
 
 public interface FamilleService {
 
