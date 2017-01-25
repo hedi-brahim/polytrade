@@ -107,8 +107,8 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>4.7.1</version>
-        </dependency>
+            <version>6.4.0</version>
+        </dependency>       
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
@@ -116,10 +116,12 @@
     </dependencies>
 
     <build>
+        <directory>${basedir}/target</directory>        
+        <finalName>${artifactId}</finalName>        
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>spring-boot-maven-plugin</artifactId>              
             </plugin>
         </plugins>
     </build>

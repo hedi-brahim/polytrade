@@ -18,7 +18,6 @@
                                    data-pagination="true"                       
                                    data-page-size="10"					   
                                    data-search="true"
-                                   data-toolbar="#tbarStock"
                                    data-classes="table table-hover table-condensed"
                                    data-striped="true"
                                    data-show-footer="false"
@@ -29,20 +28,20 @@
                                    data-pagination-detail-h-align="right"
                                    data-page-list="[10,15,20]"
                                    data-height="500">
-                                <thead>
+                                <thead style="color:wheat;background-color:#416180">
                                     <tr>
                                         <th data-field="id" data-width="5%" data-visible="false">Id</th>						
-                                        <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
-                                        <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
-                                        <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
-                                        <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
-                                        <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
+                                        <th data-field="reference" data-width="20%" data-sortable="true">Reference</th>
+                                        <th data-field="designation" data-width="60%" data-sortable="true">Designation</th>							
+                                        <th data-field="quantite" data-width="10%" data-align="center" data-sortable="true">Quantite</th>
+                                        <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="10%" data-align="center">Prix Unitaire Vente TTC</th>
                                     </tr>
                                 </thead>
                             </table>
                         </div>
                     </div>
                 </div>
+        
         <div th:replace="pages/fragments :: footer"></div>
     </body>
 </html>

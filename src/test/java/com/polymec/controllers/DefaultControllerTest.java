@@ -44,7 +44,7 @@ public class DefaultControllerTest {
         art.setDesignation("Joint de culasse");
         articles.add(art);
     }
-    
+    /*
     @Test
     public void testList() throws Exception {
         ArticleInfoService articleInfoService = mock(ArticleInfoService.class);
@@ -61,5 +61,5 @@ public class DefaultControllerTest {
 
         assertTrue(!modelArticles.isEmpty());
     }
-    
+    */
 }

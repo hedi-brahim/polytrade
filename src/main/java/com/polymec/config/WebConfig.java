@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.polymec;
+package com.polymec.config;
 
 import java.util.concurrent.TimeUnit;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 /**
  *
@@ -46,20 +43,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     }
     
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/home").setViewName("home");
-        //registry.addViewController("/").setViewName("index");
-        registry.addViewController("/hello").setViewName("hello");
-        registry.addViewController("/login").setViewName("login");
-    }
-    /*
-    @Bean
-    public ResourceBundleViewResolver getResourceBundleViewResolver() {
-        ResourceBundleViewResolver resolver = new ResourceBundleViewResolver();
-        resolver.setBasename("jasperreport-views");
-        resolver.setOrder(0);
-        return resolver;
-    }
-    */
 }

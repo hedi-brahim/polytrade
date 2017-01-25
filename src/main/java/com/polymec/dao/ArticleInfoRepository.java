@@ -15,7 +15,7 @@ public interface ArticleInfoRepository extends JpaRepository<ArticleInfo, Long> 
     
     @Query("select new ArticleInfo(c.id, f.designation, c.reference, "
             + "c.designation, c.articleFrns.quantite, c.puaht, c.puvht, c.tva) "
-            + "from Article c left join c.famille f where c.articleFrns.sr = 0 order by c.reference, c.designation")
+            + "from Article c left join c.famille f where c.articleFrns.sr = 0 and c.articleFrns.quantite > 0 and c.articleFrns.quantite < 1000 order by c.reference, c.designation")
     List<ArticleInfo> listArticles();
     
     @Query("select new ArticleInfo(c.id, f.designation, c.reference, "

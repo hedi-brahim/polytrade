@@ -82,3 +82,15 @@ $(document).ready(function () {
     $(".search").append('<span class="glyphicon glyphicon-search"></span>');
     $("div.search > input").focus();
 });
+
+/*
+function rowStyle(row, index) {
+    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+    console.log(row,row.quantite);
+    if(parseInt(row.quantite) == 0){
+        return { classes : 'danger' };
+    }
+    return { classes : 'success'};
+}
+*/
+

@@ -50,19 +50,23 @@
 		<groupHeader>
 			<band height="17">
 				<rectangle>
-					<reportElement x="1" y="0" width="554" height="17" backcolor="#FFFFFF" uuid="c8ea245a-807e-4ee5-ab53-1dd2b98c93b8">
-						<printWhenExpression><![CDATA[$F{type}.equals("Reglement")]]></printWhenExpression>
+					<reportElement x="1" y="0" width="554" height="17" backcolor="#FFFFFF" uuid="c8ea245a-807e-4ee5-ab53-1dd2b98c93b8"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="405" y="0" width="78" height="17" uuid="17eaa204-0bd1-4e4c-83b0-6b947c7d8d2f"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="483" y="0" width="72" height="17" backcolor="#FFFFFF" uuid="0b4346ab-00d1-4dae-91cf-ecd5fbf3ea4b">
+						<printWhenExpression><![CDATA[(($F{mntAct} - ($F{mntReg}==null?0.0:$F{mntReg}))<0.001?true:false)]]></printWhenExpression>
 					</reportElement>
 				</rectangle>
 				<rectangle>
-					<reportElement x="1" y="0" width="554" height="17" backcolor="#99FFCC" uuid="273cbbb9-9f3e-42b2-ae0d-0374576f7c15">
-						<printWhenExpression><![CDATA[$F{type}.equals("FACTURE")]]></printWhenExpression>
+					<reportElement x="483" y="0" width="72" height="17" backcolor="#99CCFF" uuid="f7b7521b-5a57-4e39-8322-4ddf30477a3b">
+						<printWhenExpression><![CDATA[(($F{mntAct} - ($F{mntReg}==null?0.0:$F{mntReg}))<0.001?false:true)]]></printWhenExpression>
 					</reportElement>
 				</rectangle>
 				<rectangle>
-					<reportElement x="1" y="0" width="554" height="17" backcolor="#CCFFFF" uuid="dada3023-22df-4964-a53b-b365d762e134">
-						<printWhenExpression><![CDATA[$F{type}.equals("BL")]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="324" y="0" width="81" height="17" uuid="fdd162ef-58a4-4f66-ab7c-130bab976e39"/>
 				</rectangle>
 				<textField isBlankWhenNull="true">
 					<reportElement x="62" y="0" width="98" height="17" backcolor="#FFFFFF" uuid="e454d8ce-af68-4369-a52a-61cb1db1d421">
@@ -95,7 +99,7 @@
 					<textFieldExpression><![CDATA[(($F{mntAct})<0.001?null:($F{mntAct}))]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.000" isBlankWhenNull="true">
-					<reportElement x="405" y="0" width="71" height="17" backcolor="#FFFFFF" uuid="83615b7b-547f-4313-990d-58ab12c277d5">
+					<reportElement x="405" y="0" width="78" height="17" backcolor="#FFFFFF" uuid="83615b7b-547f-4313-990d-58ab12c277d5">
 						<property name="ireport.layer" value="1"/>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
