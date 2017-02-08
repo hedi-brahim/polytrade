@@ -27,4 +27,9 @@ public class FamilleServiceImpl implements FamilleService {
         return familleRepository.findOne(id);
     }
 
+    @Override
+    public Famille save(Famille fml)
+    {
+        return familleRepository.save(fml);
+    }
 }

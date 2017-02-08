@@ -19,6 +19,9 @@ import com.polymec.services.ClientService;
 import com.polymec.services.CreditService;
 import com.polymec.services.FamilleService;
 import com.polymec.services.FournisseurService;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -45,17 +48,17 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Hedi
  */
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/manager")
+public class ManagerController {
 
-    private Logger log = LoggerFactory.getLogger("com.polymec.controllers.UserController");
-    
+    private Logger log = LoggerFactory.getLogger("com.polymec.controllers.ManagerController");
+
     @Autowired
     private CreditService reglementService;
 
     @Autowired
     private ArticleInfoService articleInfoService;
-    
+
     @Autowired
     private FamilleService familleService;
 
@@ -63,14 +66,14 @@ public class UserController {
     private ClientService clientService;
 
     @Autowired
-    private FournisseurService fournisseurService;  
+    private FournisseurService fournisseurService;
 
     @Autowired
     private ArticleActService articleActService;
-    
+
     @Autowired
     private ClientActService clientActService;
-    
+
     @ModelAttribute("familles")
     public List<Famille> populateallFamille() {
 
@@ -86,7 +89,7 @@ public class UserController {
     public List<ArticleInfo> listArticlesExistants() {
         return this.articleInfoService.listArticlesExistants();
     }
-    
+
     // Module liste des familles
     /*
     @PostMapping("/familles")
@@ -107,7 +110,29 @@ public class UserController {
             return new ModelAndView("ficheFamille", parameterMap);
         }
     }
-    */
+     */
+    // Module liste des familles
+    @RequestMapping(path = "/update_date_inventaire", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Famille> listtest(@RequestParam("id") Long id, @RequestParam("date") String date) {
+
+
+        Famille fml = this.familleService.findById(id);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            fml.setDate(df.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //log.info("Print Famille id : " + id);
+        //log.info("Print Famille date : " + date);
+        fml = this.familleService.save(fml);
+        //log.info("Print Famille id : " + fml.getId());
+        //log.info("Print Famille date : " + df.format(fml.getDate()));        
+        List<Famille> fmls = this.familleService.findAllValid();
+        return fmls;
+    }
+
     // Module liste des articles
     @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -117,7 +142,7 @@ public class UserController {
 
         return arts;
     }
-    
+
     // Module liste des familles
     @PostMapping("/familles")
     public ModelAndView getFamilles(@RequestParam("id") Long id) {
@@ -136,8 +161,8 @@ public class UserController {
 
             return new ModelAndView("ficheFamille", parameterMap);
         }
-    }  
-    
+    }
+
     // Module liste des clients
     @GetMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -147,7 +172,7 @@ public class UserController {
 
         return clts;
     }
-    
+
     // Module liste des fournisseurs
     @GetMapping(path = "/fournisseurs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -157,7 +182,17 @@ public class UserController {
 
         return frs;
     }
-    
+
+    // Module liste des familles
+    @GetMapping(path = "/fmls", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Famille> listFamilles() {
+
+        List<Famille> fmls = this.familleService.findAllValid();
+
+        return fmls;
+    }
+
     // Module Fiche Article
     /*
     @GetMapping("/fiche_article/{artId}")
@@ -183,13 +218,13 @@ public class UserController {
         return new ModelAndView("ficheArticle", parameterMap);
 
     }
-    */
+     */
     /**
      * Registration page.
      */
     @GetMapping("/index")
     public String index(@ModelAttribute Famille famille) {
-        return "pages/user/index";
+        return "pages/manager/index";
     }
 
     /**
@@ -197,7 +232,7 @@ public class UserController {
      */
     @GetMapping("/recettes")
     public String pageRecettes() {
-        return "user/recettes";
+        return "manager/recettes";
     }
 
     /**
@@ -205,7 +240,7 @@ public class UserController {
      */
     @GetMapping("/depenses")
     public String pageDepenses() {
-        return "user/depenses";
+        return "manager/depenses";
     }
 
     /**
@@ -230,9 +265,7 @@ public class UserController {
         userRepository.save(user);
         return "admin/complete";
     }
-*/
- 
-   
+     */
     @GetMapping(path = "/reglements", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Credit> getReglements() {
@@ -259,7 +292,8 @@ public class UserController {
 
         return regs;
     }
-/*
+
+    /*
     @GetMapping("/invs_jasper/{artId}")
     public ModelAndView getInvsArticleReport(@PathVariable Long artId) {
 
@@ -281,9 +315,8 @@ public class UserController {
         return new ModelAndView("inventaireReport", parameterMap);
 
     }
-*/
-    
-       // Module Fiche Article
+     */
+    // Module Fiche Article
     @GetMapping(value = {"fiche_article/{artId}"})
     public ModelAndView ficheArticle(@PathVariable Long artId) {
 
@@ -306,8 +339,8 @@ public class UserController {
 
         return new ModelAndView("ficheArticle", parameterMap);
 
-    }    
-    
+    }
+
     // Module Fiche Client
     @GetMapping(value = {"fiche_client/{cltId}"})
     public ModelAndView ficheClient(@PathVariable Long cltId) {
@@ -318,20 +351,35 @@ public class UserController {
         // pass article infos to jasper reports
         Client clt = this.clientService.findById(cltId);
         parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
-        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));        
+        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));
         parameterMap.put("raison", clt.getRaison());
-        
-        
-       log.info("Print Client raison : " + clt.getRaison());
-       
+
+        log.info("Print Client raison : " + clt.getRaison());
+
         // pass list of article acts to jasper reports
-        
         List<ClientAct> acts = this.clientActService.listClientActs(cltId);
         Collections.sort(acts);
         JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
         parameterMap.put("datasource", jrDS);
-        
+
         return new ModelAndView("ficheClient", parameterMap);
 
-    }     
+    }
+
+    // Module Fiche Famille
+    @GetMapping(value = {"fiche_famille/{fmlId}"})
+    public ModelAndView ficheFamille(@PathVariable Long fmlId) {
+
+        log.info("Print Famille id : " + fmlId);
+
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        List<ArticleInfo> arts = this.articleInfoService.findByFamille(fmlId);
+
+        JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
+        parameterMap.put("datasource", JRdataSource);
+
+        return new ModelAndView("ficheFamille", parameterMap);
+    }
+
 }

@@ -34,8 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/index","/resources/**","/webjars/**","/articles/**","/clients/**","/fournisseurs/**","/familles/**","/fiche_article/**","/fiche_client/**","/fiche_fournisseur/**").permitAll() 
+                .antMatchers("/","/index","/resources/**","/webjars/**","/articles/**").permitAll() 
+                //.antMatchers("/","/index","/resources/**","/webjars/**","/articles/**","/clients/**","/fournisseurs/**","/familles/**","/fiche_article/**","/fiche_client/**","/fiche_fournisseur/**").permitAll()                 
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/manager/**").hasRole("MANAGER")                
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/shared/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
@@ -54,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("hedi").password("goodluck").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("hedi").password("2016").roles("USER");  
+        auth.inMemoryAuthentication().withUser("hedi").password("1577").roles("MANAGER");  
         auth.inMemoryAuthentication().withUser("ramzi").password("2016").roles("USER");  
         auth.inMemoryAuthentication().withUser("rami").password("2016").roles("USER");          
         auth.inMemoryAuthentication().withUser("feten").password("2016").roles("USER");          

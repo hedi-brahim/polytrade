@@ -9,4 +9,6 @@ public interface FamilleService {
     List<Famille> findAllValid();
 
     Famille findById(Long id);
+    
+    Famille save(Famille fml);
 }

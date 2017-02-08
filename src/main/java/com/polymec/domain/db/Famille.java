@@ -1,6 +1,6 @@
 package com.polymec.domain.db;
 
-import com.polymec.domain.db.Article;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "fml")
@@ -20,6 +23,8 @@ public class Famille implements Serializable {
 
     private Long id;
     private String designation;
+    private Date date;
+    @JsonIgnore
     private List<Article> articles = new ArrayList<Article>();
 
     public Famille() {
@@ -50,6 +55,18 @@ public class Famille implements Serializable {
         this.designation = designation;
     }
 
+    //@JsonFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    //@DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "Fml_de")
+    public Date getDate() { 
+        return this.date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
     @OneToMany(mappedBy = "famille")
     public List<Article> getArticles() {
         return this.articles;

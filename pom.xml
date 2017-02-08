@@ -101,7 +101,12 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>bootstrap-table</artifactId>
             <version>1.11.0</version>
-        </dependency>    
+        </dependency>   	
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>eonasdan-bootstrap-datetimepicker</artifactId>
+            <version>4.17.45</version>
+        </dependency>                
         
         <!-- Jasper Reports -->	
         <dependency>
