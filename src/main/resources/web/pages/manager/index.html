@@ -6,6 +6,13 @@
 
 
     <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">                                               
+                    <div th:replace="pages/manager/fragments :: navbar"></div>   
+                </div>
+            </div>
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="modal_edit_famille" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -47,182 +54,166 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div th:replace="pages/manager/fragments :: navbar"></div>                          
-            </div>
-            <div class="row-fluid">
-                <!--div class="span12"-->                                 
-                <!--div th:fragment="logout" class="logout"
-                     sec:authorize="isAuthenticated()">
-                    Logged user: <span sec:authentication="name">Bob</span> |
-                    Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
-                <!--/* When using CSRF this needs to be a POST */-->
-                <!--form th:action="@{/logout}" method="post" style="display:inline"><input type="submit" value="Logout"/></form>
-            </div>
-            <h1>Thymeleafexamples - Spring Security</h1>
-            <p>This is a demo of Thymeleaf and Spring-Security integration.</p>
-            <h2>Private pages</h2>
-            <p>This is a public page, but you can navigate to protected pages to trigger authentication.</p>
-            <ul>
-                <li>Go to <a href="admin/index.html" th:href="@{/admin/index}">administration zone</a> (only admins)</li>
-                <li>Go to <a href="user/index.html" th:href="@{/user/index}">user zone</a> (only users)</li>
-                <li>Go to <a href="user/index.html" th:href="@{/shared/index}">shared zone</a> (both users and admins)</li>
-            </ul>
-            <h2>Exception handling</h2>
-            <ul>
-                <li>You can <a href="error.html" th:href="@{/simulateError.html}">simulate an exception</a> to see custom ErrorPage.</li>
-            </ul>
-        </div-->
-            </div>
-            <div class="row-fluid">
-                <div class="span12">
-                    <!--nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <a class="navbar-brand" href="#">PolyTrade</a>	                                                    
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>  
-                            </div>	
-                        </div>
-                    </nav--> 
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#stock"><h5>Stock</h5></a></li>
-                        <li><a data-toggle="tab" href="#clients"><h5>Clients</h5></a></li>
-                        <li><a data-toggle="tab" href="#familles"><h5>Familles</h5></a></li>                        
-                        <!--li><a data-toggle="tab" href="#fournisseurs"><h4>Fournisseurs</h4></a></li-->
-                    </ul> 
-                    <div class="tab-content">    
-                        <div id="stock" class="tab-pane fade in active">
-                            <div id="tbarStock" class="btn-group">
-                                <form class="form-inline" th:object="${famille}" th:action="@{/manager/familles}" method="post">
-                                    <div class="form-group">
-                                        <label for="sel1">Famille: </label>					
-                                        <select th:field="*{id}" class="form-control" id="sel1">
-                                            <option th:each="fml : ${familles}"
-                                                    th:value="${fml.id}"
-                                                    th:text="${{fml.designation}}">Famille Null
-                                            </option>					
-                                        </select>
-                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></button>
-                                    </div>
-                                </form>						
+        <div id="wrapper">
+            <div th:replace="pages/manager/fragments :: sidebar"></div>
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12"> 
+                            <ol class="breadcrumb breadcrumb-arrow">
+                                <!--li><a href="#">Acceuil</a></li>
+                                <li><a href="#">Library</a></li-->
+                                <li><h3>Accueil</h3></li>
+                            </ol>                               
+                            <!--a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a-->                            
+                            <!--nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <a class="navbar-brand" href="#">PolyTrade</a>	                                                    
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>  
+                                    </div>	
+                                </div>
+                            </nav--> 
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#stock"><h5>Stock</h5></a></li>
+                                <li><a data-toggle="tab" href="#clients"><h5>Clients</h5></a></li>
+                                <li><a data-toggle="tab" href="#familles"><h5>Familles</h5></a></li>                        
+                                <!--li><a data-toggle="tab" href="#fournisseurs"><h4>Fournisseurs</h4></a></li-->
+                            </ul> 
+                            <div class="tab-content">    
+                                <div id="stock" class="tab-pane fade in active">
+                                    <div id="tbarStock" class="btn-group">
+                                        <form class="form-inline" th:object="${famille}" th:action="@{/manager/familles}" method="post">
+                                            <div class="form-group">
+                                                <label for="sel1">Famille: </label>					
+                                                <select th:field="*{id}" class="form-control" id="sel1">
+                                                    <option th:each="fml : ${familles}"
+                                                            th:value="${fml.id}"
+                                                            th:text="${{fml.designation}}">Famille Null
+                                                    </option>					
+                                                </select>
+                                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></button>
+                                            </div>
+                                        </form>						
+                                    </div> 
+                                    <table id="listArticles"
+                                           data-toggle="table"
+                                           th:attr="data-url=@{/manager/list_articles}"
+                                           data-pagination="true"                       
+                                           data-page-size="7"					   
+                                           data-search="true"
+                                           data-toolbar="#tbarStock"
+                                           data-classes="table table-hover table-condensed"
+                                           data-striped="true"
+                                           data-show-footer="false"
+                                           data-search-align="left"
+                                           data-buttons-align="left"
+                                           data-toolbar-align="right"
+                                           data-pagination-h-align="left"
+                                           data-pagination-detail-h-align="right"
+                                           data-page-list="[10,15,20]"
+                                           data-height="500">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                                <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
+                                                <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
+                                                <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
+                                                <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
+                                                <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
+                                                <th data-field="fiche_article" data-width="5%" data-align="center" data-formatter="articleActions" data-events="articleEvents">Fiche Article</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div id="clients" class="tab-pane fade">
+                                    <table id="lstClients"
+                                           data-toggle="table"
+                                           th:attr="data-url=@{/manager/list_clients}"
+                                           data-pagination="true"                       
+                                           data-page-size="7"					   
+                                           data-search="true"
+                                           data-classes="table table-hover table-condensed"
+                                           data-striped="true"
+                                           data-show-footer="false"
+                                           data-search-align="left"
+                                           data-buttons-align="left"
+                                           data-toolbar-align="right"
+                                           data-pagination-h-align="left"
+                                           data-pagination-detail-h-align="right"
+                                           data-page-list="[10,15,20]"
+                                           data-height="500">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                                <th data-field="raison" data-width="90%" data-sortable="true">Raison</th>
+                                                <th data-field="fiche_client" data-width="5%" data-align="center" data-formatter="clientActions" data-events="clientEvents">Fiche Client</th>
+                                            </tr>
+                                        </thead>
+                                    </table>                       
+                                </div>                          
+                                <div id="fournisseurs" class="tab-pane fade">
+                                    <table id="lstFournisseurs"
+                                           data-toggle="table"
+                                           th:attr="data-url=@{/manager/fournisseurs}"
+                                           data-pagination="true"                       
+                                           data-page-size="7"					   
+                                           data-search="true"
+                                           data-classes="table table-hover table-condensed"
+                                           data-striped="true"
+                                           data-show-footer="false"
+                                           data-search-align="left"
+                                           data-buttons-align="left"
+                                           data-toolbar-align="right"
+                                           data-pagination-h-align="left"
+                                           data-pagination-detail-h-align="right"
+                                           data-page-list="[10,15,20]"
+                                           data-height="500">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                                <th data-field="raison" data-width="90%" data-sortable="true">Raison</th>
+                                                <th data-field="action" data-width="5%" data-align="center" data-formatter="fournisseurActions" data-events="fournisseurEvents">Action</th>
+                                            </tr>
+                                        </thead>
+                                    </table>                        
+                                </div> 
+                                <div id="familles" class="tab-pane fade">
+                                    <table id="lstfamilles"
+                                           data-toggle="table"
+                                           th:attr="data-url=@{/manager/list_familles}"
+                                           data-unique-id="id"
+                                           data-pagination="true"                       
+                                           data-page-size="7"					   
+                                           data-search="true"
+                                           data-classes="table table-hover table-condensed"
+                                           data-striped="true"
+                                           data-show-footer="false"
+                                           data-search-align="left"
+                                           data-buttons-align="left"
+                                           data-toolbar-align="right"
+                                           data-pagination-h-align="left"
+                                           data-pagination-detail-h-align="right"
+                                           data-page-list="[10,15,20]"
+                                           data-height="500">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                                <th data-field="designation" data-width="55%" data-sortable="true">Designation</th>
+                                                <th data-field="date" data-width="30%" data-sortable="true">Date Inventaire</th>                                        
+                                                <th data-field="fiche_famille" data-width="10%" data-align="center" data-formatter="familleActions" data-events="familleEvents">Actions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>                       
+                                </div>                                 
                             </div> 
-                            <table id="listArticles"
-                                   data-toggle="table"
-                                   th:attr="data-url=@{/manager/articles}"
-                                   data-pagination="true"                       
-                                   data-page-size="7"					   
-                                   data-search="true"
-                                   data-toolbar="#tbarStock"
-                                   data-classes="table table-hover table-condensed"
-                                   data-striped="true"
-                                   data-show-footer="false"
-                                   data-search-align="left"
-                                   data-buttons-align="left"
-                                   data-toolbar-align="right"
-                                   data-pagination-h-align="left"
-                                   data-pagination-detail-h-align="right"
-                                   data-page-list="[10,15,20]"
-                                   data-height="500">
-                                <thead>
-                                    <tr>
-                                        <th data-field="id" data-width="5%" data-visible="false">Id</th>						
-                                        <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
-                                        <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
-                                        <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
-                                        <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
-                                        <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
-                                        <th data-field="fiche_article" data-width="5%" data-align="center" data-formatter="articleActions" data-events="articleEvents">Fiche Article</th>
-                                    </tr>
-                                </thead>
-                            </table>
                         </div>
-                        <div id="clients" class="tab-pane fade">
-                            <table id="lstClients"
-                                   data-toggle="table"
-                                   th:attr="data-url=@{/manager/clients}"
-                                   data-pagination="true"                       
-                                   data-page-size="7"					   
-                                   data-search="true"
-                                   data-classes="table table-hover table-condensed"
-                                   data-striped="true"
-                                   data-show-footer="false"
-                                   data-search-align="left"
-                                   data-buttons-align="left"
-                                   data-toolbar-align="right"
-                                   data-pagination-h-align="left"
-                                   data-pagination-detail-h-align="right"
-                                   data-page-list="[10,15,20]"
-                                   data-height="500">
-                                <thead>
-                                    <tr>
-                                        <th data-field="id" data-width="5%" data-visible="false">Id</th>						
-                                        <th data-field="raison" data-width="90%" data-sortable="true">Raison</th>
-                                        <th data-field="fiche_client" data-width="5%" data-align="center" data-formatter="clientActions" data-events="clientEvents">Fiche Client</th>
-                                    </tr>
-                                </thead>
-                            </table>                       
-                        </div>                          
-                        <div id="fournisseurs" class="tab-pane fade">
-                            <table id="lstFournisseurs"
-                                   data-toggle="table"
-                                   th:attr="data-url=@{/manager/fournisseurs}"
-                                   data-pagination="true"                       
-                                   data-page-size="7"					   
-                                   data-search="true"
-                                   data-classes="table table-hover table-condensed"
-                                   data-striped="true"
-                                   data-show-footer="false"
-                                   data-search-align="left"
-                                   data-buttons-align="left"
-                                   data-toolbar-align="right"
-                                   data-pagination-h-align="left"
-                                   data-pagination-detail-h-align="right"
-                                   data-page-list="[10,15,20]"
-                                   data-height="500">
-                                <thead>
-                                    <tr>
-                                        <th data-field="id" data-width="5%" data-visible="false">Id</th>						
-                                        <th data-field="raison" data-width="90%" data-sortable="true">Raison</th>
-                                        <th data-field="action" data-width="5%" data-align="center" data-formatter="fournisseurActions" data-events="fournisseurEvents">Action</th>
-                                    </tr>
-                                </thead>
-                            </table>                        
-                        </div> 
-                        <div id="familles" class="tab-pane fade">
-                            <table id="lstfamilles"
-                                   data-toggle="table"
-                                   th:attr="data-url=@{/manager/fmls}"
-                                   data-unique-id="id"
-                                   data-pagination="true"                       
-                                   data-page-size="7"					   
-                                   data-search="true"
-                                   data-classes="table table-hover table-condensed"
-                                   data-striped="true"
-                                   data-show-footer="false"
-                                   data-search-align="left"
-                                   data-buttons-align="left"
-                                   data-toolbar-align="right"
-                                   data-pagination-h-align="left"
-                                   data-pagination-detail-h-align="right"
-                                   data-page-list="[10,15,20]"
-                                   data-height="500">
-                                <thead>
-                                    <tr>
-                                        <th data-field="id" data-width="5%" data-visible="false">Id</th>						
-                                        <th data-field="designation" data-width="55%" data-sortable="true">Designation</th>
-                                        <th data-field="date" data-width="30%" data-sortable="true">Date Inventaire</th>                                        
-                                        <th data-field="fiche_famille" data-width="10%" data-align="center" data-formatter="familleActions" data-events="familleEvents">Actions</th>
-                                    </tr>
-                                </thead>
-                            </table>                       
-                        </div>                                 
-                    </div>                        
+                    </div>
                 </div>
             </div>            
         </div>

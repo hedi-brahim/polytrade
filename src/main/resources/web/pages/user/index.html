@@ -32,6 +32,11 @@
             </ul>
         </div-->
             </div>
+        </div>
+                <div id="wrapper">
+            <div th:replace="pages/user/fragments :: sidebar"></div>
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
             <div class="row-fluid">
                 <div class="span12">
                     <!--nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -150,14 +155,14 @@
                                 </thead>
                             </table>                        
                         </div> 
-                    </div>                        
+                    </div>   
+                </div>
+            </div>
                 </div>
             </div>            
         </div>
 
-        <script src="#" th:src="@{/webjars/jquery/3.1.1/jquery.js}"></script>	
-        <script src="#" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>	   
-        <script src="#" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	   		   						
-        <script src="#" th:src="@{/resources/js/polytrade.js}"></script>			
+        <div th:replace="pages/user/fragments :: footer"></div>
+		
     </body>
 </html>

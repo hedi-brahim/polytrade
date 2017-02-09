@@ -134,7 +134,7 @@ public class ManagerController {
     }
 
     // Module liste des articles
-    @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/list_articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<ArticleInfo> listArticles() {
 
@@ -164,7 +164,7 @@ public class ManagerController {
     }
 
     // Module liste des clients
-    @GetMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/list_clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Client> listClients() {
 
@@ -184,7 +184,7 @@ public class ManagerController {
     }
 
     // Module liste des familles
-    @GetMapping(path = "/fmls", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/list_familles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Famille> listFamilles() {
 
@@ -219,14 +219,39 @@ public class ManagerController {
 
     }
      */
+    
     /**
-     * Registration page.
+     * Index page (Acceuil).
      */
     @GetMapping("/index")
     public String index(@ModelAttribute Famille famille) {
         return "pages/manager/index";
     }
+    
+    /**
+     * Stock page.
+     */
+    @GetMapping("/stock")
+    public String stock(@ModelAttribute Famille famille) {
+        return "pages/manager/stock";
+    }
 
+        /**
+     * Stock page.
+     */
+    @GetMapping("/clients")
+    public String clients() {
+        return "pages/manager/clients";
+    }
+    
+    /**
+     * Stock page.
+     */
+    @GetMapping("/familles")
+    public String familles() {
+        return "pages/manager/familles";
+    }
+    
     /**
      * Recettes page.
      */

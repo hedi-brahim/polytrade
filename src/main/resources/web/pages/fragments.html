@@ -6,26 +6,26 @@
         <title>PolyTrade</title>
         <link rel="icon" type="image/png" href="#" th:href="@{/resources/imgs/numbers-black-icon128.png}"/>
         <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}"/>
+        <link rel="stylesheet" href="#" th:href="@{/webjars/eonasdan-bootstrap-datetimepicker/4.17.45/build/css/bootstrap-datetimepicker.css}"/>                
         <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
         <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
+        <link rel="stylesheet" href="#" th:href="@{/resources/css/sidebar.css}"/>        
     </head>
 
 
     <body>
-        <nav class="navbar navbar-inverse" th:fragment="navbar">
+        <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="navbar">
             <div class="container-fluid">
                 <div class="navbar-header">
-
                     <!--button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                                      <span class="icon-bar"></span>
-                                      <span class="icon-bar"></span>
-                                      <body>
-                      <nav class    <span class="icon-bar"></span>                        
-                                  </button-->
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>                        
+                    </button-->
+                    <a href="#" id="menu-toggle" class="navbar-brand"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> Polytrade</a>
                     <a class="navbar-brand">
                         <img alt="Brand" th:src="@{/resources/imgs/numbers-black-icon48.png}">
                     </a>
-                    <a class="navbar-brand"> Polytrade</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <!--ul class="nav navbar-nav">
@@ -80,12 +80,15 @@
                     </form-->        
                 </div>
             </div>
-        </nav>                              
+        </nav>             
         <div th:fragment="footer">
             <script src="#" th:src="@{/webjars/jquery/3.1.1/jquery.js}"></script>	
-            <script src="#" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>	   
-            <script src="#" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	   		   						
+            <script src="#" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>	
+            <script src="#" th:src="@{/webjars/moment/2.17.1/moment.js}"></script> 
+            <script src="#" th:src="@{/webjars/eonasdan-bootstrap-datetimepicker/4.17.45/build/js/bootstrap-datetimepicker.min.js}"></script>                        
+            <script src="#" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	 
             <script src="#" th:src="@{/resources/js/polytrade.js}"></script>
-        </div>
+            <script src="#" th:src="@{/resources/js/sidebar.js}"></script>        
+        </div>        
     </body>    
 </html>

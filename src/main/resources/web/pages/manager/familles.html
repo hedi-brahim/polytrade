@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+       xmlns:tiles="http://www.thymeleaf.org">
+
+    <div th:replace="pages/manager/fragments :: head"></div>
+
+
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">                                               
+                    <div th:replace="pages/manager/fragments :: navbar"></div>   
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="modal_edit_famille" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Details Famille</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="mod_fml_id">
+                                <label for="mod_fml_designation" class="col-sm-3 control-label">Designation</label>
+                                <div class="input-group col-sm-6" id="mod_fml_designation">
+                                    <span class="input-group-addon"></span>
+                                    <input type="text" class="form-control" id="mod_fml_designation">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mod_fml_date" class="col-sm-3 control-label">Date</label>
+                                <div class="input-group date col-sm-6" id="mod_fml_date">
+                                    <span class="input-group-addon"></span>
+                                    <input type="text" class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!--div class="row">
+                                <div class="col-sm-7"></div>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            </div-->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!--button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button-->
+                        <button type="button" id="mod_fml_btn_save" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="wrapper">
+            <div th:replace="pages/manager/fragments :: sidebar"></div>
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12"> 
+                            <ol class="breadcrumb breadcrumb-arrow">
+                                <!--li><a href="#">Acceuil</a></li>
+                                <li><a href="#">Library</a></li-->
+                                <li><h3>Familles</h3></li>
+                            </ol>                               
+                            <!--a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a-->                            
+                            <!--nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <a class="navbar-brand" href="#">PolyTrade</a>	                                                    
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>  
+                                    </div>	
+                                </div>
+                            </nav--> 
+                            <table id="lstfamilles"
+                                   data-toggle="table"
+                                   th:attr="data-url=@{/manager/list_familles}"
+                                   data-unique-id="id"
+                                   data-pagination="true"                       
+                                   data-page-size="7"					   
+                                   data-search="true"
+                                   data-classes="table table-hover table-condensed"
+                                   data-striped="true"
+                                   data-show-footer="false"
+                                   data-search-align="left"
+                                   data-buttons-align="left"
+                                   data-toolbar-align="right"
+                                   data-pagination-h-align="left"
+                                   data-pagination-detail-h-align="right"
+                                   data-page-list="[10,15,20]"
+                                   data-height="500">
+                                <thead>
+                                    <tr>
+                                        <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                        <th data-field="designation" data-width="55%" data-sortable="true">Designation</th>
+                                        <th data-field="date" data-width="30%" data-sortable="true">Date Inventaire</th>                                        
+                                        <th data-field="fiche_famille" data-width="10%" data-align="center" data-formatter="familleActions" data-events="familleEvents">Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>                       
+                        </div>
+                    </div>
+                </div>            
+            </div>
+
+            <div th:replace="pages/manager/fragments :: footer"></div>
+
+    </body>
+</html>

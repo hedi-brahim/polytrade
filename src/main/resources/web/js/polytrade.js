@@ -173,6 +173,7 @@ window.dateEvents = {
 };
 
 $(document).ready(function () {
+    $("#wrapper").addClass("toggled");
     //document.getElementById("eventsTable").focus();
     //document.getElementsByClassName("search").focus();
     //$('.ui.sidebar').sidebar({context: $('.bottom.segment')}).sidebar('attach events', '.menu .item');

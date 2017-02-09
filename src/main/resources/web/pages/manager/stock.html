@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+       xmlns:tiles="http://www.thymeleaf.org">
+
+    <div th:replace="pages/manager/fragments :: head"></div>
+
+
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">                                               
+                    <div th:replace="pages/manager/fragments :: navbar"></div>   
+                </div>
+            </div>
+        </div>
+
+        <div id="wrapper">
+            <div th:replace="pages/manager/fragments :: sidebar"></div>
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">   
+                            <ol class="breadcrumb breadcrumb-arrow">
+                                <!--li><a href="#">Acceuil</a></li>
+                                <li><a href="#">Library</a></li-->
+                                <li class="active"><h3>Stock</h3></li>
+                            </ol>                            
+                            <!--a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a-->                            
+                            <!--nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <a class="navbar-brand" href="#">PolyTrade</a>	                                                    
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>  
+                                    </div>	
+                                </div>
+                            </nav--> 
+                            <div id="tbarStock" class="btn-group">
+                                <form class="form-inline" th:object="${famille}" th:action="@{/manager/familles}" method="post">
+                                    <div class="form-group">
+                                        <label for="sel1">Famille: </label>					
+                                        <select th:field="*{id}" class="form-control" id="sel1">
+                                            <option th:each="fml : ${familles}"
+                                                    th:value="${fml.id}"
+                                                    th:text="${{fml.designation}}">Famille Null
+                                            </option>					
+                                        </select>
+                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></button>
+                                    </div>
+                                </form>						
+                            </div> 
+                            <table id="listArticles"
+                                   data-toggle="table"
+                                   th:attr="data-url=@{/manager/list_articles}"
+                                   data-pagination="true"                       
+                                   data-page-size="7"					   
+                                   data-search="true"
+                                   data-toolbar="#tbarStock"
+                                   data-classes="table table-hover table-condensed"
+                                   data-striped="true"
+                                   data-show-footer="false"
+                                   data-search-align="left"
+                                   data-buttons-align="left"
+                                   data-toolbar-align="right"
+                                   data-pagination-h-align="left"
+                                   data-pagination-detail-h-align="right"
+                                   data-page-list="[10,15,20]"
+                                   data-height="500">
+                                <thead>
+                                    <tr>
+                                        <th data-field="id" data-width="5%" data-visible="false">Id</th>						
+                                        <th data-field="reference" data-width="15%" data-sortable="true">Reference</th>
+                                        <th data-field="designation" data-width="45%" data-sortable="true">Designation</th>							
+                                        <th data-field="quantite" data-width="5%" data-align="center" data-sortable="true">Quantite</th>
+                                        <th data-field="puaht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Achat TTC</th>							
+                                        <th data-field="puvht" data-formatter="enMillimes" data-sortable="true" data-width="5%" data-align="center">Prix Unitaire Vente TTC</th>
+                                        <th data-field="fiche_article" data-width="5%" data-align="center" data-formatter="articleActions" data-events="articleEvents">Fiche Article</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>                                                                                                           
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+        <div th:replace="pages/manager/fragments :: footer"></div>
+
+    </body>
+</html>

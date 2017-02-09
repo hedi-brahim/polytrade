@@ -8,10 +8,11 @@
         <link rel="stylesheet" href="#" th:href="@{/webjars/eonasdan-bootstrap-datetimepicker/4.17.45/build/css/bootstrap-datetimepicker.css}"/>                
         <link rel="stylesheet" href="#" th:href="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.css}"/>
         <link rel="stylesheet" href="#" th:href="@{/resources/css/polytrade.css}"/>
+        <link rel="stylesheet" href="#" th:href="@{/resources/css/sidebar.css}"/>        
     </head>
-    
+
     <body>
-        <nav class="navbar navbar-inverse" th:fragment="navbar">
+        <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="navbar">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <!--button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -19,10 +20,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button-->
+                    <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> Polytrade</a>
                     <a class="navbar-brand">
                         <img alt="Brand" th:src="@{/resources/imgs/numbers-black-icon48.png}">
                     </a>
-                    <a class="navbar-brand"> Polytrade</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <!--ul class="nav navbar-nav">
@@ -76,14 +77,54 @@
                     </form-->        
                 </div>
             </div>
-        </nav>                              
+        </nav> 
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" th:fragment="sidebar">
+            <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <!--a href="#" th:href="@{/user/index}">
+                            Acceuil
+                        </a-->
+                        <span class="glyphicon glyphicon-home"></span> Menu Principal
+                    </li>
+                <!--li>
+                    <a href="#demo3" data-toggle="collapse" data-parent="#sidebar-wrapper">Item 3</a>
+                    <div class="collapse" id="demo3">
+                        <a href="#SubMenu1" data-toggle="collapse" data-parent="#SubMenu1">Subitem 1 <i class="fa fa-caret-down"></i></a>
+                        <div class="collapse" id="SubMenu1">
+                            <a href="#" data-parent="#SubMenu1">Subitem 1 a</a>
+                            <a href="#" data-parent="#SubMenu1">Subitem 2 b</a>
+                            <a href="#SubSubMenu1" data-toggle="collapse" data-parent="#SubSubMenu1">Subitem 3 c <i class="fa fa-caret-down"></i></a>
+                            <div class="collapse" id="SubSubMenu1">
+                                <a href="#" data-parent="#SubSubMenu1">Sub sub item 1</a>
+                                <a href="#" data-parent="#SubSubMenu1">Sub sub item 2</a>
+                            </div>
+                            <a href="#" data-parent="#SubMenu1">Subitem 4 d</a>
+                        </div>
+                        <a href="javascript:;">Subitem 2</a>
+                        <a href="javascript:;">Subitem 3</a>
+                    </div>
+                </li-->                   
+                <li>
+                    <a href="#" th:href="@{/manager/stock}">Stock</a>
+                </li>
+                <li>
+                    <a href="#" th:href="@{/manager/clients}">Clients</a>
+                </li>
+                <li>
+                    <a href="#" th:href="@{/manager/familles}">Familles</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
         <div th:fragment="footer">
-        <script src="#" th:src="@{/webjars/jquery/3.1.1/jquery.js}"></script>	
-        <script src="#" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>	
-        <script src="#" th:src="@{/webjars/moment/2.17.1/moment.js}"></script> 
-        <script src="#" th:src="@{/webjars/eonasdan-bootstrap-datetimepicker/4.17.45/build/js/bootstrap-datetimepicker.min.js}"></script>                        
-        <script src="#" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	 
-        <script src="#" th:src="@{/resources/js/polytrade.js}"></script>
+            <script src="#" th:src="@{/webjars/jquery/3.1.1/jquery.js}"></script>	
+            <script src="#" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>	
+            <script src="#" th:src="@{/webjars/moment/2.17.1/moment.js}"></script> 
+            <script src="#" th:src="@{/webjars/eonasdan-bootstrap-datetimepicker/4.17.45/build/js/bootstrap-datetimepicker.min.js}"></script>                        
+            <script src="#" th:src="@{/webjars/bootstrap-table/1.11.0/dist/bootstrap-table.js}"></script>	 
+            <script src="#" th:src="@{/resources/js/polytrade.js}"></script>
+            <script src="#" th:src="@{/resources/js/sidebar.js}"></script>        
         </div>
     </body>
 </html>

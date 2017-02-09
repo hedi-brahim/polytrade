@@ -109,7 +109,7 @@ public class UserController {
     }
     */
     // Module liste des articles
-    @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/list_articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<ArticleInfo> listArticles() {
 
@@ -139,7 +139,7 @@ public class UserController {
     }  
     
     // Module liste des clients
-    @GetMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/list_clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Client> listClients() {
 
@@ -184,29 +184,31 @@ public class UserController {
 
     }
     */
+
     /**
-     * Registration page.
+     * Index page (Acceuil).
      */
     @GetMapping("/index")
     public String index(@ModelAttribute Famille famille) {
-        return "pages/user/index";
+        return "pages/user/stock";
+    }
+    
+    /**
+     * Index page (Acceuil).
+     */
+    @GetMapping("/stock")
+    public String stock(@ModelAttribute Famille famille) {
+        return "pages/user/stock";
     }
 
     /**
-     * Recettes page.
+     * Client page.
      */
-    @GetMapping("/recettes")
-    public String pageRecettes() {
-        return "user/recettes";
+    @GetMapping("/clients")
+    public String clients() {
+        return "pages/user/clients";
     }
 
-    /**
-     * Depenses page.
-     */
-    @GetMapping("/depenses")
-    public String pageDepenses() {
-        return "user/depenses";
-    }
 
     /**
      * Registration page.
