@@ -7,7 +7,7 @@ package com.polymec.controllers;
 
 import com.polymec.domain.ArticleInfo;
 import com.polymec.domain.Credit;
-import com.polymec.domain.db.Famille;
+import com.polymec.domain.Famille;
 import com.polymec.services.ArticleActService;
 import com.polymec.services.ArticleInfoService;
 import com.polymec.services.CreditService;

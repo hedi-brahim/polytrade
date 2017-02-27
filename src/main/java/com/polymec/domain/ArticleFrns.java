@@ -1,6 +1,6 @@
-package com.polymec.domain.db;
+package com.polymec.domain;
 
-import com.polymec.domain.db.Article;
+import com.polymec.domain.Article;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;

@@ -3,7 +3,7 @@ package com.polymec.dao;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.polymec.domain.db.Fournisseur;
+import com.polymec.domain.Fournisseur;
 import java.util.List;
 
 public interface FournisseurRepository extends JpaRepository<Fournisseur, Long> {

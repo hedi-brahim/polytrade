@@ -1,11 +1,9 @@
-package com.polymec.dao.fiches;
+package com.polymec.dao;
 
-import com.polymec.dao.*;
 import java.util.List;
-import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.polymec.domain.fiches.FicheClientDetails;
+import com.polymec.domain.FicheClientDetails;
 import org.springframework.data.repository.query.Param;
 
 public interface FicheClientDetailsRepository extends JpaRepository<FicheClientDetails, Long> {

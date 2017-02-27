@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.polymec.domain.db.Famille;
+import com.polymec.domain.Famille;
 import com.polymec.dao.FamilleRepository;
 
 @Service("jpaFamilleService")

@@ -1,4 +1,4 @@
-package com.polymec.domain.db;
+package com.polymec.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;

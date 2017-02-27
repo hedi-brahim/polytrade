@@ -1,5 +1,7 @@
-package com.polymec.domain.db;
+package com.polymec.domain;
 
+import com.polymec.domain.BlAchat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
@@ -9,38 +11,31 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 import java.util.List;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Entity
-@Table(name = "bla")
-public class BlAchat implements Serializable {
-
-    private Logger logger = LoggerFactory.getLogger("com.polymec.model.BlAchat");
+@Table(name = "ftra")
+public class FactAchat implements Serializable {
 
     private Long id;
 
-    //@Transient 
-    //private String type = "Achat";
-    //@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")	
     private Date date;
+    private Date dateModif;    
     private String numero;
     private Fournisseur fournisseur;
-    private FactAchat factAchat = null;
-    private List<Mouvement> mvts;
     private int sr;
+    @JsonIgnore
+    private BlAchat blAchat;
+    private List<Mouvement> mvts;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "bla_num")
+    @Column(name = "ftra_num")
     public Long getId() {
         return this.id;
     }
@@ -49,31 +44,26 @@ public class BlAchat implements Serializable {
         this.id = id;
     }
 
-    /*
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-     */
-    //@Column(name = "bla_dl", columnDefinition="DATETIME")
-    //@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "bla_dl")
+    @Column(name = "ftra_de")
     public Date getDate() {
-        logger.info("Print Method GetDate");
         return this.date;
     }
 
     public void setDate(Date date) {
-        logger.info("Print Method SetDate");
         this.date = date;
     }
 
-    @Column(name = "bla_nl")
+    @Column(name = "ue")        
+    public Date getDateModif() {
+        return this.dateModif;
+    }
+
+    public void setDateModif(Date dateModif) {
+        this.dateModif = dateModif;
+    }
+    
+    @Column(name = "ftra_ne")
     public String getNumero() {
-        logger.info("Print Method GetNumero");
         return this.numero;
     }
 
@@ -85,7 +75,7 @@ public class BlAchat implements Serializable {
      * @return the fournisseur
      */
     @ManyToOne
-    @JoinColumn(name = "bla_fr")
+    @JoinColumn(name = "ftra_fr")    
     public Fournisseur getFournisseur() {
         return fournisseur;
     }
@@ -96,24 +86,28 @@ public class BlAchat implements Serializable {
     public void setFournisseur(Fournisseur fournisseur) {
         this.fournisseur = fournisseur;
     }
-
-    @OneToOne
-    @JoinColumn(name = "bla_ft")
-    public FactAchat getFactAchat() {
-        return this.factAchat;
+    
+    @OneToOne(mappedBy = "factAchat")
+    public BlAchat getBlAchat() {
+        return this.blAchat;
     }
 
-    public void setFactAchat(FactAchat factAchat) {
-        this.factAchat = factAchat;
+    public void setBlAchat(BlAchat blAchat) {
+        this.blAchat = blAchat;
     }
 
-    @OneToMany(mappedBy = "blAchat")
+    @OneToMany(mappedBy = "factAchat")
     public List<Mouvement> getMvts() {
         return this.mvts;
     }
 
     public void setMvts(List<Mouvement> mvts) {
         this.mvts = mvts;
+    }
+
+    @Override
+    public String toString() {
+        return "Facture Vente - Id: " + id + ", Reference: " + numero;
     }
 
     /**
@@ -129,10 +123,5 @@ public class BlAchat implements Serializable {
      */
     public void setSr(int sr) {
         this.sr = sr;
-    }
-
-    @Override
-    public String toString() {
-        return "BL Achat - Id: " + id + ", Reference: " + numero;
     }
 }

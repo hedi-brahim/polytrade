@@ -3,7 +3,7 @@ package com.polymec.dao;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.polymec.domain.db.Client;
+import com.polymec.domain.Client;
 import java.util.List;
 import org.springframework.data.repository.query.Param;
 

@@ -1,6 +1,6 @@
-package com.polymec.domain.db;
+package com.polymec.domain;
 
-import com.polymec.domain.db.BlVente;
+import com.polymec.domain.BlVente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;
 
