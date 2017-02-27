@@ -177,4 +177,7 @@
 		</band>
 	</summary>
 </jasperReport>
+<<<<<<< HEAD:src/main/java/com/polymec/reports/FicheStock.jrxml
 
+=======
+>>>>>>> develop:src/main/java/com/polymec/reports/FicheStock.jrxml

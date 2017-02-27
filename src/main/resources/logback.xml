@@ -20,7 +20,11 @@
     <logger name="com.polymec" level="debug"/>  
 
     <!--root level="debug"-->
+<<<<<<< HEAD
     <root level="debug">        
+=======
+    <root level="off">        
+>>>>>>> develop
         <appender-ref ref="FILE" />  
         <appender-ref ref="STDOUT" />
     </root>

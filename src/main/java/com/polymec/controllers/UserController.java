@@ -5,17 +5,20 @@
  */
 package com.polymec.controllers;
 
+import com.polymec.domain.ArticleAct;
 import com.polymec.domain.ArticleInfo;
+import com.polymec.domain.ClientAct;
 import com.polymec.domain.Credit;
-<<<<<<< HEAD:src/main/java/com/polymec/controllers/AdminController.java
-import com.polymec.domain.Famille;
-=======
+import com.polymec.domain.db.Client;
 import com.polymec.domain.db.Famille;
->>>>>>> develop:src/main/java/com/polymec/controllers/AdminController.java
+import com.polymec.domain.db.Fournisseur;
 import com.polymec.services.ArticleActService;
 import com.polymec.services.ArticleInfoService;
+import com.polymec.services.ClientActService;
+import com.polymec.services.ClientService;
 import com.polymec.services.CreditService;
 import com.polymec.services.FamilleService;
+import com.polymec.services.FournisseurService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,18 +28,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
  * @author Hedi
  */
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/user")
+public class UserController {
 
-    private Logger log = LoggerFactory.getLogger("com.polymec.controllers.AdminController");
+    private Logger log = LoggerFactory.getLogger("com.polymec.controllers.UserController");
     
     @Autowired
     private CreditService reglementService;
@@ -47,8 +59,18 @@ public class AdminController {
     @Autowired
     private FamilleService familleService;
 
+    @Autowired
+    private ClientService clientService;
 
+    @Autowired
+    private FournisseurService fournisseurService;  
 
+    @Autowired
+    private ArticleActService articleActService;
+    
+    @Autowired
+    private ClientActService clientActService;
+    
     @ModelAttribute("familles")
     public List<Famille> populateallFamille() {
 
@@ -87,13 +109,53 @@ public class AdminController {
     }
     */
     // Module liste des articles
-    @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/list_articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<ArticleInfo> listArticles() {
 
         List<ArticleInfo> arts = this.articleInfoService.listArticles();
 
         return arts;
+    }
+    
+    // Module liste des familles
+    @PostMapping("/familles")
+    public ModelAndView getFamilles(@RequestParam("id") Long id) {
+
+        log.info("Print Famille id : " + id);
+
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        if (id == null) {
+            return new ModelAndView("ficheStock", parameterMap);
+        } else {
+            List<ArticleInfo> arts = this.articleInfoService.findByFamille(id);
+
+            JRDataSource JRdataSource = new JRBeanCollectionDataSource(arts);
+            parameterMap.put("datasource", JRdataSource);
+
+            return new ModelAndView("ficheFamille", parameterMap);
+        }
+    }  
+    
+    // Module liste des clients
+    @GetMapping(path = "/list_clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Client> listClients() {
+
+        List<Client> clts = this.clientService.listClients();
+
+        return clts;
+    }
+    
+    // Module liste des fournisseurs
+    @GetMapping(path = "/fournisseurs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Fournisseur> listFournisseurs() {
+
+        List<Fournisseur> frs = this.fournisseurService.listFournisseurs();
+
+        return frs;
     }
     
     // Module Fiche Article
@@ -122,29 +184,31 @@ public class AdminController {
 
     }
     */
+
     /**
-     * Registration page.
+     * Index page (Acceuil).
      */
     @GetMapping("/index")
     public String index(@ModelAttribute Famille famille) {
-        return "pages/admin/index";
+        return "pages/user/stock";
+    }
+    
+    /**
+     * Index page (Acceuil).
+     */
+    @GetMapping("/stock")
+    public String stock(@ModelAttribute Famille famille) {
+        return "pages/user/stock";
     }
 
     /**
-     * Recettes page.
+     * Client page.
      */
-    @GetMapping("/recettes")
-    public String pageRecettes() {
-        return "admin/recettes";
+    @GetMapping("/clients")
+    public String clients() {
+        return "pages/user/clients";
     }
 
-    /**
-     * Depenses page.
-     */
-    @GetMapping("/depenses")
-    public String pageDepenses() {
-        return "admin/depenses";
-    }
 
     /**
      * Registration page.
@@ -220,4 +284,56 @@ public class AdminController {
 
     }
 */
+    
+       // Module Fiche Article
+    @GetMapping(value = {"fiche_article/{artId}"})
+    public ModelAndView ficheArticle(@PathVariable Long artId) {
+
+        log.info("Print Article id : " + artId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        // pass article infos to jasper reports
+        ArticleInfo art = this.articleInfoService.findArticleInfoById(artId);
+        parameterMap.put("reference", art.getReference());
+        parameterMap.put("designation", art.getDesignation());
+        parameterMap.put("quantite", art.getQuantite());
+        parameterMap.put("puaht", art.getPuaht());
+        parameterMap.put("puvht", art.getPuvht());
+
+        // pass list of article acts to jasper reports
+        List<ArticleAct> arts = this.articleActService.listArticleActs(artId);
+        Collections.sort(arts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(arts);
+        parameterMap.put("datasource", jrDS);
+
+        return new ModelAndView("ficheArticle", parameterMap);
+
+    }    
+    
+    // Module Fiche Client
+    @GetMapping(value = {"fiche_client/{cltId}"})
+    public ModelAndView ficheClient(@PathVariable Long cltId) {
+
+        log.info("Print Client id : " + cltId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        // pass article infos to jasper reports
+        Client clt = this.clientService.findById(cltId);
+        parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
+        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));        
+        parameterMap.put("raison", clt.getRaison());
+        
+        
+       log.info("Print Client raison : " + clt.getRaison());
+       
+        // pass list of article acts to jasper reports
+        
+        List<ClientAct> acts = this.clientActService.listClientActs(cltId);
+        Collections.sort(acts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
+        parameterMap.put("datasource", jrDS);
+        
+        return new ModelAndView("ficheClient", parameterMap);
+
+    }     
 }

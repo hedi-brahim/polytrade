@@ -1,4 +1,4 @@
-package com.polymec.domain;
+package com.polymec.domain.db;
 
 import static javax.persistence.GenerationType.IDENTITY;
 

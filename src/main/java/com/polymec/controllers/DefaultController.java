@@ -1,5 +1,6 @@
 package com.polymec.controllers;
 
+<<<<<<< HEAD
 import com.polymec.domain.ArticleAct;
 import com.polymec.domain.ClientAct;
 import com.polymec.domain.ArticleInfo;
@@ -26,6 +27,16 @@ import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+=======
+import com.polymec.domain.ArticleInfo;
+import com.polymec.services.ArticleInfoService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.Collection;
+import java.util.List;
+>>>>>>> develop
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +44,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+=======
+import org.springframework.web.bind.annotation.ResponseBody;
+>>>>>>> develop
 
 /**
  * <p>
@@ -49,6 +64,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 public class DefaultController {
 
+<<<<<<< HEAD
     private Logger log = LoggerFactory.getLogger("com.polymec.controllers.MainController");
     
     @Autowired
@@ -88,6 +104,17 @@ public class DefaultController {
     
     private boolean hasRole(String role) {
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+=======
+    private Logger log = LoggerFactory.getLogger("com.polymec.controllers.DefaultController");
+
+    @Autowired
+    private ArticleInfoService articleInfoService;
+
+    private boolean hasRole(String role) {
+        Collection<GrantedAuthority> authorities = 
+                (Collection<GrantedAuthority>) SecurityContextHolder.getContext().
+                        getAuthentication().getAuthorities();
+>>>>>>> develop
         boolean hasRole = false;
         for (GrantedAuthority authority : authorities) {
             hasRole = authority.getAuthority().equals(role);
@@ -97,12 +124,20 @@ public class DefaultController {
         }
         return hasRole;
     }
+<<<<<<< HEAD
 
    // Module selection du role utilisateur
     @PostMapping(value = {"/login-success"})
     public String main(@ModelAttribute Famille famille) {
         log.info("this is postindex method");
         
+=======
+    
+    @RequestMapping(value = {"", "/index", "/login-success"})
+    public String index() {
+        log.info("this is RequestMapping index method");
+
+>>>>>>> develop
         if (hasRole("ROLE_ADMIN")) {
             return "redirect:/admin/index";
         }
@@ -114,6 +149,7 @@ public class DefaultController {
         if (hasRole("ROLE_USER")) {
             return "redirect:/user/index";
         }
+<<<<<<< HEAD
 
         return "redirect:/index";
     }
@@ -132,6 +168,33 @@ public class DefaultController {
         return "/index";
     }
     
+=======
+        
+        return "redirect:/index";
+    }
+
+    //POST-REDIRECT-GET Design Pattern applied here    
+    @GetMapping(value = {"/index"})
+    public String RedirectIndex() {
+        
+        log.info("this is GetMapping index method");
+        
+        if (hasRole("ROLE_ADMIN")) {
+            return "redirect:/admin/index";
+        }
+
+        if (hasRole("ROLE_MANAGER")) {
+            return "redirect:/manager/index";
+        }
+
+        if (hasRole("ROLE_USER")) {
+            return "redirect:/user/index";
+        }
+        
+        return "index";
+    }
+
+>>>>>>> develop
     // Module liste des articles
     @GetMapping(path = "/articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -141,6 +204,7 @@ public class DefaultController {
 
         return arts;
     }
+<<<<<<< HEAD
     
     // Module liste des clients
     @GetMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -231,4 +295,7 @@ public class DefaultController {
         return new ModelAndView("ficheClient", parameterMap);
 
     }     
+=======
+
+>>>>>>> develop
 }

@@ -29,13 +29,19 @@ import javax.persistence.SqlResultSetMapping;
                 @ColumnResult(name="nom", type = String.class),
                 @ColumnResult(name="qte", type = Double.class),
                 @ColumnResult(name="puttx", type = Double.class),
+<<<<<<< HEAD
                 @ColumnResult(name="total", type = Double.class),
                 @ColumnResult(name="reglement", type = Double.class),
+=======
+                @ColumnResult(name="mntAct", type = Double.class),
+                @ColumnResult(name="mntReg", type = Double.class),
+>>>>>>> develop
                 @ColumnResult(name="marge", type = Double.class)                            
             }
         )
     }
 )
+<<<<<<< HEAD
 @Entity
 @NamedNativeQueries({
 @NamedNativeQuery(name="ClientAct.listArticlesBlVentes", 
@@ -60,6 +66,35 @@ import javax.persistence.SqlResultSetMapping;
 "				join arts on arts_num = ArtFrns_ae \n" +
 "				join clts on clts_num = f.ftrev_ct \n" +
 "		where f.sr = 0 and clts_num = :cltId", resultSetMapping="listClientActs")    
+=======
+
+@Entity
+@NamedNativeQueries({
+@NamedNativeQuery(name="ClientAct.listArticlesBlVentes", 
+        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
+"		if(arts_pat>0,((mvt_pt * (1 - mvt_re/100))/arts_pat - 1)*100,0.0) marge\n" +
+"		from blv b	join mvt on blv_num = mvt_be and mvt.sr = 0\n" +
+"					join artfrns on mvt_ar = ArtFrns_Num\n" +
+"					join arts on arts_num = ArtFrns_ae\n" +
+"					join clts c on c.clts_num = b.blv_ct\n" +
+"		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),
+@NamedNativeQuery(name="ClientAct.listArticlesFactVentes", 
+        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, arts_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
+"				case when c.clts_igntimb = 1 then 0 else 0.5 end) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
+"		if(arts_pat>0,((mvt_pt * (1 - mvt_re/100))/arts_pat - 1)*100,0.0) marge\n" +
+"		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
+"				join artfrns on mvt_ar = ArtFrns_Num\n" +
+"				join arts on arts_num = ArtFrns_ae\n" +
+"				join clts c on c.clts_num = f.ftrev_ct\n" +
+"	where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs")    
+>>>>>>> develop
 })
 public class ClientAct implements Comparable<ClientAct>, Serializable {
 
@@ -71,8 +106,13 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
     private String nom;
     private double qte;
     private double puttx;
+<<<<<<< HEAD
     private double total;
     private Double reglement;    
+=======
+    private Double mntAct;
+    private Double mntReg; 
+>>>>>>> develop
     private double marge;
 
     public double round(double value, int places) {
@@ -85,7 +125,11 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         return bd.doubleValue();
     }
 
+<<<<<<< HEAD
    public ClientAct(Date date, Date dateModif, String type, String num, String nom, Double qte, Double puttx, Double total, Double reglement, Double marge) {
+=======
+   public ClientAct(Date date, Date dateModif, String type, String num, String nom, Double qte, Double puttx, Double mntAct, Double mntReg, Double marge) {
+>>>>>>> develop
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         this.date = (date == null ? null : dateFormat.format(date));
@@ -108,12 +152,21 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         this.puttx = puttx;
         //calculer le gain en pourcentage
             this.marge = marge;
+<<<<<<< HEAD
         this.total = total;
         this.reglement = (reglement == null ? null : reglement);
         //this.reglement = reglement;        
     }
    
     public ClientAct(Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double puht, double remise, double ta, double total, Double reglement) {
+=======
+        this.mntAct = mntAct;
+        this.mntReg = (mntReg == null ? null : mntReg);
+        //this.reglement = reglement;        
+    }
+   
+    public ClientAct(Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double puht, double remise, double ta, Double mntAct, Double mntReg) {
+>>>>>>> develop
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         this.date = (date == null ? null : dateFormat.format(date));
@@ -140,8 +193,13 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         } else {
             this.marge = 0.0;
         }
+<<<<<<< HEAD
         this.total = total;
         this.reglement = (reglement == null ? null : reglement);
+=======
+        this.mntAct = mntAct;
+        this.mntReg = (mntReg == null ? null : mntReg);
+>>>>>>> develop
         //this.reglement = reglement;        
     }
 
@@ -211,6 +269,7 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         this.puttx = puttx;
     }
 
+<<<<<<< HEAD
     public double getTotal() {
         return this.total;
     }
@@ -227,6 +286,24 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         this.reglement = reglement;
     }
     
+=======
+    public Double getMntAct() {
+        return this.mntAct;
+    }
+
+    public void setMntAct(Double mntAct) {
+        this.mntAct = mntAct;
+    }
+
+    public Double getMntReg() {
+        return this.mntReg;
+    }
+
+    public void setMntReg(Double mntReg) {
+        this.mntReg = mntReg;
+    }
+   
+>>>>>>> develop
     public double getMarge() {
         return this.marge;
     }

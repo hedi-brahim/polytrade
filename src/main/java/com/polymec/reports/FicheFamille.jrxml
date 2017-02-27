@@ -161,7 +161,11 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
 			</textField>
+<<<<<<< HEAD:src/main/java/com/polymec/reports/FicheFamille.jrxml
 			<textField pattern="#,##0" isBlankWhenNull="true">
+=======
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+>>>>>>> develop:src/main/java/com/polymec/reports/FicheFamille.jrxml
 				<reportElement x="439" y="0" width="37" height="15" uuid="1aabc8ee-920a-4911-8dcc-0cfd7ef9c14b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
@@ -185,7 +189,11 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dateInv}]]></textFieldExpression>
 			</textField>
+<<<<<<< HEAD:src/main/java/com/polymec/reports/FicheFamille.jrxml
 			<textField pattern="#,##0" isBlankWhenNull="true">
+=======
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+>>>>>>> develop:src/main/java/com/polymec/reports/FicheFamille.jrxml
 				<reportElement x="327" y="0" width="37" height="15" uuid="5ab9350e-a703-4078-83da-4e80392a1d2d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
@@ -216,4 +224,7 @@
 		</band>
 	</summary>
 </jasperReport>
+<<<<<<< HEAD:src/main/java/com/polymec/reports/FicheFamille.jrxml
 
+=======
+>>>>>>> develop:src/main/java/com/polymec/reports/FicheFamille.jrxml

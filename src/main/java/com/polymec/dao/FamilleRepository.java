@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.polymec.domain.Famille;
+import com.polymec.domain.db.Famille;
 
 //@Repository
 public interface FamilleRepository extends JpaRepository<Famille, Long> {

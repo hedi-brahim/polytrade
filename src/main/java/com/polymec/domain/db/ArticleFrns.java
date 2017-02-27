@@ -1,5 +1,6 @@
-package com.polymec.domain;
+package com.polymec.domain.db;
 
+import com.polymec.domain.db.Article;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import javax.persistence.OneToMany;
 public class ArticleFrns implements Serializable {
 
     private Long id;
-    private double quantite;
+    private Double quantite;
     private Article article = null;
     private Fournisseur fournisseur;
 
@@ -67,11 +68,11 @@ public class ArticleFrns implements Serializable {
     }
 
     @Column(name = "ArtFrns_qe")
-    public double getQuantite() {
+    public Double getQuantite() {
         return this.quantite;
     }
 
-    public void setQuantite(double quantite) {
+    public void setQuantite(Double quantite) {
         this.quantite = quantite;
     }
 

@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+<<<<<<< HEAD
 package com.polymec;
+=======
+package com.polymec.config;
+>>>>>>> develop
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+<<<<<<< HEAD
                 .antMatchers("/","/index","/resources/**","/webjars/**","/articles/**","/clients/**","/fournisseurs/**","/familles/**","/fiche_article/**","/fiche_client/**","/fiche_fournisseur/**").permitAll() 
+=======
+                .antMatchers("/","/index","/resources/**","/webjars/**","/articles/**").permitAll() 
+                //.antMatchers("/","/index","/resources/**","/webjars/**","/articles/**","/clients/**","/fournisseurs/**","/familles/**","/fiche_article/**","/fiche_client/**","/fiche_fournisseur/**").permitAll()                 
+>>>>>>> develop
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/manager/**").hasRole("MANAGER")                
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/shared/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
@@ -53,7 +63,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+<<<<<<< HEAD
         auth.inMemoryAuthentication().withUser("hedi").password("goodluck").roles("ADMIN");     
+=======
+        auth.inMemoryAuthentication().withUser("hedi").password("goodluck").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("hedi").password("1577").roles("MANAGER");  
+        auth.inMemoryAuthentication().withUser("ramzi").password("2016").roles("USER");  
+        auth.inMemoryAuthentication().withUser("rami").password("2016").roles("USER");          
+        auth.inMemoryAuthentication().withUser("feten").password("2016").roles("USER");          
+>>>>>>> develop
         //auth.userDetailsService(userDetailsService);
     }
     

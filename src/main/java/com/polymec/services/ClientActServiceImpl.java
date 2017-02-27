@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.polymec.dao.ClientActRepository;
+<<<<<<< HEAD
+=======
+import com.polymec.dao.ClientRepository;
+>>>>>>> develop
 import com.polymec.domain.ClientAct;
 
 @Service("jpaClientActService")
@@ -31,11 +35,36 @@ public class ClientActServiceImpl implements ClientActService {
     @Autowired
     private ClientActRepository clientActRepository;
 
+<<<<<<< HEAD
     @Override
     public List<ClientAct> listClientActs(Long cltId) {
         List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesBlVentes(cltId)); 
         acts.addAll(new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId)));                
         return (acts);
     }
+=======
+    @Autowired
+    private ClientRepository clientRepository;
+    
+    @Override
+    public List<ClientAct> listClientActs(Long cltId) {
+        List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesBlVentes(cltId)); 
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId)));   
+        //List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId));         
+        return (acts);
+    }
+    
+    
+    @Override
+    public Double getMntTotVentes(Long cltId) {
+        return (clientRepository.getBlTotalVenteByClient(cltId) + clientRepository.getFactTotalVenteByClient(cltId)); 
+    }
+    
+
+    @Override
+    public Double getMntTotReglements(Long cltId) {
+        return (clientRepository.getBlTotalReglementByClient(cltId) + clientRepository.getFactTotalReglementByClient(cltId)); 
+    }    
+>>>>>>> develop
 }
 

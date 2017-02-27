@@ -23,7 +23,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.polymec.dao.FournisseurRepository;
+<<<<<<< HEAD
 import com.polymec.domain.Fournisseur;
+=======
+import com.polymec.domain.db.Fournisseur;
+>>>>>>> develop
 
 @Service("jpaFournisseurService")
 public class FournisseurServiceImpl implements FournisseurService {

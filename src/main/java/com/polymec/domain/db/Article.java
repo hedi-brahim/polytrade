@@ -1,4 +1,4 @@
-package com.polymec.domain;
+package com.polymec.domain.db;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;

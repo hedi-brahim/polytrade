@@ -5,6 +5,15 @@
             <displayName>sbrun</displayName>
             <goals>
                 <goal>spring-boot:run</goal>
+<<<<<<< HEAD
+=======
+            </goals>
+        </action>
+        <action>
+            <actionName>run</actionName>
+            <goals>
+                <goal>spring-boot:run</goal>
+>>>>>>> develop
             </goals>
         </action>
     </actions>

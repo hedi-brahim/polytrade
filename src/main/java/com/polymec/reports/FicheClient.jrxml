@@ -12,6 +12,15 @@
 	<parameter name="raison" class="java.lang.String">
 		<parameterDescription><![CDATA[raison]]></parameterDescription>
 	</parameter>
+<<<<<<< HEAD
+=======
+	<parameter name="mntActs" class="java.lang.Double">
+		<parameterDescription><![CDATA[mntActs]]></parameterDescription>
+	</parameter>
+	<parameter name="mntRegs" class="java.lang.Double">
+		<parameterDescription><![CDATA[mntRegs]]></parameterDescription>
+	</parameter>
+>>>>>>> develop
 	<field name="date" class="java.lang.String">
 		<fieldDescription><![CDATA[date]]></fieldDescription>
 	</field>
@@ -33,17 +42,26 @@
 	<field name="marge" class="java.lang.Double">
 		<fieldDescription><![CDATA[marge]]></fieldDescription>
 	</field>
+<<<<<<< HEAD
 	<field name="total" class="java.lang.Double">
 		<fieldDescription><![CDATA[total]]></fieldDescription>
 	</field>
 	<field name="reglement" class="java.lang.Double">
 		<fieldDescription><![CDATA[reglement]]></fieldDescription>
+=======
+	<field name="mntAct" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntAct]]></fieldDescription>
+	</field>
+	<field name="mntReg" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntReg]]></fieldDescription>
+>>>>>>> develop
 	</field>
 	<group name="ActGroup">
 		<groupExpression><![CDATA[$F{numero}]]></groupExpression>
 		<groupHeader>
 			<band height="17">
 				<rectangle>
+<<<<<<< HEAD
 					<reportElement x="1" y="0" width="554" height="17" backcolor="#FFFFFF" uuid="c8ea245a-807e-4ee5-ab53-1dd2b98c93b8">
 						<printWhenExpression><![CDATA[$F{type}.equals("Reglement")]]></printWhenExpression>
 					</reportElement>
@@ -58,6 +76,26 @@
 						<printWhenExpression><![CDATA[$F{type}.equals("BL")]]></printWhenExpression>
 					</reportElement>
 				</rectangle>
+=======
+					<reportElement x="1" y="0" width="554" height="17" backcolor="#FFFFFF" uuid="c8ea245a-807e-4ee5-ab53-1dd2b98c93b8"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="405" y="0" width="78" height="17" uuid="17eaa204-0bd1-4e4c-83b0-6b947c7d8d2f"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="483" y="0" width="72" height="17" backcolor="#FFFFFF" uuid="0b4346ab-00d1-4dae-91cf-ecd5fbf3ea4b">
+						<printWhenExpression><![CDATA[(($F{mntAct} - ($F{mntReg}==null?0.0:$F{mntReg}))<0.001?true:false)]]></printWhenExpression>
+					</reportElement>
+				</rectangle>
+				<rectangle>
+					<reportElement x="483" y="0" width="72" height="17" backcolor="#99CCFF" uuid="f7b7521b-5a57-4e39-8322-4ddf30477a3b">
+						<printWhenExpression><![CDATA[(($F{mntAct} - ($F{mntReg}==null?0.0:$F{mntReg}))<0.001?false:true)]]></printWhenExpression>
+					</reportElement>
+				</rectangle>
+				<rectangle>
+					<reportElement x="324" y="0" width="81" height="17" uuid="fdd162ef-58a4-4f66-ab7c-130bab976e39"/>
+				</rectangle>
+>>>>>>> develop
 				<textField isBlankWhenNull="true">
 					<reportElement x="62" y="0" width="98" height="17" backcolor="#FFFFFF" uuid="e454d8ce-af68-4369-a52a-61cb1db1d421">
 						<property name="ireport.layer" value="1"/>
@@ -79,24 +117,49 @@
 					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.000" isBlankWhenNull="true">
+<<<<<<< HEAD
 					<reportElement x="348" y="0" width="103" height="17" backcolor="#FFFFFF" uuid="588032ac-2694-44d7-843c-8e21ddddc457">
+=======
+					<reportElement x="326" y="0" width="79" height="17" backcolor="#FFFFFF" uuid="588032ac-2694-44d7-843c-8e21ddddc457">
 						<property name="ireport.layer" value="1"/>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="11" isBold="true"/>
 						<paragraph leftIndent="5"/>
 					</textElement>
+					<textFieldExpression><![CDATA[(($F{mntAct})<0.001?null:($F{mntAct}))]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.000" isBlankWhenNull="true">
+					<reportElement x="405" y="0" width="78" height="17" backcolor="#FFFFFF" uuid="83615b7b-547f-4313-990d-58ab12c277d5">
+>>>>>>> develop
+						<property name="ireport.layer" value="1"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+<<<<<<< HEAD
 					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.000" isBlankWhenNull="true">
 					<reportElement x="452" y="0" width="103" height="17" backcolor="#FFFFFF" uuid="83615b7b-547f-4313-990d-58ab12c277d5">
+=======
+					<textFieldExpression><![CDATA[(($F{mntReg})<0.001?null:($F{mntReg}))]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.000" isBlankWhenNull="true">
+					<reportElement x="483" y="0" width="71" height="17" backcolor="#FFFFFF" uuid="6c07e8f9-ade4-4d17-b998-d2aaa556bacf">
+>>>>>>> develop
 						<property name="ireport.layer" value="1"/>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="11" isBold="true"/>
 						<paragraph leftIndent="5"/>
 					</textElement>
+<<<<<<< HEAD
 					<textFieldExpression><![CDATA[$F{reglement}]]></textFieldExpression>
+=======
+					<textFieldExpression><![CDATA[(($F{mntAct} - ($F{mntReg}==null?0.000:$F{mntReg}))<0.001?null:($F{mntAct} - ($F{mntReg}==null?0.000:$F{mntReg})))]]></textFieldExpression>
+>>>>>>> develop
 				</textField>
 			</band>
 			<band height="15">
@@ -107,13 +170,18 @@
 					</graphicElement>
 				</rectangle>
 				<staticText>
+<<<<<<< HEAD
 					<reportElement x="414" y="0" width="37" height="15" backcolor="#FFFFFF" uuid="1284e0af-fe92-4d3a-bac0-3a9fe1005b14"/>
+=======
+					<reportElement x="461" y="0" width="37" height="15" backcolor="#FFFFFF" uuid="1284e0af-fe92-4d3a-bac0-3a9fe1005b14"/>
+>>>>>>> develop
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Qte]]></text>
 				</staticText>
 				<staticText>
+<<<<<<< HEAD
 					<reportElement x="503" y="0" width="51" height="15" backcolor="#FFFFFF" uuid="1567708c-1244-48ce-bf84-13bd0887df09"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
@@ -122,13 +190,20 @@
 				</staticText>
 				<staticText>
 					<reportElement x="451" y="0" width="55" height="15" backcolor="#FFFFFF" uuid="89347bb9-fbeb-4dbc-be52-89e200dbebb8"/>
+=======
+					<reportElement x="498" y="0" width="55" height="15" backcolor="#FFFFFF" uuid="89347bb9-fbeb-4dbc-be52-89e200dbebb8"/>
+>>>>>>> develop
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<text><![CDATA[PU]]></text>
 				</staticText>
 				<staticText>
+<<<<<<< HEAD
 					<reportElement x="61" y="0" width="353" height="15" backcolor="#FFFFFF" uuid="d28f9cee-8348-4ed7-8599-014f97de7d9a"/>
+=======
+					<reportElement x="61" y="0" width="400" height="15" backcolor="#FFFFFF" uuid="d28f9cee-8348-4ed7-8599-014f97de7d9a"/>
+>>>>>>> develop
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 						<paragraph leftIndent="5"/>
@@ -141,7 +216,11 @@
 	<pageHeader>
 		<band height="117">
 			<rectangle radius="10">
+<<<<<<< HEAD
 				<reportElement x="6" y="44" width="544" height="64" uuid="a70be48e-0372-42d6-98a4-315cc66252f9"/>
+=======
+				<reportElement x="6" y="45" width="544" height="64" uuid="a70be48e-0372-42d6-98a4-315cc66252f9"/>
+>>>>>>> develop
 			</rectangle>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="10" y="8" width="100" height="14" backcolor="#FFFFFF" uuid="8bd9b7fc-3f73-4519-9385-37336c260df6"/>
@@ -163,7 +242,11 @@
 				<text><![CDATA[sur]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
+<<<<<<< HEAD
 				<reportElement x="74" y="66" width="456" height="20" forecolor="#000099" backcolor="#FFFFFF" uuid="02241599-a4b9-4f6e-a054-00f6c0244e57"/>
+=======
+				<reportElement x="60" y="49" width="456" height="20" forecolor="#000099" backcolor="#FFFFFF" uuid="02241599-a4b9-4f6e-a054-00f6c0244e57"/>
+>>>>>>> develop
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Arial" size="13" isBold="true"/>
 					<paragraph tabStopWidth="1"/>
@@ -171,6 +254,7 @@
 				<textFieldExpression><![CDATA[$P{raison}]]></textFieldExpression>
 			</textField>
 			<staticText>
+<<<<<<< HEAD
 				<reportElement x="11" y="66" width="63" height="20" uuid="d2a4efd5-712e-49c5-9007-99fcb90e347f"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="false"/>
@@ -179,18 +263,45 @@
 				<text><![CDATA[Raison:]]></text>
 			</staticText>
 			<staticText>
+=======
+>>>>>>> develop
 				<reportElement x="135" y="3" width="280" height="39" uuid="59c75d90-e7ab-4242-99a9-05edda420356"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="22" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Fiche Client]]></text>
 			</staticText>
+<<<<<<< HEAD
+=======
+			<textField pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="112" y="79" width="135" height="17" backcolor="#FFFFFF" uuid="022c9cea-6def-4027-ab82-4fb222813746">
+					<property name="ireport.layer" value="1"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mntActs} - $P{mntRegs}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="77" width="89" height="20" uuid="539e4d5a-6f24-4419-9301-69848408ec65"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Reste à payer:]]></text>
+			</staticText>
+>>>>>>> develop
 		</band>
 	</pageHeader>
 	<detail>
 		<band height="17" splitType="Stretch">
 			<textField pattern="#,##0" isBlankWhenNull="true">
+<<<<<<< HEAD
 				<reportElement x="415" y="0" width="37" height="17" backcolor="#FFFFFF" uuid="1aabc8ee-920a-4911-8dcc-0cfd7ef9c14b">
+=======
+				<reportElement x="462" y="0" width="37" height="17" backcolor="#FFFFFF" uuid="1aabc8ee-920a-4911-8dcc-0cfd7ef9c14b">
+>>>>>>> develop
 					<property name="ireport.layer" value="1"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -200,7 +311,11 @@
 				<textFieldExpression><![CDATA[$F{qte}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
+<<<<<<< HEAD
 				<reportElement x="61" y="0" width="354" height="17" backcolor="#FFFFFF" uuid="7219adc1-c917-4e12-97a2-ffeba547958e">
+=======
+				<reportElement x="61" y="0" width="400" height="17" backcolor="#FFFFFF" uuid="7219adc1-c917-4e12-97a2-ffeba547958e">
+>>>>>>> develop
 					<property name="ireport.layer" value="1"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -210,7 +325,11 @@
 				<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.000" isBlankWhenNull="true">
+<<<<<<< HEAD
 				<reportElement x="452" y="0" width="52" height="17" backcolor="#FFFFFF" uuid="3de207e5-575d-4754-9e40-afeb50c19111">
+=======
+				<reportElement x="499" y="0" width="52" height="17" backcolor="#FFFFFF" uuid="3de207e5-575d-4754-9e40-afeb50c19111">
+>>>>>>> develop
 					<property name="ireport.layer" value="1"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -219,6 +338,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[($F{puttx}==0.000?null:$F{puttx})]]></textFieldExpression>
 			</textField>
+<<<<<<< HEAD
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="504" y="0" width="51" height="17" backcolor="#FFFFFF" uuid="7626e9ce-e42d-4701-ac8d-fcc6e86be31f">
 					<property name="ireport.layer" value="1"/>
@@ -233,5 +353,72 @@
 	</detail>
 	<summary>
 		<band height="50"/>
+=======
+		</band>
+	</detail>
+	<summary>
+		<band height="68">
+			<rectangle>
+				<reportElement x="457" y="5" width="93" height="59" uuid="0662d230-8da7-4bba-b713-1af646ff976d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="353" y="5" width="103" height="59" uuid="9a4a75cc-8af4-4b99-83f6-3595b2e723e4"/>
+			</rectangle>
+			<textField pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="457" y="45" width="91" height="17" backcolor="#FFFFFF" uuid="17e2926f-0ba5-4c0c-b265-190086e300e2">
+					<property name="ireport.layer" value="1"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{mntActs}-$P{mntRegs})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="457" y="27" width="89" height="17" backcolor="#FFFFFF" uuid="17010097-7e21-4e64-a60a-ac73bbcf3e60">
+					<property name="ireport.layer" value="1"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{mntRegs}<0.001?null:$P{mntRegs})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="457" y="8" width="91" height="17" backcolor="#FFFFFF" uuid="2465ec2b-ad00-429b-a54a-c47c32f6ab66">
+					<property name="ireport.layer" value="1"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{mntActs}<0.001?null:$P{mntActs})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="353" y="5" width="96" height="17" uuid="17031ce5-03a0-4df6-b6da-332ab70bc4fe"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Total Ventes:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="25" width="96" height="17" uuid="91279bec-da98-44e4-8f6f-a6e7185ddc6f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Total Reglements:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="44" width="96" height="17" uuid="121c3578-ee34-4286-a0a1-12f78eaec407"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+					<paragraph tabStopWidth="1"/>
+				</textElement>
+				<text><![CDATA[Reste à payer:]]></text>
+			</staticText>
+		</band>
+>>>>>>> develop
 	</summary>
 </jasperReport>

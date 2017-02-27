@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+<<<<<<< HEAD
 package com.polymec;
 
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,15 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.ResourceBundleViewResolver;
+=======
+package com.polymec.config;
+
+import java.util.concurrent.TimeUnit;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+>>>>>>> develop
 
 /**
  *
@@ -46,6 +56,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     }
     
+<<<<<<< HEAD
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/home").setViewName("home");
@@ -62,4 +73,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
     */
+=======
+>>>>>>> develop
 }

@@ -3,12 +3,12 @@
  * version: 1.0.0
  * https://github.com/hedibrahim/polytrade/
  */
-/*
+
 body {
-    padding-top: 70px;
+    padding-top: 51px;
 }
 
-
+/*
 .navbar-custom {
     background-color:#337ab7;
     color:#ffffff;
@@ -29,6 +29,14 @@ body {
 /***************************************/
 
 /*.navbar-brand { margin-left: 10px; padding: 0px; }*/
+
+.topmarg{
+    margin-top: 20px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
 
 .search {
   width: 25%;

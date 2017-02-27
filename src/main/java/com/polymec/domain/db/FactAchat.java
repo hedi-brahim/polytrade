@@ -1,5 +1,6 @@
-package com.polymec.domain;
+package com.polymec.domain.db;
 
+import com.polymec.domain.db.BlAchat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,24 +19,23 @@ import java.util.List;
 import javax.persistence.OneToOne;
 
 @Entity
-@Table(name = "rgmt")
-public class Reglement implements Serializable {
+@Table(name = "ftra")
+public class FactAchat implements Serializable {
 
     private Long id;
 
     private Date date;
     private Date dateModif;    
     private String numero;
-    private double montant;  
+    private Fournisseur fournisseur;
     private int sr;
+    @JsonIgnore
     private BlAchat blAchat;
-    private FactAchat factAchat;    
-    private BlVente blVente;
-    private FactVente factVente;
+    private List<Mouvement> mvts;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "rgmt_num")
+    @Column(name = "ftra_num")
     public Long getId() {
         return this.id;
     }
@@ -44,7 +44,7 @@ public class Reglement implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "ce")
+    @Column(name = "ftra_de")
     public Date getDate() {
         return this.date;
     }
@@ -62,7 +62,7 @@ public class Reglement implements Serializable {
         this.dateModif = dateModif;
     }
     
-    @Column(name = "rgmt_no")
+    @Column(name = "ftra_ne")
     public String getNumero() {
         return this.numero;
     }
@@ -71,29 +71,32 @@ public class Reglement implements Serializable {
         this.numero = numero;
     }
 
-    @Column(name = "rgmt_mt")
-    public double getMontant() {
-        //return round(this.puaht,3);
-        return this.montant;
-    }
-
-    public void setMontant(double montant) {
-        this.montant = montant;
-    }
-
-    /*
-    @OneToOne(mappedBy = "factVente")
-    public BlVente getBlVente() {
-        return this.blVente;
-    }
-
-    public void setBlVente(BlVente blVente) {
-        this.blVente = blVente;
-    }
+    /**
+     * @return the fournisseur
      */
+    @ManyToOne
+    @JoinColumn(name = "ftra_fr")    
+    public Fournisseur getFournisseur() {
+        return fournisseur;
+    }
 
-    /*
-    @OneToMany(mappedBy = "factVente")
+    /**
+     * @param fournisseur the fournisseur to set
+     */
+    public void setFournisseur(Fournisseur fournisseur) {
+        this.fournisseur = fournisseur;
+    }
+    
+    @OneToOne(mappedBy = "factAchat")
+    public BlAchat getBlAchat() {
+        return this.blAchat;
+    }
+
+    public void setBlAchat(BlAchat blAchat) {
+        this.blAchat = blAchat;
+    }
+
+    @OneToMany(mappedBy = "factAchat")
     public List<Mouvement> getMvts() {
         return this.mvts;
     }
@@ -101,7 +104,7 @@ public class Reglement implements Serializable {
     public void setMvts(List<Mouvement> mvts) {
         this.mvts = mvts;
     }
-     */
+
     @Override
     public String toString() {
         return "Facture Vente - Id: " + id + ", Reference: " + numero;
@@ -121,45 +124,4 @@ public class Reglement implements Serializable {
     public void setSr(int sr) {
         this.sr = sr;
     }
-
-   @ManyToOne
-    @JoinColumn(name = "rgmt_bt")
-    public BlAchat getBlAchat() {
-        return this.blAchat;
-    }
-
-    public void setBlAchat(BlAchat blAchat) {
-        this.blAchat = blAchat;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "rgmt_ft")
-    public FactAchat getFactAchat() {
-        return this.factAchat;
-    }
-
-    public void setFactAchat(FactAchat factAchat) {
-        this.factAchat = factAchat;
-    }
-    
-    @ManyToOne
-    @JoinColumn(name = "rgmt_be")
-    public BlVente getBlVente() {
-        return this.blVente;
-    }
-
-    public void setBlVente(BlVente blVente) {
-        this.blVente = blVente;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "rgmt_fe")
-    public FactVente getFactVente() {
-        return this.factVente;
-    }
-
-    public void setFactVente(FactVente factVente) {
-        this.factVente = factVente;
-    }
-
 }
