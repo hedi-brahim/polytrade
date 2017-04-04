@@ -33,8 +33,8 @@ public class ArticleInfo implements Serializable {
         this.reference = reference;
         this.designation = designation;
         this.quantite = qte;
-        this.puaht = puaht * (1 + tva/100);
-        this.puvht = puvht * (1 + tva/100);
+        this.puaht = puaht;
+        this.puvht = puvht;
     }
 
     //avec date du dernier inventaire
@@ -48,8 +48,8 @@ public class ArticleInfo implements Serializable {
         this.qteInv = (qteInv == null ? null : qteInv);
         this.dateInv = (dateInv == null ? null : dateFormat.format(dateInv));         
         this.quantite = qte;
-        this.puaht = puaht * (1 + tva/100);
-        this.puvht = puvht * (1 + tva/100);    
+        this.puaht = puaht;
+        this.puvht = puvht;    
     }
 
     @Id

@@ -5,8 +5,8 @@
  */
 
 function enMillimes(value) {
-    //var v = value * 1.18;
-    return value.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    var v = value * 1.18;
+    return v.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 }
 
 

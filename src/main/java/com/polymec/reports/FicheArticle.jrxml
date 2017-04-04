@@ -94,7 +94,7 @@
 					<font fontName="Arial" size="13" isBold="true"/>
 					<paragraph tabStopWidth="1"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puaht})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puaht}*1.18)))]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="445" y="81" width="100" height="20" forecolor="#000099" uuid="1024cbf5-388f-4d54-9e60-41bf248dccac"/>
@@ -102,7 +102,7 @@
 					<font fontName="Arial" size="13" isBold="true"/>
 					<paragraph tabStopWidth="1"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puvht})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(new java.text.DecimalFormat("#,###.000").format(Double.valueOf($P{puvht}*1.18)))]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="10" y="81" width="51" height="20" uuid="040d9dad-15fb-41ba-b40a-73a04583ff65"/>
