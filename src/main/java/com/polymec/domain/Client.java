@@ -86,13 +86,16 @@ import javax.persistence.SqlResultSetMapping;
 "				join clts c on c.clts_num = f.ftrev_ct\n" +
 "	where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs")    
 })
-*/
+ */
 @Entity
 @Table(name = "clts")
 public class Client implements Serializable {
 
     private Long id;
     private String raison;
+    private String tel;
+    private String gsm;
+    private String fax;
     private int sr;
     @JsonIgnore
     private List<BlVente> blVentes = new ArrayList<BlVente>();
@@ -117,6 +120,33 @@ public class Client implements Serializable {
         this.raison = raison;
     }
 
+    @Column(name = "clts_tl")
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    @Column(name = "clts_gm")
+    public String getGsm() {
+        return gsm;
+    }
+
+    public void setGsm(String gsm) {
+        this.gsm = gsm;
+    }
+    
+    @Column(name = "clts_fx")
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+    
     /**
      * @return the sr
      */

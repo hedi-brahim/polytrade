@@ -10,6 +10,7 @@ import com.polymec.domain.ArticleInfo;
 import com.polymec.domain.ClientAct;
 import com.polymec.domain.Credit;
 import com.polymec.domain.Client;
+import com.polymec.domain.Docs;
 import com.polymec.domain.Famille;
 import com.polymec.domain.Fournisseur;
 import com.polymec.services.ArticleActService;
@@ -19,6 +20,13 @@ import com.polymec.services.ClientService;
 import com.polymec.services.CreditService;
 import com.polymec.services.FamilleService;
 import com.polymec.services.FournisseurService;
+import com.polymec.services.DocsService;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.sql.Blob;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
@@ -49,13 +58,13 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     private Logger log = LoggerFactory.getLogger("com.polymec.controllers.UserController");
-    
+
     @Autowired
     private CreditService reglementService;
 
     @Autowired
     private ArticleInfoService articleInfoService;
-    
+
     @Autowired
     private FamilleService familleService;
 
@@ -63,14 +72,17 @@ public class UserController {
     private ClientService clientService;
 
     @Autowired
-    private FournisseurService fournisseurService;  
+    private FournisseurService fournisseurService;
 
     @Autowired
     private ArticleActService articleActService;
-    
+
     @Autowired
     private ClientActService clientActService;
-    
+
+    @Autowired
+    private DocsService docsService;
+
     @ModelAttribute("familles")
     public List<Famille> populateallFamille() {
 
@@ -86,7 +98,7 @@ public class UserController {
     public List<ArticleInfo> listArticlesExistants() {
         return this.articleInfoService.listArticlesExistants();
     }
-    
+
     // Module liste des familles
     /*
     @PostMapping("/familles")
@@ -107,7 +119,7 @@ public class UserController {
             return new ModelAndView("ficheFamille", parameterMap);
         }
     }
-    */
+     */
     // Module liste des articles
     @GetMapping(path = "/list_articles", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -117,7 +129,7 @@ public class UserController {
 
         return arts;
     }
-    
+
     // Module liste des familles
     @PostMapping("/familles")
     public ModelAndView getFamilles(@RequestParam("id") Long id) {
@@ -136,8 +148,8 @@ public class UserController {
 
             return new ModelAndView("ficheFamille", parameterMap);
         }
-    }  
-    
+    }
+
     // Module liste des clients
     @GetMapping(path = "/list_clients", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -147,7 +159,7 @@ public class UserController {
 
         return clts;
     }
-    
+
     // Module liste des fournisseurs
     @GetMapping(path = "/fournisseurs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -157,7 +169,7 @@ public class UserController {
 
         return frs;
     }
-    
+
     // Module Fiche Article
     /*
     @GetMapping("/fiche_article/{artId}")
@@ -183,8 +195,7 @@ public class UserController {
         return new ModelAndView("ficheArticle", parameterMap);
 
     }
-    */
-
+     */
     /**
      * Index page (Acceuil).
      */
@@ -192,7 +203,7 @@ public class UserController {
     public String index(@ModelAttribute Famille famille) {
         return "pages/user/stock";
     }
-    
+
     /**
      * Index page (Acceuil).
      */
@@ -208,7 +219,6 @@ public class UserController {
     public String clients() {
         return "pages/user/clients";
     }
-
 
     /**
      * Registration page.
@@ -232,9 +242,7 @@ public class UserController {
         userRepository.save(user);
         return "admin/complete";
     }
-*/
- 
-   
+     */
     @GetMapping(path = "/reglements", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Credit> getReglements() {
@@ -261,7 +269,8 @@ public class UserController {
 
         return regs;
     }
-/*
+
+    /*
     @GetMapping("/invs_jasper/{artId}")
     public ModelAndView getInvsArticleReport(@PathVariable Long artId) {
 
@@ -283,9 +292,8 @@ public class UserController {
         return new ModelAndView("inventaireReport", parameterMap);
 
     }
-*/
-    
-       // Module Fiche Article
+     */
+    // Module Fiche Article
     @GetMapping(value = {"fiche_article/{artId}"})
     public ModelAndView ficheArticle(@PathVariable Long artId) {
 
@@ -308,8 +316,8 @@ public class UserController {
 
         return new ModelAndView("ficheArticle", parameterMap);
 
-    }    
-    
+    }
+
     // Module Fiche Client
     @GetMapping(value = {"fiche_client/{cltId}"})
     public ModelAndView ficheClient(@PathVariable Long cltId) {
@@ -317,23 +325,45 @@ public class UserController {
         log.info("Print Client id : " + cltId);
         Map<String, Object> parameterMap = new HashMap<String, Object>();
 
+        Blob logo;
+        byte[] imgData = null;
+        BufferedImage bImg = null;
+
         // pass article infos to jasper reports
         Client clt = this.clientService.findById(cltId);
+        Docs img = this.docsService.findById(2L);
+        logo = img.getImg();
+        try {
+
+            imgData = logo.getBytes(1, (int) logo.length());
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        try {
+            // convert byte array back to BufferedImage
+            InputStream in = new ByteArrayInputStream(imgData);
+            bImg = ImageIO.read(in);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
         parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
-        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));        
+        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));
         parameterMap.put("raison", clt.getRaison());
-        
-        
-       log.info("Print Client raison : " + clt.getRaison());
-       
+        parameterMap.put("tel", clt.getTel());
+        parameterMap.put("gsm", clt.getGsm());
+        parameterMap.put("fax", clt.getFax());
+        parameterMap.put("logo", bImg);
+
+        log.info("Print Client raison : " + clt.getRaison());
+
         // pass list of article acts to jasper reports
-        
         List<ClientAct> acts = this.clientActService.listClientActs(cltId);
         Collections.sort(acts);
         JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
         parameterMap.put("datasource", jrDS);
-        
+
         return new ModelAndView("ficheClient", parameterMap);
 
-    }     
+    }
 }

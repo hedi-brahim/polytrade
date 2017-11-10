@@ -55,7 +55,7 @@ import javax.persistence.SqlResultSetMapping;
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
 "			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
-"				case when c.clts_igntimb = 1 then 0 else 0.5 end) mntAct,\n" +
+"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
 "		if(arts_pat>0,((mvt_pt * (1 - mvt_re/100))/arts_pat - 1)*100,0.0) marge\n" +
 "		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
