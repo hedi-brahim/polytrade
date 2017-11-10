@@ -45,9 +45,12 @@ window.articleEvents = {
 
 function clientActions(value, row, index) {
     return [
-        '<a id="fiche_client" href="javascript:void(0)" title="Fiche Client">',
+       '<a id="fiche_client" href="javascript:void(0)" title="Encours">',
+        '<span class="glyphicon glyphicon-list-alt text-danger"></span>',
+        '</a>',        
+        '<a id="fiche_client_all" class="ml10" href="javascript:void(0)" title="Tous">',
         '<span class="glyphicon glyphicon-list-alt"></span>',
-        '</a>'
+        '</a>'       
     ].join('');
 }
 
@@ -56,7 +59,12 @@ window.clientEvents = {
         //alert('You click inventaire icon, row: ' + JSON.stringify(row.article.reference));		
         window.open('fiche_client/' + row.id, '_self', false);
         //console.log(row.article);
-    }
+    }, 
+    'click #fiche_client_all': function (e, value, row, index) {
+        //alert('You click inventaire icon, row: ' + JSON.stringify(row.article.reference));		
+        window.open('fiche_client_all/' + row.id, '_self', false);
+        //console.log(row.article);
+    }    
 };
 
 function fournisseurActions(value, row, index) {

@@ -43,6 +43,13 @@ public class ClientActServiceImpl implements ClientActService {
         return (acts);
     }
     
+    @Override
+    public List<ClientAct> listClientEncoursActs(Long cltId) {
+        List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesEncoursBlVentes(cltId)); 
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listArticlesEncoursFactVentes(cltId)));   
+        //List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId));         
+        return (acts);
+    }    
     
     @Override
     public Double getMntTotVentes(Long cltId) {

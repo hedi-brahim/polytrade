@@ -62,7 +62,36 @@ import javax.persistence.SqlResultSetMapping;
 "				join artfrns on mvt_ar = ArtFrns_Num\n" +
 "				join arts on arts_num = ArtFrns_ae\n" +
 "				join clts c on c.clts_num = f.ftrev_ct\n" +
-"	where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs")    
+"	where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),
+@NamedNativeQuery(name="ClientAct.listArticlesEncoursBlVentes", 
+        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
+"		if(arts_pat>0,((mvt_pt * (1 - mvt_re/100))/arts_pat - 1)*100,0.0) marge\n" +
+"		from blv b	join mvt on blv_num = mvt_be and mvt.sr = 0\n" +
+"					join artfrns on mvt_ar = ArtFrns_Num\n" +
+"					join arts on arts_num = ArtFrns_ae\n" +
+"					join clts c on c.clts_num = b.blv_ct\n" +
+"		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId and\n" +
+"		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) -" +                
+"               (select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0)) > 0.01", resultSetMapping="listClientActs"),
+@NamedNativeQuery(name="ClientAct.listArticlesEncoursFactVentes", 
+        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, arts_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
+"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
+"		if(arts_pat>0,((mvt_pt * (1 - mvt_re/100))/arts_pat - 1)*100,0.0) marge\n" +
+"		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
+"				join artfrns on mvt_ar = ArtFrns_Num\n" +
+"				join arts on arts_num = ArtFrns_ae\n" +
+"				join clts c on c.clts_num = f.ftrev_ct\n" +
+"	where f.sr = 0 and c.clts_num = :cltId and \n" +
+"		(((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
+"				case when f.ftrev_te = 0 then 0 else 0.5 end) - (select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)) > 0.01", resultSetMapping="listClientActs")
 })
 public class ClientAct implements Comparable<ClientAct>, Serializable {
 

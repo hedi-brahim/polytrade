@@ -358,7 +358,7 @@ public class UserController {
         log.info("Print Client raison : " + clt.getRaison());
 
         // pass list of article acts to jasper reports
-        List<ClientAct> acts = this.clientActService.listClientActs(cltId);
+        List<ClientAct> acts = this.clientActService.listClientEncoursActs(cltId);
         Collections.sort(acts);
         JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
         parameterMap.put("datasource", jrDS);
@@ -366,4 +366,53 @@ public class UserController {
         return new ModelAndView("ficheClient", parameterMap);
 
     }
+    
+    // Module Fiche Client
+    @GetMapping(value = {"fiche_client_all/{cltId}"})
+    public ModelAndView ficheClientAll(@PathVariable Long cltId) {
+
+        log.info("Print Client id : " + cltId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        Blob logo;
+        byte[] imgData = null;
+        BufferedImage bImg = null;
+
+        // pass article infos to jasper reports
+        Client clt = this.clientService.findById(cltId);
+        Docs img = this.docsService.findById(2L);
+        logo = img.getImg();
+        try {
+
+            imgData = logo.getBytes(1, (int) logo.length());
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        try {
+            // convert byte array back to BufferedImage
+            InputStream in = new ByteArrayInputStream(imgData);
+            bImg = ImageIO.read(in);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
+        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));
+        parameterMap.put("raison", clt.getRaison());
+        parameterMap.put("tel", clt.getTel());
+        parameterMap.put("gsm", clt.getGsm());
+        parameterMap.put("fax", clt.getFax());
+        parameterMap.put("logo", bImg);
+
+        log.info("Print Client raison : " + clt.getRaison());
+
+        // pass list of article acts to jasper reports
+        List<ClientAct> acts = this.clientActService.listClientActs(cltId);
+        Collections.sort(acts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
+        parameterMap.put("datasource", jrDS);
+
+        return new ModelAndView("ficheClient", parameterMap);
+
+    }    
 }
