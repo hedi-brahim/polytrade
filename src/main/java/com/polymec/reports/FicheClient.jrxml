@@ -23,9 +23,6 @@
 	<parameter name="fax" class="java.lang.String">
 		<parameterDescription><![CDATA[fax]]></parameterDescription>
 	</parameter>
-	<parameter name="mntRegs" class="java.lang.Double">
-		<parameterDescription><![CDATA[mntRegs]]></parameterDescription>
-	</parameter>
 	<parameter name="logo" class="java.awt.Image">
 		<parameterDescription><![CDATA[logo]]></parameterDescription>
 	</parameter>
@@ -58,6 +55,10 @@
 	</field>
 	<variable name="totVentes" class="java.lang.Double" incrementType="Group" incrementGroup="ActGroup" calculation="Sum">
 		<variableExpression><![CDATA[(($F{mntAct})<0.001?0.0:($F{mntAct}))]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="totReglements" class="java.lang.Double" incrementType="Group" incrementGroup="ActGroup" calculation="Sum">
+		<variableExpression><![CDATA[($F{mntReg}==null?0.0:($F{mntReg}<0.001?0.0:$F{mntReg}))]]></variableExpression>
 		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
 	</variable>
 	<group name="ActGroup">
@@ -155,10 +156,10 @@
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<rectangle radius="10">
-				<reportElement x="159" y="21" width="257" height="73" uuid="a70be48e-0372-42d6-98a4-315cc66252f9"/>
+				<reportElement x="159" y="24" width="257" height="73" uuid="a70be48e-0372-42d6-98a4-315cc66252f9"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="443" y="21" width="104" height="73" uuid="97d1ec16-deed-4317-a8ff-bb215dbe47ad"/>
+				<reportElement x="443" y="24" width="104" height="73" uuid="97d1ec16-deed-4317-a8ff-bb215dbe47ad"/>
 			</rectangle>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="19" y="6" width="104" height="14" backcolor="#FFFFFF" uuid="8bd9b7fc-3f73-4519-9385-37336c260df6"/>
@@ -192,13 +193,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{raison}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="234" y="1" width="103" height="19" uuid="59c75d90-e7ab-4242-99a9-05edda420356"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="13" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Fiche Client]]></text>
-			</staticText>
 			<textField evaluationTime="Report" pattern="#,##0.000" isBlankWhenNull="true">
 				<reportElement x="451" y="65" width="87" height="18" forecolor="#FC110D" backcolor="#FFFFFF" uuid="022c9cea-6def-4027-ab82-4fb222813746">
 					<property name="ireport.layer" value="1"/>
@@ -207,7 +201,7 @@
 					<font size="12" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($V{totVentes} - $P{mntRegs})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($V{totVentes}-$V{totReglements})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="443" y="40" width="99" height="17" uuid="539e4d5a-6f24-4419-9301-69848408ec65"/>
@@ -259,6 +253,13 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fax}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="232" y="2" width="103" height="19" uuid="59c75d90-e7ab-4242-99a9-05edda420356"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fiche Client]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
@@ -298,68 +299,4 @@
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="68">
-			<rectangle>
-				<reportElement x="457" y="5" width="93" height="59" uuid="0662d230-8da7-4bba-b713-1af646ff976d"/>
-			</rectangle>
-			<rectangle>
-				<reportElement x="353" y="5" width="103" height="59" uuid="9a4a75cc-8af4-4b99-83f6-3595b2e723e4"/>
-			</rectangle>
-			<textField pattern="#,##0.000" isBlankWhenNull="true">
-				<reportElement x="457" y="45" width="91" height="17" forecolor="#FA100C" backcolor="#FFFFFF" uuid="17e2926f-0ba5-4c0c-b265-190086e300e2">
-					<property name="ireport.layer" value="1"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-					<paragraph leftIndent="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($V{totVentes}-$P{mntRegs})]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.000" isBlankWhenNull="true">
-				<reportElement x="457" y="27" width="89" height="17" forecolor="#08730F" backcolor="#FFFFFF" uuid="17010097-7e21-4e64-a60a-ac73bbcf3e60">
-					<property name="ireport.layer" value="1"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10"/>
-					<paragraph leftIndent="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($P{mntRegs}<0.001?null:$P{mntRegs})]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report" pattern="#,##0.000" isBlankWhenNull="true">
-				<reportElement x="457" y="8" width="91" height="17" backcolor="#FFFFFF" uuid="2465ec2b-ad00-429b-a54a-c47c32f6ab66">
-					<property name="ireport.layer" value="1"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10"/>
-					<paragraph leftIndent="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{totVentes}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="353" y="5" width="96" height="17" uuid="17031ce5-03a0-4df6-b6da-332ab70bc4fe"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="false"/>
-					<paragraph tabStopWidth="1"/>
-				</textElement>
-				<text><![CDATA[Total Ventes:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="353" y="25" width="96" height="17" uuid="91279bec-da98-44e4-8f6f-a6e7185ddc6f"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="false"/>
-					<paragraph tabStopWidth="1"/>
-				</textElement>
-				<text><![CDATA[Total Reglements:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="353" y="44" width="96" height="17" uuid="121c3578-ee34-4286-a0a1-12f78eaec407"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="false"/>
-					<paragraph tabStopWidth="1"/>
-				</textElement>
-				<text><![CDATA[Reste à payer:]]></text>
-			</staticText>
-		</band>
-	</summary>
 </jasperReport>

@@ -10,6 +10,7 @@ import com.polymec.domain.ArticleInfo;
 import com.polymec.domain.ClientAct;
 import com.polymec.domain.Credit;
 import com.polymec.domain.Client;
+import com.polymec.domain.Docs;
 import com.polymec.domain.Famille;
 import com.polymec.domain.Fournisseur;
 import com.polymec.services.ArticleActService;
@@ -19,6 +20,13 @@ import com.polymec.services.ClientService;
 import com.polymec.services.CreditService;
 import com.polymec.services.FamilleService;
 import com.polymec.services.FournisseurService;
+import com.polymec.services.DocsService;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
@@ -74,6 +83,9 @@ public class ManagerController {
     @Autowired
     private ClientActService clientActService;
 
+    @Autowired
+    private DocsService docsService;
+    
     @ModelAttribute("familles")
     public List<Famille> populateallFamille() {
 
@@ -367,6 +379,7 @@ public class ManagerController {
     }
 
     // Module Fiche Client
+    /*
     @GetMapping(value = {"fiche_client/{cltId}"})
     public ModelAndView ficheClient(@PathVariable Long cltId) {
 
@@ -390,7 +403,111 @@ public class ManagerController {
         return new ModelAndView("ficheClient", parameterMap);
 
     }
+*/
+    
 
+    // Module Fiche Client
+    @GetMapping(value = {"fiche_client/{cltId}"})
+    public ModelAndView ficheClient(@PathVariable Long cltId) {
+
+        log.info("Print Client id : " + cltId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        Blob logo;
+        byte[] imgData = null;
+        BufferedImage bImg = null;
+
+        // pass article infos to jasper reports
+        Client clt = this.clientService.findById(cltId);
+        Docs img = this.docsService.findById(2L);
+        logo = img.getImg();
+        try {
+
+            imgData = logo.getBytes(1, (int) logo.length());
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        try {
+            // convert byte array back to BufferedImage
+            InputStream in = new ByteArrayInputStream(imgData);
+            bImg = ImageIO.read(in);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        /*
+        parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
+        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));
+        */
+        parameterMap.put("raison", clt.getRaison());
+        parameterMap.put("tel", clt.getTel());
+        parameterMap.put("gsm", clt.getGsm());
+        parameterMap.put("fax", clt.getFax());
+        parameterMap.put("logo", bImg);
+
+        log.info("Print Client raison : " + clt.getRaison());
+
+        // pass list of article acts to jasper reports
+        List<ClientAct> acts = this.clientActService.listClientEncoursActs(cltId);
+        Collections.sort(acts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
+        parameterMap.put("datasource", jrDS);
+
+        return new ModelAndView("ficheClient", parameterMap);
+
+    }
+    
+    // Module Fiche Client
+    @GetMapping(value = {"fiche_client_all/{cltId}"})
+    public ModelAndView ficheClientAll(@PathVariable Long cltId) {
+
+        log.info("Print Client id : " + cltId);
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+
+        Blob logo;
+        byte[] imgData = null;
+        BufferedImage bImg = null;
+
+        // pass article infos to jasper reports
+        Client clt = this.clientService.findById(cltId);
+        Docs img = this.docsService.findById(2L);
+        logo = img.getImg();
+        try {
+
+            imgData = logo.getBytes(1, (int) logo.length());
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        try {
+            // convert byte array back to BufferedImage
+            InputStream in = new ByteArrayInputStream(imgData);
+            bImg = ImageIO.read(in);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        /*
+        parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
+        parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));
+*/
+        parameterMap.put("raison", clt.getRaison());
+        parameterMap.put("tel", clt.getTel());
+        parameterMap.put("gsm", clt.getGsm());
+        parameterMap.put("fax", clt.getFax());
+        parameterMap.put("logo", bImg);
+
+        log.info("Print Client raison : " + clt.getRaison());
+
+        // pass list of article acts to jasper reports
+        List<ClientAct> acts = this.clientActService.listClientActs(cltId);
+        Collections.sort(acts);
+        JRDataSource jrDS = new JRBeanCollectionDataSource(acts);
+        parameterMap.put("datasource", jrDS);
+
+        return new ModelAndView("ficheClient", parameterMap);
+
+    }    
+    
     // Module Fiche Famille
     @GetMapping(value = {"fiche_famille/{fmlId}"})
     public ModelAndView ficheFamille(@PathVariable Long fmlId) {

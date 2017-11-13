@@ -347,8 +347,10 @@ public class UserController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        /*
         parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
         parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));
+        */
         parameterMap.put("raison", clt.getRaison());
         parameterMap.put("tel", clt.getTel());
         parameterMap.put("gsm", clt.getGsm());
@@ -396,8 +398,10 @@ public class UserController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        /*
         parameterMap.put("mntActs", this.clientActService.getMntTotVentes(cltId));
         parameterMap.put("mntRegs", this.clientActService.getMntTotReglements(cltId));
+*/
         parameterMap.put("raison", clt.getRaison());
         parameterMap.put("tel", clt.getTel());
         parameterMap.put("gsm", clt.getGsm());
