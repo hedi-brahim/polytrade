@@ -33,7 +33,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.3.RELEASE</version>
+        <version>1.5.8.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>        
 
@@ -41,10 +41,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
-        <thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version> 
-        <thymeleaf-spring4.version>3.0.2.RELEASE</thymeleaf-spring4.version>        
-        <thymeleaf-extras-springsecurity4.version>3.0.1.RELEASE</thymeleaf-extras-springsecurity4.version>    
+        <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
+        <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version> 
+        <thymeleaf-spring4.version>3.0.9.RELEASE</thymeleaf-spring4.version>        
+        <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>    
         <!--jquery.version>3.1.1</jquery.version>                                                          
         <bootstrap.version>3.3.7</bootstrap.version>                                                  
         <bootstrap-table.version>1.11.0</bootstrap-table.version-->                                                          
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>eonasdan-bootstrap-datetimepicker</artifactId>
-            <version>4.17.45</version>
+            <version>4.17.47</version>
         </dependency>                
         
         <!-- Jasper Reports -->	
