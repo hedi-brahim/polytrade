@@ -53,8 +53,11 @@
 	<field name="mntReg" class="java.lang.Double">
 		<fieldDescription><![CDATA[mntReg]]></fieldDescription>
 	</field>
+	<field name="remise" class="java.lang.Double">
+		<fieldDescription><![CDATA[remise]]></fieldDescription>
+	</field>
 	<variable name="totVentes" class="java.lang.Double" incrementType="Group" incrementGroup="ActGroup" calculation="Sum">
-		<variableExpression><![CDATA[(($F{mntAct})<0.001?0.0:($F{mntAct}))]]></variableExpression>
+		<variableExpression><![CDATA[(($F{mntAct})*(1-$F{remise}/100)<0.001?0.0:($F{mntAct})*(1-$F{remise}/100))]]></variableExpression>
 		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
 	</variable>
 	<variable name="totReglements" class="java.lang.Double" incrementType="Group" incrementGroup="ActGroup" calculation="Sum">
@@ -133,7 +136,7 @@
 						<font fontName="Times New Roman" size="11" isBold="true"/>
 						<paragraph leftIndent="5"/>
 					</textElement>
-					<textFieldExpression><![CDATA[(($F{mntAct})<0.001?null:($F{mntAct}))]]></textFieldExpression>
+					<textFieldExpression><![CDATA[(($F{mntAct})<0.001?null:($F{mntAct})*(1-$F{remise}/100))]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.000" isBlankWhenNull="true">
 					<reportElement x="380" y="1" width="90" height="17" forecolor="#F71134" backcolor="#FFFFFF" uuid="71146213-6ca7-46b5-b756-a01fed5379a2">
@@ -144,7 +147,7 @@
 						<font size="11" isBold="true"/>
 						<paragraph leftIndent="5"/>
 					</textElement>
-					<textFieldExpression><![CDATA[(($F{mntAct} - ($F{mntReg}==null?0.000:$F{mntReg}))<0.001?null:($F{mntAct} - ($F{mntReg}==null?0.000:$F{mntReg})))]]></textFieldExpression>
+					<textFieldExpression><![CDATA[(($F{mntAct}*(1-$F{remise}/100) - ($F{mntReg}==null?0.000:$F{mntReg}))<0.001?null:($F{mntAct}*(1-$F{remise}/100) - ($F{mntReg}==null?0.000:$F{mntReg})))]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
