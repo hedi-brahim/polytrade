@@ -320,7 +320,7 @@ public class UserController {
 
     // Module Fiche Client
     @GetMapping(value = {"fiche_client/{cltId}"})
-    public ModelAndView ficheClient(@PathVariable Long cltId) {
+    public ModelAndView ficheClientEncours(@PathVariable Long cltId) {
 
         log.info("Print Client id : " + cltId);
         Map<String, Object> parameterMap = new HashMap<String, Object>();

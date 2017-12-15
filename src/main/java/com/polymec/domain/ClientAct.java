@@ -40,6 +40,28 @@ import javax.persistence.SqlResultSetMapping;
 
 @Entity
 @NamedNativeQueries({
+@NamedNativeQuery(name="ClientAct.listServicesBlVentes", 
+        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, srvs_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
+"		blv_remg remise, 0.0 marge\n" +
+"		from blv b	join mvt on blv_num = mvt_be and mvt.sr = 0\n" +
+"					join srvs on mvt_serv = srvs_num\n" +
+"					join clts c on c.clts_num = b.blv_ct\n" +
+"		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),   
+@NamedNativeQuery(name="ClientAct.listServicesFactVentes", 
+        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, srvs_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
+"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
+"		ftrev_remg remise, 0.0 marge\n" +
+"		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
+"				join srvs on mvt_ar = srvs_Num\n" +
+"				join clts c on c.clts_num = f.ftrev_ct\n" +
+"               where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),    
 @NamedNativeQuery(name="ClientAct.listArticlesBlVentes", 
         query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
@@ -66,6 +88,30 @@ import javax.persistence.SqlResultSetMapping;
 "				join arts on arts_num = ArtFrns_ae\n" +
 "				join clts c on c.clts_num = f.ftrev_ct\n" +
 "	where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),
+@NamedNativeQuery(name="ClientAct.listServicesEncoursBlVentes", 
+        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, srvs_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
+"		blv_remg remise, 0.0 marge\n" +                    
+"		from blv b	join mvt on blv_num = mvt_be and mvt.sr = 0\n" +
+"					join srvs on mvt_serv = srvs_Num\n" +
+"					join clts c on c.clts_num = b.blv_ct\n" +
+"		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId \n" +
+"                   having IFNULL(mntAct*(1-remise/100),0.0) - IFNULL(mntReg,0.0) > 0.001", resultSetMapping="listClientActs"),
+@NamedNativeQuery(name="ClientAct.listServicesEncoursFactVentes", 
+        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, srvs_le nom,\n" +
+"		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
+"		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
+"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
+"		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
+"		ftrev_remg remise, 0.0 marge\n" +
+"		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
+"				join srvs on mvt_serv = srvs_Num\n" +
+"				join clts c on c.clts_num = f.ftrev_ct\n" +
+"               where f.sr = 0 and c.clts_num = :cltId \n" +
+"               having IFNULL(mntAct*(1-remise/100),0.0) - IFNULL(mntReg,0.0) > 0.001", resultSetMapping="listClientActs"),
 @NamedNativeQuery(name="ClientAct.listArticlesEncoursBlVentes", 
         query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
@@ -92,7 +138,7 @@ import javax.persistence.SqlResultSetMapping;
 "				join artfrns on mvt_ar = ArtFrns_Num\n" +
 "				join arts on arts_num = ArtFrns_ae\n" +
 "				join clts c on c.clts_num = f.ftrev_ct\n" +
-"	where f.sr = 0 and c.clts_num = :cltId \n" +
+"               where f.sr = 0 and c.clts_num = :cltId \n" +
 "               having IFNULL(mntAct*(1-remise/100),0.0) - IFNULL(mntReg,0.0) > 0.001", resultSetMapping="listClientActs")
 })
 public class ClientAct implements Comparable<ClientAct>, Serializable {
