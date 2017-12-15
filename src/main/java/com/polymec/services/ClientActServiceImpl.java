@@ -38,7 +38,9 @@ public class ClientActServiceImpl implements ClientActService {
     @Override
     public List<ClientAct> listClientActs(Long cltId) {
         List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesBlVentes(cltId)); 
-        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId)));   
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId)));
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listServicesBlVentes(cltId)));
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listServicesFactVentes(cltId)));   
         //List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId));         
         return (acts);
     }
@@ -47,7 +49,8 @@ public class ClientActServiceImpl implements ClientActService {
     public List<ClientAct> listClientEncoursActs(Long cltId) {
         List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesEncoursBlVentes(cltId)); 
         acts.addAll(new ArrayList<ClientAct>(clientActRepository.listArticlesEncoursFactVentes(cltId)));   
-        //List<ClientAct> acts = new ArrayList<ClientAct>(clientActRepository.listArticlesFactVentes(cltId));         
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listServicesEncoursBlVentes(cltId)));
+        acts.addAll(new ArrayList<ClientAct>(clientActRepository.listServicesEncoursFactVentes(cltId)));
         return (acts);
     }    
     

@@ -53,7 +53,15 @@ public interface ClientActRepository extends JpaRepository<ClientAct, Long> {
     
     List<ClientAct> listArticlesFactVentes(@Param("cltId") Long cltId);  
     
+    List<ClientAct> listServicesBlVentes(@Param("cltId") Long cltId);
+    
+    List<ClientAct> listServicesFactVentes(@Param("cltId") Long cltId); 
+    
     List<ClientAct> listArticlesEncoursBlVentes(@Param("cltId") Long cltId);
     
-    List<ClientAct> listArticlesEncoursFactVentes(@Param("cltId") Long cltId);    
+    List<ClientAct> listArticlesEncoursFactVentes(@Param("cltId") Long cltId);
+    
+    List<ClientAct> listServicesEncoursBlVentes(@Param("cltId") Long cltId);
+    
+    List<ClientAct> listServicesEncoursFactVentes(@Param("cltId") Long cltId);    
 }
