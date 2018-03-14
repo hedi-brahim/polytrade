@@ -22,6 +22,7 @@ import javax.persistence.SqlResultSetMapping;
         @ConstructorResult(
             targetClass=ClientAct.class,
             columns={
+                @ColumnResult(name="numId", type = Long.class),                
                 @ColumnResult(name="date", type = Date.class),
                 @ColumnResult(name="dateModif", type = Date.class),
                 @ColumnResult(name="type", type = String.class),
@@ -29,7 +30,7 @@ import javax.persistence.SqlResultSetMapping;
                 @ColumnResult(name="nom", type = String.class),
                 @ColumnResult(name="qte", type = Double.class),
                 @ColumnResult(name="puttx", type = Double.class),
-                @ColumnResult(name="mntAct", type = Double.class),
+                @ColumnResult(name="mntAct", type = Double.class),                
                 @ColumnResult(name="mntReg", type = Double.class),
                 @ColumnResult(name="remise", type = Double.class),                
                 @ColumnResult(name="marge", type = Double.class)                            
@@ -41,7 +42,7 @@ import javax.persistence.SqlResultSetMapping;
 @Entity
 @NamedNativeQueries({
 @NamedNativeQuery(name="ClientAct.listServicesBlVentes", 
-        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, srvs_le nom,\n" +
+        query="select 	blv_num numId, blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, srvs_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
@@ -51,11 +52,10 @@ import javax.persistence.SqlResultSetMapping;
 "					join clts c on c.clts_num = b.blv_ct\n" +
 "		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),   
 @NamedNativeQuery(name="ClientAct.listServicesFactVentes", 
-        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, srvs_le nom,\n" +
+        query="select 	ftrev_num numId, ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, srvs_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
-"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
-"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + f.ftrev_te) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
 "		ftrev_remg remise, 0.0 marge\n" +
 "		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
@@ -63,7 +63,7 @@ import javax.persistence.SqlResultSetMapping;
 "				join clts c on c.clts_num = f.ftrev_ct\n" +
 "               where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),    
 @NamedNativeQuery(name="ClientAct.listArticlesBlVentes", 
-        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
+        query="select 	blv_num numId, blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
@@ -75,11 +75,10 @@ import javax.persistence.SqlResultSetMapping;
 "					join clts c on c.clts_num = b.blv_ct\n" +
 "		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),
 @NamedNativeQuery(name="ClientAct.listArticlesFactVentes", 
-        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, arts_le nom,\n" +
+        query="select 	ftrev_num numId, ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, arts_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
-"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
-"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + f.ftrev_te) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
 "		ftrev_remg remise,\n" +                      
 "		if(arts_pat>0,((mvt_pt * (1 - mvt_re/100))/arts_pat - 1)*100,0.0) marge\n" +
@@ -89,7 +88,7 @@ import javax.persistence.SqlResultSetMapping;
 "				join clts c on c.clts_num = f.ftrev_ct\n" +
 "	where f.sr = 0 and c.clts_num = :cltId", resultSetMapping="listClientActs"),
 @NamedNativeQuery(name="ClientAct.listServicesEncoursBlVentes", 
-        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, srvs_le nom,\n" +
+        query="select 	blv_num numId, blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, srvs_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
@@ -100,11 +99,10 @@ import javax.persistence.SqlResultSetMapping;
 "		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId \n" +
 "                   having IFNULL(mntAct*(1-remise/100),0.0) - IFNULL(mntReg,0.0) > 0.001", resultSetMapping="listClientActs"),
 @NamedNativeQuery(name="ClientAct.listServicesEncoursFactVentes", 
-        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, srvs_le nom,\n" +
+        query="select 	ftrev_num numId, ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, srvs_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
-"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
-"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + f.ftrev_te) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
 "		ftrev_remg remise, 0.0 marge\n" +
 "		from ftrev f join mvt on ftrev_num = mvt_fe and mvt.sr = 0\n" +
@@ -113,7 +111,7 @@ import javax.persistence.SqlResultSetMapping;
 "               where f.sr = 0 and c.clts_num = :cltId \n" +
 "               having IFNULL(mntAct*(1-remise/100),0.0) - IFNULL(mntReg,0.0) > 0.001", resultSetMapping="listClientActs"),
 @NamedNativeQuery(name="ClientAct.listArticlesEncoursBlVentes", 
-        query="select 	blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
+        query="select 	blv_num numId, blv_dl date, b.ue dateModif, 'BL' type, blv_no numero, arts_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		(select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) from mvt m where m.mvt_be = b.blv_num and m.sr = 0) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_be = b.blv_num and r.sr = 0) mntReg,\n" +
@@ -126,11 +124,10 @@ import javax.persistence.SqlResultSetMapping;
 "		where b.blv_fe is null and b.sr = 0 and c.clts_num = :cltId \n" +
 "                   having IFNULL(mntAct*(1-remise/100),0.0) - IFNULL(mntReg,0.0) > 0.001", resultSetMapping="listClientActs"),
 @NamedNativeQuery(name="ClientAct.listArticlesEncoursFactVentes", 
-        query="select 	ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, arts_le nom,\n" +
+        query="select 	ftrev_num numId, ftrev_de date, f.ue dateModif, 'FACTURE' type, ftrev_no numero, arts_le nom,\n" +
 "		mvt_qt qte, (mvt_pt * (1 - mvt_re/100) * (1 + mvt_ta/100)) puttx,\n" +
 "		((select sum(mvt_pt*mvt_qt*(1-mvt_re/100)*(1+mvt_ta/100)) \n" +
-"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + \n" +
-"				case when f.ftrev_te = 0 then 0 else 0.5 end) mntAct,\n" +
+"			from mvt m where m.mvt_fe = f.ftrev_num and m.sr = 0) + f.ftrev_te) mntAct,\n" +
 "		(select sum(rgmt_mt) from rgmt r where r.rgmt_fe = f.ftrev_num and r.sr = 0)  mntReg,\n" +
 "		ftrev_remg remise,\n" +                      
 "		if(arts_pat>0,((mvt_pt * (1 - mvt_re/100))/arts_pat - 1)*100,0.0) marge\n" +
@@ -143,7 +140,8 @@ import javax.persistence.SqlResultSetMapping;
 })
 public class ClientAct implements Comparable<ClientAct>, Serializable {
 
-    private Long id;
+    private Long numId;
+    private Long id;    
     private String date;
     private String dateModif;
     private String type;
@@ -166,9 +164,10 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         return bd.doubleValue();
     }
 
-   public ClientAct(Date date, Date dateModif, String type, String num, String nom, Double qte, Double puttx, Double mntAct, Double mntReg, Double remise, Double marge) {
+   public ClientAct(Long numId, Date date, Date dateModif, String type, String num, String nom, Double qte, Double puttx, Double mntAct, Double mntReg, Double remise, Double marge) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-
+        
+        this.numId = numId;
         this.date = (date == null ? null : dateFormat.format(date));
         this.dateModif = (dateModif == null ? null : dateFormat.format(dateModif));
         this.type = type;
@@ -195,9 +194,10 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         //this.reglement = reglement;        
     }
    
-    public ClientAct(Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double puht, double ta, Double mntAct, Double mntReg, double remise ) {
+    public ClientAct(Long numId, Date date, Date dateModif, String type, String num, String nom, double qte, double puaht, double puht, double ta, Double mntAct, Double mntReg, double remise ) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
+        this.numId = numId;
         this.date = (date == null ? null : dateFormat.format(date));
         this.dateModif = (dateModif == null ? null : dateFormat.format(dateModif));
         this.type = type;
@@ -238,6 +238,14 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
         this.id = id;
     }
 
+    public Long getNumId() {
+        return this.numId;
+    }
+
+    public void setNumId(Long numId) {
+        this.numId = numId;
+    }
+    
     public String getDate() {
         return this.date;
     }
@@ -293,7 +301,7 @@ public class ClientAct implements Comparable<ClientAct>, Serializable {
     public void setPuttx(double puttx) {
         this.puttx = puttx;
     }
-
+    
     public Double getMntAct() {
         return this.mntAct;
     }

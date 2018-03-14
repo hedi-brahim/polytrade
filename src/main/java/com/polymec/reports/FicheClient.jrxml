@@ -26,6 +26,9 @@
 	<parameter name="logo" class="java.awt.Image">
 		<parameterDescription><![CDATA[logo]]></parameterDescription>
 	</parameter>
+	<field name="numId" class="java.lang.Long">
+		<fieldDescription><![CDATA[numId]]></fieldDescription>
+	</field>
 	<field name="date" class="java.lang.String">
 		<fieldDescription><![CDATA[date]]></fieldDescription>
 	</field>
@@ -64,8 +67,8 @@
 		<variableExpression><![CDATA[($F{mntReg}==null?0.0:($F{mntReg}<0.001?0.0:$F{mntReg}))]]></variableExpression>
 		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
 	</variable>
-	<group name="ActGroup">
-		<groupExpression><![CDATA[$F{numero}]]></groupExpression>
+	<group name="ActGroup" keepTogether="true">
+		<groupExpression><![CDATA[$F{numId}]]></groupExpression>
 		<groupHeader>
 			<band height="18">
 				<rectangle>
